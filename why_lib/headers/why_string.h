@@ -29,6 +29,6 @@ int why_string_is_digit(char c);
 int why_string_is_letter(char c);
 int why_string_atoi(const char *string); //this is rather permissive
 
-struct why_pointer_vector *why_string_split(const char *literal, char separator);
+struct why_vector *why_string_split(const char *literal, char separator);
 
 #endif

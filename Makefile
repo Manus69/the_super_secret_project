@@ -27,4 +27,7 @@ clean:
 	rm -f $(driver_file:.c=.o)
 	rm -f $(executable)
 
+cpp: test.cpp
+	g++ -O3 test.cpp
+
 re: clean all

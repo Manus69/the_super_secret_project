@@ -41,12 +41,12 @@ $(alg_objects) : $(@:.o=.c) $(header_files)
 	$(compiler) $(flags) -I $(header_folder) $(subst $(object_folder),$(alg_folder),$(@:.o=.c)) -c -o $@
 
 $(structure_objects) : $(@:.o=.c) $(header_files)
-	$(compiler) $(flags) -I $(header_folder) $(subst $(object_folder),$(structures_folder),$(@:.o=.c)) -c -o $@
+	$(compiler) $(flags) -I $(header_folder) -I . $(subst $(object_folder),$(structures_folder),$(@:.o=.c)) -c -o $@
 
 $(all_objects) : $(basics_objects) $(alg_objects) $(structure_objects)
 
 $(target): $(all_objects) $(header_files) $(lib_header) | folder
-	ar rcs $(target) $(objects)
+	ar rcs $(target) $(addprefix $(object_folder)/,$(all_objects))
 
 folder:
 	mkdir -p $(object_folder)

@@ -1,6 +1,8 @@
 #include "why_buffer.h"
 #include "why_string.h"
 
+#include "why_lib.h"
+
 #include <stdlib.h>
 #include <fcntl.h> //unix only
 #include <sys/stat.h>

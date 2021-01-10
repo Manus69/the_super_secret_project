@@ -91,30 +91,26 @@ char *why_string_copy(const char *old_string)
 char *why_string_substring(const char *string, int left_index, int length)
 {
     char *substring;
-    char *start;
+    int n;
 
     if (!string)
         return NULL;
 
-    left_index = left_index < 0 ? 0 : left_index;
-    length = length < 0 ? 0 : length;
-
-    if ((substring = malloc(length + 1)))
+    substring = malloc(length + 1);
+    if (!substring)
+        return NULL;
+    
+    n = 0;
+    while (length)
     {
-        start = substring;
-        while (length && (*string != '\0'))
-        {
-            *substring = *string;
-            substring ++;
-            string ++;
-            length --;
-        }
-        *substring = '\0';
-
-        return start;
+        substring[n] = string[left_index];
+        n ++;
+        left_index ++;
+        length --;
     }
+    substring[n] = '\0';
 
-    return NULL;
+    return substring;
 }
 
 char *why_string_concat(const char *left, const char *right)

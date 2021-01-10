@@ -1,6 +1,7 @@
 #ifndef WHY_LIB_H
 #define WHY_LIB_H
 
+#include "headers/why_string.h"
 
 typedef struct why_buffer why_buffer;
 

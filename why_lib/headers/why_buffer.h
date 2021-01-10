@@ -1,8 +1,6 @@
 #ifndef WHY_BUFFER_H
 #define WHY_BUFFER_H
 
-typedef struct why_buffer why_buffer;
-
 #define DEFAULT_BUFFER_CAPACITY (1 << 13)
 #define DEFAULT_READ_SIZE (1 << 13)
 

@@ -9,7 +9,7 @@ static inline int get_item_count(int size, int frame_size)
     if (!size)
         return 0;
     
-    return frame_size <= size ? frame_size : size - frame_size;
+    return frame_size <= size ? frame_size : MIN(size, frame_size);
 }
 
 //this is tricky
@@ -108,22 +108,25 @@ void why_sort_vector_merge_mk2(why_vector *vector, int (*compare)())
     {
         frame_size = 1;
         first_array = vector->content;
-        while (frame_size * 2 <= size)
+        while (frame_size < size)
         {
             make_a_pass(second_array, first_array, size, frame_size, compare);
             
-            vector->content = second_array; 
+            //
+            // why_display_array(second_array, size, why_display_string);
+            //
+
+            vector->content = second_array;
             store = second_array;
             second_array = first_array;
             first_array = store;
 
             frame_size *= 2;
-            //
-            why_display_array(second_array, size, why_display_string);
-            //
 
         }
-        // why_memory_destroy((void **)&(vector->content));
-
+        if (vector->content == first_array)
+            free(second_array);
+        else
+            free(first_array);
     }
 }

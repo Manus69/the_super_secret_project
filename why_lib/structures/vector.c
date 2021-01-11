@@ -52,7 +52,7 @@ why_vector *why_vector_create(int item_capacity, void *(*copy)(), void (*destroy
             vector->copy_function = copy;
             vector->destructor = destroy;
 
-            vector->last_element = vector->content[item_capacity];
+            // vector->last_element = vector->content[item_capacity];
 
             return vector;
         }
@@ -77,7 +77,7 @@ int why_vector_reallocate(why_vector *vector, int extra_item_capacity)
 
         vector->content = new_content;
         vector->item_capacity = vector->item_capacity + extra_item_capacity;
-        vector->last_element = vector->content[vector->item_capacity];
+        // vector->last_element = vector->content[vector->item_capacity];
 
         return SUCCESS;
     }
@@ -100,8 +100,8 @@ void *why_vector_pop(why_vector *vector)
     if (!vector || vector->current_index == 0)
         return NULL;
     
-    item = vector->content[vector->current_index];
     vector->current_index --;
+    item = vector->content[vector->current_index];
 
     return item;
 }

@@ -13,9 +13,12 @@ void test_run()
     why_buffer_read_all_lines_into_structure(buffer, '\n', vector, why_vector_push);
     why_buffer_destroy(&buffer);
 
-    // why_sort_vector_heapsort(vector, why_string_compare_mk2);
-    why_sort_vector_merge_mk2(vector, why_string_compare_mk2);
-    why_display_vector(vector, why_display_string);
+    why_sort_vector_heapsort(vector, why_string_compare_mk2);
+    // why_sort_vector_merge_mk2(vector, why_string_compare_mk2);
+    // why_display_vector(vector, why_display_string);
+
+    // why_display_string(why_vector_pop(vector));
+
 
     why_vector_destroy(&vector);
 }

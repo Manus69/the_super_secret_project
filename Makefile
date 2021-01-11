@@ -20,14 +20,17 @@ $(driver_file:.c=.o): $(driver_file)
 	$(compiler) $(flags) -I $(directory) $(driver_file) -c -o $(driver_file:.c=.o)
 
 executable: $(driver_file:.c=.o)
-	make -C $(directory)
+	make flags=$(flags) -C $(directory)
 	$(compiler) $(flags) -o $(executable) -I ./$(directory) -L ./$(directory) $(driver_file:.c=.o) $(addprefix $(full_path)/,$(lib_name))
 
 clean:
 	rm -f $(driver_file:.c=.o)
 	rm -f $(executable)
+	rm -f *.out
 
 cpp: test.cpp
 	g++ -O3 test.cpp
 
-re: clean all
+re: clean
+	make fclean -C $(directory)
+	make all

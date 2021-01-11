@@ -11,7 +11,7 @@ struct why_vector
     void *(*copy_function)();
 
     void **content;
-    void *last_element;
+    // void *last_element;
 
     int current_index;
     int item_capacity; 

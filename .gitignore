@@ -4,4 +4,6 @@
 .vscode
 objects
 driver
+counter
 text_file.txt
+profile.txt

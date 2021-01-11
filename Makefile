@@ -3,9 +3,9 @@ debug_flags = -g -Wall -Wextra
 release_flags = -O3 -Wall -Wextra
 profile_flags = -g -pg -Wall -Wextra
 
-# flags = $(debug_flags)
+flags = $(debug_flags)
 # flags = $(release_flags)
-flags = $(profile_flags)
+# flags = $(profile_flags)
 
 full_path = $(CURDIR)/why_lib
 directory = why_lib

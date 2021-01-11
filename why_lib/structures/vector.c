@@ -17,7 +17,7 @@ static void **repopulate_content(void **new_array, void **old_array, int number_
     return new_array;
 }
 
-static void destroy_vector_content(void **content, int number_of_items, void (*destroy)())
+void why_vector_content_destroy(void **content, int number_of_items, void (*destroy)())
 {
     int n;
     void *current_item;
@@ -180,7 +180,7 @@ void why_vector_destroy(why_vector **vector)
     if (!vector || !*vector)
         return ;
     
-    destroy_vector_content((*vector)->content, (*vector)->current_index, (*vector)->destructor);
+    why_vector_content_destroy((*vector)->content, (*vector)->current_index, (*vector)->destructor);
     why_memory_destroy((void **)&(*vector)->content);
     why_memory_destroy((void **)vector);
 }

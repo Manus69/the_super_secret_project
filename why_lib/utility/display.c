@@ -3,7 +3,6 @@
 
 #include <stdio.h>
 
-
 static const char *item_separator = ", ";
 static const char *string_separator = "\n-------------\n";
 

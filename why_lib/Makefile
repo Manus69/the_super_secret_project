@@ -3,9 +3,9 @@ debug_flags = -g -Wall -Wextra
 release_flags = -O3 -Wall -Wextra
 profile_flags = -g -pg -Wall -Wextra
 
-# flags = $(debug_flags)
+flags = $(debug_flags)
 # flags = $(release_flags)
-flags = $(profile_flags)
+# flags = $(profile_flags)
 
 header_folder = headers
 object_folder = objects
@@ -23,10 +23,13 @@ structure_objects = $(addprefix $(object_folder)/,$(structure_source:.c=.o))
 utility_source = $(notdir $(wildcard $(utility_folder)/*.c))
 utility_objects = $(addprefix $(object_folder)/,$(utility_source:.c=.o))
 
-VPATH=alg_folder:basics_folder:structures_folder #does it even do anything?
+alg_source_mk2 = $(wildcard $(alg_folder)/*.c)
+
+VPATH=$(alg_folder):$(basics_folder):$(structures_folder) #does it even do anything?
 
 all_source = $(alg_source) $(basics_source) $(structure_source) $(utility_source)
 all_objects = $(all_source:.c=.o)
+all_objects_mk2 = $(addprefix $(object_folder)/,$(all_objects))
 lib_header = why_lib.h
 header_files = $(wildcard $(header_folder)/*.h)
 
@@ -35,23 +38,25 @@ main_object = $(subst .c,.o,$(object_folder)/$(main_file))
 
 .PHONY: all clean folder re
 
+# all: $(target)
+
 all: $(target)
-# all:
-# 	echo $(all_objects)
+	
 
-$(basics_objects) : $(@:.o=.c) $(header_files) $(lib_header)
-	$(compiler) $(flags) -I $(header_folder) -I . $(subst $(object_folder),$(basics_folder),$(@:.o=.c)) -c -o $@
+$(object_folder)/%.o : $(alg_folder)/%.c
+	$(compiler) $(flags) -I $(header_folder) -I. $< -c -o $@
 
-$(alg_objects) : $(@:.o=.c) $(header_files) $(lib_header)
-	$(compiler) $(flags) -I $(header_folder) -I . $(subst $(object_folder),$(alg_folder),$(@:.o=.c)) -c -o $@
+$(object_folder)/%.o : $(basics_folder)/%.c
+	$(compiler) $(flags) -I $(header_folder) -I. $< -c -o $@
 
-$(structure_objects) : $(@:.o=.c) $(header_files) $(lib_header)
-	$(compiler) $(flags) -I $(header_folder) -I . $(subst $(object_folder),$(structures_folder),$(@:.o=.c)) -c -o $@
+$(object_folder)/%.o : $(structures_folder)/%.c
+	$(compiler) $(flags) -I $(header_folder) -I. $< -c -o $@
 
-$(utility_objects) : $(@:.o=.c) $(header_files) $(lib_header)
-	$(compiler) $(flags) -I $(header_folder) -I . $(subst $(object_folder),$(utility_folder),$(@:.o=.c)) -c -o $@
+$(object_folder)/%.o : $(utility_folder)/%.c
+	$(compiler) $(flags) -I $(header_folder) -I. $< -c -o $@
 
-$(target): $(basics_objects) $(alg_objects) $(structure_objects) $(utility_objects) $(header_files) $(lib_header) | folder
+
+$(target): $(all_objects_mk2) $(header_files) $(lib_header) | folder
 	ar rcs $(target) $(addprefix $(object_folder)/,$(all_objects))
 
 folder:

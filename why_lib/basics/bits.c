@@ -1,6 +1,8 @@
+#include "why_memory.h"
+
 #include <limits.h>
 
-#include "why_memory.h"
+
 
 static inline unsigned int rotate_bits_right(unsigned int number, unsigned int shift)
 {

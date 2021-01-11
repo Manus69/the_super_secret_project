@@ -3,6 +3,8 @@
 
 #define DEFAULT_CAPACITY 32
 
+void why_vector_content_destroy(void **content, int number_of_items, void (*destroy)());
+
 struct why_vector
 {    
     void (*destructor)();

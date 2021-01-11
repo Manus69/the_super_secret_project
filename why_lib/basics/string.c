@@ -88,6 +88,7 @@ char *why_string_copy(const char *old_string)
     return NULL;
 }
 
+
 char *why_string_substring(const char *string, int left_index, int length)
 {
     char *substring;

@@ -33,6 +33,14 @@ int why_vector_is_sorted(const why_vector *vector, int (*comapre)());
 int why_vector_swap(why_vector *vector, int j, int k);
 
 void why_vector_destroy(why_vector **vector);
+// void why_vector_content_destroy(void **content, int number_of_items, void (*destroy)());
 
+//sort
+void why_sort_array_heapsort(void **array, int size, int (*compare)());
+void why_sort_vector_heapsort(why_vector *vector, int (*compare)());
+
+void **why_sort_array_merge_mk2(void **array, int size, int (*compare)());
+void **why_sort_array_merge(void **array, int number_of_items, int (*compare)());
+void why_sort_vector_merge_mk2(why_vector *vector, int (*compare)());
 
 #endif

@@ -151,6 +151,16 @@ char *why_string_concat_and_destroy(char *lhs, char *rhs)
     return result;
 }
 
+char *why_string_concat_destroy_left(char *lhs, char *rhs)
+{
+    char *result;
+
+    result = why_string_concat(lhs, rhs);
+    why_string_destroy(&lhs);
+
+    return result;
+}
+
 int why_string_get_index_of(const char *literal, char c)
 {
     int n;

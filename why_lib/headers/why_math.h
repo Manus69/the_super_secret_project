@@ -9,4 +9,7 @@
 
 unsigned int why_math_random(unsigned int seed, unsigned int max);
 
+int why_math_is_prime(unsigned int number);
+unsigned int why_math_get_next_prime(unsigned int number);
+
 #endif

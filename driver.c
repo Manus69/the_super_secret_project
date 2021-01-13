@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <time.h>
 
-void test_run()
+void string_sort_test()
 {
     why_buffer *buffer;
     why_vector *vector;
@@ -23,6 +23,28 @@ void test_run()
     why_vector_destroy(&vector);
 }
 
+void split_test()
+{
+    why_buffer *buffer;
+    why_vector *vector;
+    char *string;
+
+    buffer = why_buffer_create("text_file.txt", 0, 0);
+    vector = why_vector_create(0, NULL, NULL);
+    vector = why_buffer_read_all_lines_into_structure(buffer, '\n', vector, why_vector_push);
+    why_buffer_destroy(&buffer);
+
+    string = why_vector_accumualte(vector, 0, why_vector_get_length(vector), why_string_concat_destroy_left);
+    printf("%s\n", string);
+
+    why_vector *lines = why_string_split(string, '1');
+    why_display_vector(lines, why_display_string);
+    free(string);
+    why_vector_destroy(&lines);
+
+    why_vector_destroy(&vector);
+}
+
 int main()
 {
     clock_t start;
@@ -30,7 +52,8 @@ int main()
 
     start = clock();
 
-    test_run();
+    // string_sort_test();
+    split_test();
 
     end = clock();
 

@@ -11,6 +11,7 @@ char *why_string_substring(const char *string, int left_index, int length);
 char *why_string_copy(const char *old_string);
 char *why_string_concat(const char *left, const char *right);
 char *why_string_concat_and_destroy(char *lhs, char *rhs);
+char *why_string_concat_destroy_left(char *lhs, char *rhs);
 char *why_string_join(const char *lhs, const char *joint, const char *rhs);
 
 void why_string_destroy(char **string);

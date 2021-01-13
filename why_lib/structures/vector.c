@@ -175,6 +175,22 @@ int why_vector_swap(why_vector *vector, int j, int k)
     return SUCCESS;
 }
 
+int why_vector_nullify(why_vector *vector)
+{
+    int n;
+    int length;
+
+    length = why_vector_get_length(vector);
+    n = 0;
+    while (n < length)
+    {
+        vector->content[n] = NULL;
+        n ++;
+    }
+
+    return SUCCESS;
+}
+
 void why_vector_destroy(why_vector **vector)
 {
     if (!vector || !*vector)

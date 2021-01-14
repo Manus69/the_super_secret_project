@@ -66,7 +66,7 @@ why_list *why_list_create(void *(*copy)(), void (*destroy)());
 why_list_item *why_list_get_head_iterator(const why_list *list);
 why_list_item *why_list_get_tail_iterator(const why_list *list);
 why_list_item *why_list_next(const why_list_item *list_item);
-why_list_item *get_iterator_at(const why_list *list, int index);
+// why_list_item *get_iterator_at(const why_list *list, int index);
 
 int why_list_get_length(const why_list *list);
 int why_list_swap(why_list *list, int left_index, int right_index);
@@ -77,6 +77,7 @@ void *why_list_dequeue(why_list *list);
 void *why_list_get_content(const why_list_item *iterator);
 void *why_list_at(const why_list *list, int index);
 void *why_list_replace_at(why_list *list, const void *item, int index);
+void *why_list_search(why_list *list, void *item, int (*comapre)());
 
 void why_list_destroy(why_list **list);
 
@@ -96,5 +97,16 @@ void *why_vector_accumualte(const why_vector *vector, int start, int number_of_i
 
 //math
 unsigned int why_math_random(unsigned int seed, unsigned int max);
+
+//hash
+unsigned int why_hash_string(const char *string, unsigned int table_size);
+why_hash_table *why_hash_table_create(unsigned int size, unsigned int (*hash_function)(), void *(*copy)(), void (*destroy)());
+int why_hash_table_add(why_hash_table *table, void *item);
+void *why_hash_table_search(why_hash_table *table, void *item, int (*compare)());
+void why_hash_table_apply(why_hash_table *table, void (*top_function)(), void (*bottom_function)());
+void why_hash_table_destroy(why_hash_table **table);
+
+void **why_hash_table_get_table(const why_hash_table *table); // this is bad;
+unsigned int why_hash_table_get_size(const why_hash_table *table); //
 
 #endif

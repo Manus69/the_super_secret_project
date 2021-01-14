@@ -4,6 +4,8 @@
 struct why_hash_table
 {
     unsigned int (*hash_function)();
+    void (*destructor)();
+    void *(*copy_function)();
 
     void **table;
     unsigned int size;

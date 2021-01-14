@@ -18,7 +18,9 @@ int why_math_is_prime(unsigned int number)
 
 unsigned int why_math_get_next_prime(unsigned int number)
 {
-    while (!why_math_is_prime(number))
+    int is_prime;
+
+    while ((is_prime = why_math_is_prime(number)) == false)
     {
         number ++;
     }

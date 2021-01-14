@@ -236,3 +236,23 @@ int why_list_swap(why_list *list, int left_index, int right_index)
 
     return SUCCESS;
 }
+
+void *why_list_search(why_list *list, void *item, int (*comapre)())
+{
+    why_list_item *iterator;
+
+    if (!list || !comapre)
+        return NULL;
+
+    iterator = why_list_get_head_iterator(list);
+    while (iterator)
+    {
+        if (!comapre(iterator->content, item))
+        {
+            return iterator->content;
+        }
+        iterator = iterator->right;
+    }
+
+    return NULL;
+}

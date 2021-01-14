@@ -21,43 +21,42 @@ void why_display_double(double *x)
     printf("%f", *x);
 }
 
-// void why_display_list(const why_list *list, void (*display_function)())
-// {
-//     struct why_list_item *iterator;
-//     void *content;
+void why_display_list(const why_list *list, void (*display_function)())
+{
+    struct why_list_item *iterator;
+    void *content;
 
-//     iterator = why_list_get_head_iterator(list);
-//     if (!iterator)
-//         return ;
+    iterator = why_list_get_head_iterator(list);
+    if (!iterator)
+        return ;
     
-//     while (iterator != NULL)
-//     {
-//         content = why_list_get_content(iterator);
-//         display_function(content);
-//         printf("%s", item_separator);
-//         iterator = why_list_next(iterator);
-//     }
-//     // printf("LENGTH: %d\n", why_list_get_length(list));
-// }
+    while (iterator != NULL)
+    {
+        content = why_list_get_content(iterator);
+        display_function(content);
+        printf("%s", item_separator);
+        iterator = why_list_next(iterator);
+    }
+    printf("LENGTH: %d\n\n", why_list_get_length(list));
+}
 
-// void why_display_dlist(const why_dlist *dlist, void (*display_function)())
-// {
-//     why_dlist_item *iterator;
-//     void *content;
+void why_display_hash_table(const why_hash_table *table, void (*display)())
+{
+    void **array;
+    unsigned int n;
+    unsigned int size;
 
-//     iterator = why_dlist_get_head_iterator(dlist);
-//     if (!iterator)
-//         return ;
-    
-//     while (iterator != NULL)
-//     {
-//         content = why_dlist_get_content(iterator);
-//         display_function(content);
-//         printf("%s", item_separator);
-//         iterator = why_dlist_next(iterator);
-//     }
-//     // printf("LENGTH: %d\n", why_list_get_length(list));
-// }
+    array = why_hash_table_get_table(table);
+    size = why_hash_table_get_size(table);
+    n = 0;
+    while (n < size)
+    {
+        printf("index = %u: ", n);
+        why_display_list(array[n], why_display_string);
+        printf("\n");
+        n ++;
+    }
+}
 
 void why_display_vector(const why_vector *vector, void (*display_function)())
 {

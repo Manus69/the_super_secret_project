@@ -109,4 +109,8 @@ void why_hash_table_destroy(why_hash_table **table);
 void **why_hash_table_get_table(const why_hash_table *table); // this is bad;
 unsigned int why_hash_table_get_size(const why_hash_table *table); //
 
+//print
+
+char *why_string_get_formatted_string(const char *format, ...);
+
 #endif

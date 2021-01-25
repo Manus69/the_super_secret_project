@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 
-static const char *item_separator = ", ";
+static const char *item_separator = ";\n";
 static const char *string_separator = "\n-------------\n";
 
 void why_display_string(const char *literal)

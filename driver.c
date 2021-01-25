@@ -75,9 +75,28 @@ void list_test()
     why_list_destroy(&list);
 }
 
+void print_test()
+{
+    why_buffer *buffer;
+    why_vector *vector;
+    char *string;
+
+    buffer = why_buffer_create("text_file.txt", 0, 0);
+    vector = why_vector_create(0, NULL, NULL);
+    why_buffer_read_all_lines_into_structure(buffer, '\n', vector, why_vector_push);
+
+    string = why_vector_pop(vector);
+
+    why_string_get_formatted_string(string);
+
+    why_vector_destroy(&vector);
+    why_buffer_destroy(&buffer);
+    free(string);
+}
+
 //create apply functions for all containers?
 //make it so that hash table is "derived" from vector?
-//pritntf!
+//pritntf; make formatters first?
 
 int main()
 {
@@ -89,7 +108,8 @@ int main()
     // string_sort_test();
     // split_test();
     // list_test();
-    hash_test();
+    // hash_test();
+    print_test();
 
     end = clock();
 

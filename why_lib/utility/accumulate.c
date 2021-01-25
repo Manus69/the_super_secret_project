@@ -5,8 +5,6 @@
 
 void *why_vector_accumualte(const why_vector *vector, int start, int number_of_items, char *(*combine)())
 {
-    // int length;
-    // int n;
     void *accumulator;
 
     if (!vector || !combine)
@@ -14,9 +12,6 @@ void *why_vector_accumualte(const why_vector *vector, int start, int number_of_i
 
     if (!number_of_items)
         return NULL;
-
-    // accumulator = combine(NULL, vector->content[start]);
-    // start ++;
 
     accumulator = NULL;
 

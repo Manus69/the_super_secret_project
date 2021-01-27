@@ -6,6 +6,7 @@ typedef struct why_vector why_vector;
 typedef struct why_list why_list;
 typedef struct why_list_item why_list_item;
 typedef struct why_hash_table why_hash_table;
+typedef struct why_tokenizer why_tokenizer;
 typedef why_vector why_stack;
 typedef why_list why_queue;
 
@@ -108,6 +109,13 @@ void why_hash_table_destroy(why_hash_table **table);
 
 void **why_hash_table_get_table(const why_hash_table *table); // this is bad;
 unsigned int why_hash_table_get_size(const why_hash_table *table); //
+
+//tokenizer
+
+why_tokenizer *why_tokenizer_create(const char *string);
+char *why_tokenizer_next(why_tokenizer *tokenizer, const char *pattern);
+char *why_tokenizer_get_matching_substring(why_tokenizer *tokenizer, const char *pattern);
+void why_tokenizer_destroy(why_tokenizer **tokenizer);
 
 //print
 

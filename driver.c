@@ -88,14 +88,49 @@ void print_test()
     string = why_vector_pop(vector);
 
     why_string_get_formatted_string(string);
+    // printf("%qqxxx", "ass");
 
     why_vector_destroy(&vector);
     why_buffer_destroy(&buffer);
     free(string);
 }
 
+void token_test()
+{
+    why_buffer *buffer;
+    why_vector *vector;
+    char *string;
+    why_tokenizer *tokenizer;
+
+    buffer = why_buffer_create("text_file.txt", 0, 0);
+    vector = why_vector_create(0, NULL, NULL);
+    why_buffer_read_all_lines_into_structure(buffer, '\n', vector, why_vector_push);
+
+    string = why_vector_pop(vector);
+    tokenizer = why_tokenizer_create(string);
+
+    char *token = string;
+
+    while ((token = why_tokenizer_get_matching_substring(tokenizer, "x")))
+    {
+        //
+        printf("%s\n", token);
+        //
+        free(token);
+
+    }
+
+
+
+    why_vector_destroy(&vector);
+    why_buffer_destroy(&buffer);
+    why_tokenizer_destroy(&tokenizer);
+    free(string);
+}
+
 //create apply functions for all containers?
 //make it so that hash table is "derived" from vector?
+//regex
 //pritntf; make formatters first?
 
 int main()
@@ -109,7 +144,8 @@ int main()
     // split_test();
     // list_test();
     // hash_test();
-    print_test();
+    // print_test();
+    token_test();
 
     end = clock();
 

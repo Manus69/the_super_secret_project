@@ -13,6 +13,7 @@ char *why_string_concat(const char *left, const char *right);
 char *why_string_concat_and_destroy(char *lhs, char *rhs);
 char *why_string_concat_destroy_left(char *lhs, char *rhs);
 char *why_string_join(const char *lhs, const char *joint, const char *rhs);
+char *why_string_find_char(const char *string, const char *set);
 
 void why_string_destroy(char **string);
 

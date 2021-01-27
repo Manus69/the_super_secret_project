@@ -18,6 +18,12 @@ struct why_vector *why_string_split(const char *literal, char separator)
     separator_position = (char *)literal;
     distance_to_separator = 0;
     
+    while (*separator_position == separator)
+    {
+        current_position ++;
+        separator_position ++;
+    }
+
     while (*separator_position != '\0')
     {
         if (*separator_position == separator)
@@ -54,7 +60,7 @@ int why_string_get_index_of_any(const char *string, const char *char_set, int st
         return -1;
     if (starting_index < 0)
         return -1;
-    if ((long)char_set == (long)DIGITS) //this is bad
+    if (char_set == (char *)DIGITS) //is this bad?
         return get_index_of_digit(string, starting_index);
 
     while (string[starting_index] != '\0')
@@ -65,6 +71,18 @@ int why_string_get_index_of_any(const char *string, const char *char_set, int st
     }
 
     return -1;
+}
+
+char *why_string_find_char(const char *string, const char *set)
+{
+    while (*string != '\0')
+    {
+        if (why_string_get_index_of(set, *string) != -1)
+            return (char *)string;
+        string ++;
+    }
+
+    return (char *)string; //this is not right
 }
 
 int why_string_atoi(const char *string)

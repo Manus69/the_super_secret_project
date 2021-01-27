@@ -8,7 +8,7 @@ static const char *string_separator = "\n-------------\n";
 
 void why_display_string(const char *literal)
 {
-    printf("%s ", literal);
+    printf("%s", literal);
 }
 
 void why_display_int(int *n)

@@ -106,32 +106,33 @@ void token_test()
     vector = why_vector_create(0, NULL, NULL);
     why_buffer_read_all_lines_into_structure(buffer, '\n', vector, why_vector_push);
 
+    char *pattern;
+    int token_found;
+    int token_size;
+    
+    pattern = why_vector_pop(vector);
     string = why_vector_pop(vector);
     tokenizer = why_tokenizer_create(string);
 
-    char *token = string;
+    // token_found = match_from_current_position(string, pattern);
+    // printf("match: %d;", token_found);
 
-    while ((token = why_tokenizer_get_matching_substring(tokenizer, "x")))
-    {
-        //
-        printf("%s\n", token);
-        //
-        free(token);
+    token_found = match_and_count(string, pattern);
 
-    }
-
-
+    printf("match size %d\n", token_found);
 
     why_vector_destroy(&vector);
     why_buffer_destroy(&buffer);
     why_tokenizer_destroy(&tokenizer);
     free(string);
+    free(pattern);
 }
 
 //create apply functions for all containers?
 //make it so that hash table is "derived" from vector?
 //regex
-//pritntf; make formatters first?
+//a : a*a*a causes problems; avoid malformeed patterns?
+//a : .*a - this one is fine though
 
 int main()
 {

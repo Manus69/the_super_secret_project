@@ -11,6 +11,7 @@ unsigned int why_hash_string(const char *string, unsigned int table_size)
     unsigned int hash_value;
     int n;
 
+    table_size = !table_size ? LARGE_PRIME : table_size;
     hash_value = 0;
     n = 0;
     while (string[n])

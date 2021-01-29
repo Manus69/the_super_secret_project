@@ -14,6 +14,8 @@ typedef why_list why_queue;
 #include "headers/why_display.h"
 
 
+#define DEFAULT 0
+
 //buffer
 why_buffer *why_buffer_create(const char *file_name, int capacity, int read_size);
 
@@ -113,8 +115,18 @@ unsigned int why_hash_table_get_size(const why_hash_table *table); //
 //tokenizer
 
 why_tokenizer *why_tokenizer_create(const char *string);
-char *why_tokenizer_next(why_tokenizer *tokenizer, const char *pattern);
-char *why_tokenizer_get_matching_substring(why_tokenizer *tokenizer, const char *pattern);
+
+int why_tokenizer_get_token_length(const why_tokenizer *tokenizer);
+
+//
+int match_from_current_position(char *string, char *pattern); // remove after testing
+int match_from_current_position_mk2(why_tokenizer *tokenizer, char *pattern);
+int match_and_count(char *string, char *pattern);
+//
+
+char *why_tokenizer_next(why_tokenizer *tokenizer, char *pattern);
+char *why_tokenizer_get_matching_substring(why_tokenizer *tokenizer, char *pattern);
+
 void why_tokenizer_destroy(why_tokenizer **tokenizer);
 
 //print

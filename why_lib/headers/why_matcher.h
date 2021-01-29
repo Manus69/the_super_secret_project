@@ -7,15 +7,16 @@
 #define ESCAPE '\\'
 #define OR '|'
 #define WILDCARD '.'
+#define WITESPACE ' '
 #define ANY_LETTER '@'
 #define ANY_DIGIT '#'
 
-struct why_tokenizer
+struct why_matcher
 {
     char *string;
-    char *pattern;
     char *current_position;
     int token_length;
+    int min_pattern_length;
 };
 
 #endif

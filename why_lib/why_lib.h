@@ -6,7 +6,7 @@ typedef struct why_vector why_vector;
 typedef struct why_list why_list;
 typedef struct why_list_item why_list_item;
 typedef struct why_hash_table why_hash_table;
-typedef struct why_tokenizer why_tokenizer;
+typedef struct why_matcher why_matcher;
 typedef why_vector why_stack;
 typedef why_list why_queue;
 
@@ -112,22 +112,22 @@ void why_hash_table_destroy(why_hash_table **table);
 void **why_hash_table_get_table(const why_hash_table *table); // this is bad;
 unsigned int why_hash_table_get_size(const why_hash_table *table); //
 
-//tokenizer
+//matcher
 
-why_tokenizer *why_tokenizer_create(const char *string);
+why_matcher *why_matcher_create(const char *string);
 
-int why_tokenizer_get_token_length(const why_tokenizer *tokenizer);
+int why_matcher_get_token_length(const why_matcher *matcher);
+int why_matcher_get_min_pattern_length(const why_matcher *matcher);
 
 //
-int match_from_current_position(char *string, char *pattern); // remove after testing
-int match_from_current_position_mk2(why_tokenizer *tokenizer, char *pattern);
 int match_and_count(char *string, char *pattern);
+int match_and_count_mk2(why_matcher *matcher, char *pattern);
+// char *why_matcher_next(why_matcher *matcher, char *pattern);
 //
 
-char *why_tokenizer_next(why_tokenizer *tokenizer, char *pattern);
-char *why_tokenizer_get_matching_substring(why_tokenizer *tokenizer, char *pattern);
+char *why_matcher_get_matching_substring(why_matcher *matcher, char *pattern);
 
-void why_tokenizer_destroy(why_tokenizer **tokenizer);
+void why_matcher_destroy(why_matcher **matcher);
 
 //print
 

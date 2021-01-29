@@ -100,30 +100,37 @@ void token_test()
     why_buffer *buffer;
     why_vector *vector;
     char *string;
-    why_tokenizer *tokenizer;
+    why_matcher *matcher;
 
     buffer = why_buffer_create("text_file.txt", 0, 0);
     vector = why_vector_create(0, NULL, NULL);
     why_buffer_read_all_lines_into_structure(buffer, '\n', vector, why_vector_push);
 
     char *pattern;
-    int token_found;
-    int token_size;
     
     pattern = why_vector_pop(vector);
     string = why_vector_pop(vector);
-    tokenizer = why_tokenizer_create(string);
+    matcher = why_matcher_create(string);
 
-    // token_found = match_from_current_position(string, pattern);
-    // printf("match: %d;", token_found);
+    // int token_size;
+    // token_size = match_and_count(string, pattern);
 
-    token_found = match_and_count(string, pattern);
+    // printf("match size %d\n", token_size);
 
-    printf("match size %d\n", token_found);
+    int token_size;
+    token_size = match_and_count_mk2(matcher, pattern);
+
+    printf("match size: %d min pattern length: %d\n", token_size, why_matcher_get_min_pattern_length(matcher));
+
+    // char *substring;
+    // while ((substring = why_matcher_get_matching_substring(matcher, pattern)))
+    // {
+    //     printf("%s\n", substring);
+    // }
 
     why_vector_destroy(&vector);
     why_buffer_destroy(&buffer);
-    why_tokenizer_destroy(&tokenizer);
+    why_matcher_destroy(&matcher);
     free(string);
     free(pattern);
 }

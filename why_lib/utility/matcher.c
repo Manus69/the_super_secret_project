@@ -3,9 +3,23 @@
 
 #include "why_math.h"
 
-int int_max_test(int a, int b)
+static inline int max(int a, int b)
 {
     return a > b ? a : b;
+}
+
+static inline int min(int a, int b)
+{
+    return a > b ? b : a;
+}
+
+static inline int min_but_nonzero(int a, int b)
+{
+    if (!a)
+        return b;
+    if (!b)
+        return a;
+    return a > b ? b : a;
 }
 
 why_matcher *why_matcher_create(const char *string)
@@ -18,6 +32,7 @@ why_matcher *why_matcher_create(const char *string)
     
     // matcher->string = why_string_create(string); //check return?
     matcher->string = (char *)string;
+    matcher->pattern = NULL;
     matcher->current_position = matcher->string;
     matcher->token_length = 0;
     matcher->min_pattern_length = 0;
@@ -82,7 +97,7 @@ int get_min_pattern_length(char *pattern)
         }
     }
 
-    return length;
+    return length ? length : 1;
 }
 
 int match_and_count(char *string, char *pattern)
@@ -93,8 +108,6 @@ int match_and_count(char *string, char *pattern)
 
     int shift_match;
     int skip_match;
-
-    // int chars_matched; 
 
     string_char = *string;
     pattern_char = *pattern;
@@ -108,30 +121,50 @@ int match_and_count(char *string, char *pattern)
     if (pattern_char == '\0')
         return 0;
 
-    // chars_matched = 0;
     next_char = *(pattern + 1);
     if (match_character(string_char, pattern_char))
     {
-        // chars_matched ++;
         if (next_char == ZERO_OR_MANY)
         {
             shift_match = match_and_count(string + 1, pattern);
+
+            if (*(pattern + 2) == '\0')
+                return 1;
+
             skip_match = match_and_count(string, pattern + 2);
 
-            // return skip_match >= shift_match ? skip_match : shift_match + 1; //if the character in the pattern is skipped, dont count it
+            if (!shift_match && !skip_match)
+                return 0;
+
             return MAX(1 + shift_match, skip_match);
+            // return MIN(1 + shift_match, skip_match);
+
         }
         else if (next_char == ONE_OR_MANY)
         {
             shift_match = match_and_count(string + 1, pattern);
+
+            if (*(pattern + 2) == '\0')
+                return 1;
+
             skip_match = match_and_count(string + 1, pattern + 2);
+
+            if (!shift_match && !skip_match)
+                return 0;
 
             return 1 + MAX(shift_match, skip_match);
         }
         else if (next_char == ZERO_OR_ONE)
         {
             shift_match = match_and_count(string + 1, pattern + 2);
+
+            if (*(pattern + 2) == '\0')
+                return 1;
+
             skip_match = match_and_count(string, pattern + 2);
+
+            if (!shift_match && !skip_match)
+                return 0;
 
             return MAX(1 + shift_match, skip_match);
         }
@@ -153,55 +186,66 @@ int match_and_count(char *string, char *pattern)
     return 0;
 }
 
-int match_and_count_mk2(why_matcher *matcher, char *pattern)
+int match_and_count_mk2(char *string, char *pattern, int (*minmax)())
 {
-    char string_char;
-    char pattern_char;
     char next_char;
-
     int shift_match;
     int skip_match;
 
-    // int chars_matched; 
-
-    string_char = *matcher->current_position;
-    pattern_char = *pattern;
-
-    if (string_char == '\0')
+    if (*string == '\0')
         return 0;
 
-    if (pattern_char == '\\')
-        pattern_char = *(pattern + 1);
+    if (*pattern == '\\')
+        pattern = pattern + 1;
 
-    if (pattern_char == '\0')
+    if (*pattern == '\0')
         return 0;
 
-    // chars_matched = 0;
     next_char = *(pattern + 1);
-    if (match_character(string_char, pattern_char))
+    if (match_character(*string, *pattern))
     {
-        // chars_matched ++;
         if (next_char == ZERO_OR_MANY)
         {
-            shift_match = match_and_count(matcher->current_position + 1, pattern);
-            skip_match = match_and_count(matcher->current_position, pattern + 2);
+            shift_match = match_and_count_mk2(string + 1, pattern, minmax);
 
-            // return skip_match >= shift_match ? skip_match : shift_match + 1; //if the character in the pattern is skipped, dont count it
-            return MAX(1 + shift_match, skip_match);
+            if (*(pattern + 2) == '\0')
+                return 1 + shift_match; //// 
+                // return 1;
+
+            skip_match = match_and_count_mk2(string, pattern + 2, minmax);
+
+            if (!shift_match && !skip_match)
+                return 0;
+
+            return minmax(1 + shift_match, skip_match);
         }
         else if (next_char == ONE_OR_MANY)
         {
-            shift_match = match_and_count(matcher->current_position + 1, pattern);
-            skip_match = match_and_count(matcher->current_position + 1, pattern + 2);
+            shift_match = match_and_count_mk2(string + 1, pattern, minmax);
 
-            return 1 + MAX(shift_match, skip_match);
+            if (*(pattern + 2) == '\0')
+                return 1 + shift_match;
+
+            skip_match = match_and_count_mk2(string + 1, pattern + 2, minmax);
+
+            if (!shift_match && !skip_match)
+                return 0;
+
+            return 1 + minmax(shift_match, skip_match);
         }
         else if (next_char == ZERO_OR_ONE)
         {
-            shift_match = match_and_count(matcher->current_position + 1, pattern + 2);
-            skip_match = match_and_count(matcher->current_position, pattern + 2);
+            shift_match = match_and_count_mk2(string + 1, pattern + 2, minmax);
 
-            return MAX(1 + shift_match, skip_match);
+            if (*(pattern + 2) == '\0')
+                return 1 + shift_match;
+
+            skip_match = match_and_count_mk2(string, pattern + 2, minmax);
+
+            if (!shift_match && !skip_match)
+                return 0;
+
+            return minmax(1 + shift_match, skip_match);
         }
 
         while (next_char == OR)
@@ -210,24 +254,27 @@ int match_and_count_mk2(why_matcher *matcher, char *pattern)
             next_char = *(pattern + 1);
         }
 
-        return 1 + match_and_count(matcher->current_position + 1, pattern + 1);
+        return 1 + match_and_count_mk2(string + 1, pattern + 1, minmax);
     }
 
     if (next_char == ZERO_OR_MANY || next_char == ZERO_OR_ONE || next_char == OR)
-    {
-        return match_and_count(matcher->current_position, pattern + 2);
-    }
+        return match_and_count_mk2(string, pattern + 2, minmax);
 
     return 0;
 }
 
-int why_matcher_next(why_matcher *matcher, char *pattern)
+int why_matcher_next(why_matcher *matcher, char *pattern, int greedy)
 {
     int match_length;
+    int (*minmax)();
+
+    // minmax = greedy ? max : min;
+    minmax = greedy ? max : min_but_nonzero;
 
     while (*(matcher->current_position) != '\0')
     {
-        match_length = match_and_count(matcher->current_position, pattern);
+        // match_length = match_and_count(matcher->current_position, pattern);
+        match_length = match_and_count_mk2(matcher->current_position, pattern, minmax);
         if (match_length)
         {
             matcher->token_length = match_length;
@@ -241,14 +288,20 @@ int why_matcher_next(why_matcher *matcher, char *pattern)
     return 0;
 }
 
-char *why_matcher_get_matching_substring(why_matcher *matcher, char *pattern)
+char *why_matcher_get_next_match(why_matcher *matcher, char *pattern, int greedy)
 {
     char *string;
     char *substring;
 
-    why_matcher_next(matcher, pattern);
+    if (pattern != matcher->pattern)
+    {
+        matcher->pattern = pattern;
+        matcher->min_pattern_length = get_min_pattern_length(pattern);
+    }
+
+    why_matcher_next(matcher, pattern, greedy);
     string = matcher->current_position;
-    if (matcher->token_length)
+    if (matcher->token_length >= matcher->min_pattern_length)
     {
         substring = why_string_substring(string, 0, matcher->token_length);
         matcher->current_position += matcher->token_length;

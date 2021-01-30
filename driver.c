@@ -117,16 +117,17 @@ void token_test()
 
     // printf("match size %d\n", token_size);
 
-    int token_size;
-    token_size = match_and_count_mk2(matcher, pattern);
+    // int token_size;
+    // token_size = match_and_count_mk2(string, pattern, matcher);
 
-    printf("match size: %d min pattern length: %d\n", token_size, why_matcher_get_min_pattern_length(matcher));
+    // printf("match size: %d min pattern length: %d\n", token_size, why_matcher_get_min_pattern_length(matcher));
 
-    // char *substring;
-    // while ((substring = why_matcher_get_matching_substring(matcher, pattern)))
-    // {
-    //     printf("%s\n", substring);
-    // }
+    char *substring;
+    while ((substring = why_matcher_get_next_match(matcher, pattern, false)))
+    {
+        printf("%s\n", substring);
+        free(substring);
+    }
 
     why_vector_destroy(&vector);
     why_buffer_destroy(&buffer);

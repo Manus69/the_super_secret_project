@@ -14,9 +14,11 @@
 struct why_matcher
 {
     char *string;
+    char *pattern;
     char *current_position;
+
     int token_length;
-    int min_pattern_length;
+    int min_pattern_length; //this is a clusterfuck
 };
 
 #endif

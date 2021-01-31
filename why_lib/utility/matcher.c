@@ -34,8 +34,8 @@ why_matcher *why_matcher_create(const char *string)
     matcher->string = (char *)string;
     matcher->pattern = NULL;
     matcher->current_position = matcher->string;
-    matcher->token_length = 0;
-    matcher->min_pattern_length = 0;
+    matcher->match_length = 0;
+    matcher->quantifier = 0;
 
     return matcher;
 }
@@ -43,17 +43,6 @@ why_matcher *why_matcher_create(const char *string)
 void why_matcher_reset(why_matcher *matcher)
 {
     matcher->current_position = matcher->string;
-    matcher->token_length = 0;
-}
-
-int why_matcher_get_token_length(const why_matcher *matcher)
-{
-    return matcher->token_length;
-}
-
-int why_matcher_get_min_pattern_length(const why_matcher *matcher)
-{
-    return matcher->min_pattern_length;
 }
 
 static int match_character(char string_char, char pattern_char)
@@ -70,6 +59,7 @@ static int match_character(char string_char, char pattern_char)
     return false;
 }
 
+//get rid of this
 int get_min_pattern_length(char *pattern)
 {
     int length;
@@ -195,8 +185,11 @@ int match_and_count_mk2(char *string, char *pattern, int (*minmax)())
     if (*string == '\0')
         return 0;
 
+    if (*pattern == OR)
+        pattern ++;
+
     if (*pattern == '\\')
-        pattern = pattern + 1;
+        pattern ++;
 
     if (*pattern == '\0')
         return 0;
@@ -208,9 +201,8 @@ int match_and_count_mk2(char *string, char *pattern, int (*minmax)())
         {
             shift_match = match_and_count_mk2(string + 1, pattern, minmax);
 
-            if (*(pattern + 2) == '\0')
+            if (*(pattern + 2) == '\0' || *(pattern + 2) == OR)
                 return 1 + shift_match; //// 
-                // return 1;
 
             skip_match = match_and_count_mk2(string, pattern + 2, minmax);
 
@@ -263,23 +255,154 @@ int match_and_count_mk2(char *string, char *pattern, int (*minmax)())
     return 0;
 }
 
+int get_quantifier(const char *quantifiers, char c)
+{
+    int index; 
+
+    index = why_string_get_index_of(quantifiers, c);
+    if (index >= 0)
+        return quantifiers[index];
+    return 0;
+}
+
+int match_and_count_mk3(char *string, char *pattern, int (*minmax)(), why_matcher *matcher)
+{
+    char next_char;
+    int shift_match;
+    int skip_match;
+
+    if ((*string == '\0' && *pattern == '\0') || *pattern == '\0')
+    {
+        // matcher->match_length = string - matcher->current_position;
+        matcher->match_length = minmax(matcher->match_length, string - matcher->current_position);
+        return matcher->quantifier ? 1 : 0;
+    }
+
+    next_char = *(pattern + 1);
+
+    if (*string == '\0')
+        return 0;
+
+    if (*pattern == OR || *pattern == '\\')
+        pattern ++;
+
+    matcher->quantifier = get_quantifier(QUANTIFIERS, next_char);
+    if (match_character(*string, *pattern))
+    {
+        if (next_char == ZERO_OR_MANY)
+        {
+            shift_match = match_and_count_mk3(string + 1, pattern, minmax, matcher);
+            skip_match = match_and_count_mk3(string, pattern + 2, minmax, matcher);
+
+            // if(!matcher->match_length)
+            //     return 0;
+
+            return minmax(1 + shift_match, skip_match);
+        }
+        else if (next_char == ONE_OR_MANY)
+        {
+            shift_match = match_and_count_mk3(string + 1, pattern, minmax, matcher);
+            skip_match = match_and_count_mk3(string + 1, pattern + 2, minmax, matcher);
+
+            if(!matcher->match_length)
+                return 0;
+
+            return 1 + minmax(shift_match, skip_match);
+        }
+        else if (next_char == ZERO_OR_ONE)
+        {
+            shift_match = match_and_count_mk3(string + 1, pattern + 2, minmax, matcher);
+            skip_match = match_and_count_mk3(string, pattern + 2, minmax, matcher);
+
+            if(!matcher->match_length)
+                return 0;
+
+            return minmax(1 + shift_match, skip_match);
+        }
+
+        while (next_char == OR)
+        {
+            pattern = pattern + 2;
+            next_char = *(pattern + 1);
+        }
+
+        return 1 + match_and_count_mk3(string + 1, pattern + 1, minmax, matcher);
+    }
+
+    if (next_char == ZERO_OR_MANY || next_char == ZERO_OR_ONE || next_char == OR)
+        return match_and_count_mk3(string, pattern + 2, minmax, matcher);
+
+    return 0;
+}
+//
+
+//the return value is fictitious
+int match_and_count_mk4(char *string, char *pattern, int (*minmax)(), why_matcher *matcher)
+{
+    char next_char;
+
+    if ((*string == '\0' && *pattern == '\0') || *pattern == '\0')
+    {
+        return (matcher->match_length = minmax(matcher->match_length, string - matcher->current_position));
+    }
+
+    next_char = *(pattern + 1);
+
+    if (*string == '\0' && (next_char == ZERO_OR_ONE || next_char == ZERO_OR_MANY))
+    {
+        return (matcher->match_length = minmax(matcher->match_length, string - matcher->current_position));
+    }
+
+    if (*pattern == OR || *pattern == '\\')
+        pattern ++;
+
+    if (match_character(*string, *pattern))
+    {
+        if (next_char == ZERO_OR_MANY)
+        {
+            match_and_count_mk4(string + 1, pattern, minmax, matcher);
+            match_and_count_mk4(string, pattern + 2, minmax, matcher);
+        }
+        else if (next_char == ONE_OR_MANY)
+        {
+            match_and_count_mk4(string + 1, pattern, minmax, matcher);
+            match_and_count_mk4(string + 1, pattern + 2, minmax, matcher);
+        }
+        else if (next_char == ZERO_OR_ONE)
+        {
+            match_and_count_mk4(string + 1, pattern + 2, minmax, matcher);
+            match_and_count_mk4(string, pattern + 2, minmax, matcher);
+        }
+
+        while (next_char == OR)
+        {
+            pattern = pattern + 2;
+            next_char = *(pattern + 1);
+        }
+
+        match_and_count_mk4(string + 1, pattern + 1, minmax, matcher);
+    }
+
+    if (next_char == ZERO_OR_MANY || next_char == ZERO_OR_ONE || next_char == OR)
+        match_and_count_mk4(string, pattern + 2, minmax, matcher);
+
+    return 0;
+}
+
 int why_matcher_next(why_matcher *matcher, char *pattern, int greedy)
 {
-    int match_length;
     int (*minmax)();
 
-    // minmax = greedy ? max : min;
     minmax = greedy ? max : min_but_nonzero;
 
     while (*(matcher->current_position) != '\0')
     {
-        // match_length = match_and_count(matcher->current_position, pattern);
-        match_length = match_and_count_mk2(matcher->current_position, pattern, minmax);
-        if (match_length)
-        {
-            matcher->token_length = match_length;
+        // match_and_count_mk3(matcher->current_position, pattern, minmax, matcher);
+        match_and_count_mk4(matcher->current_position, pattern, minmax, matcher);
 
-            return match_length;
+        if (matcher->match_length)
+        {
+            return matcher->match_length;
         }
 
         matcher->current_position ++;
@@ -292,20 +415,16 @@ char *why_matcher_get_next_match(why_matcher *matcher, char *pattern, int greedy
 {
     char *string;
     char *substring;
+    int match_length;
 
-    if (pattern != matcher->pattern)
-    {
-        matcher->pattern = pattern;
-        matcher->min_pattern_length = get_min_pattern_length(pattern);
-    }
-
-    why_matcher_next(matcher, pattern, greedy);
+    match_length = why_matcher_next(matcher, pattern, greedy);
     string = matcher->current_position;
-    if (matcher->token_length >= matcher->min_pattern_length)
+
+    if (match_length)
     {
-        substring = why_string_substring(string, 0, matcher->token_length);
-        matcher->current_position += matcher->token_length;
-        matcher->token_length = 0;
+        substring = why_string_substring(string, 0, match_length);
+        matcher->current_position += match_length;
+        matcher->match_length = 0;
 
         return substring;
     }

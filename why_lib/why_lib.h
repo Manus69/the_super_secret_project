@@ -116,15 +116,6 @@ unsigned int why_hash_table_get_size(const why_hash_table *table); //
 
 why_matcher *why_matcher_create(const char *string);
 
-int why_matcher_get_token_length(const why_matcher *matcher);
-int why_matcher_get_min_pattern_length(const why_matcher *matcher);
-
-//
-// int match_and_count(char *string, char *pattern);
-// int match_and_count_mk2(char *string, char *pattern, why_matcher *matcher);
-// char *why_matcher_next(why_matcher *matcher, char *pattern);
-//
-
 char *why_matcher_get_next_match(why_matcher *matcher, char *pattern, int greedy);
 
 void why_matcher_destroy(why_matcher **matcher);

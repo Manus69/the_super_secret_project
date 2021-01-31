@@ -99,48 +99,48 @@ void token_test()
 {
     why_buffer *buffer;
     why_vector *vector;
-    char *string;
     why_matcher *matcher;
+    char *string;
+    char *pattern;
 
     buffer = why_buffer_create("text_file.txt", 0, 0);
     vector = why_vector_create(0, NULL, NULL);
     why_buffer_read_all_lines_into_structure(buffer, '\n', vector, why_vector_push);
 
-    char *pattern;
     
-    pattern = why_vector_pop(vector);
-    string = why_vector_pop(vector);
-    matcher = why_matcher_create(string);
-
-    // int token_size;
-    // token_size = match_and_count(string, pattern);
-
-    // printf("match size %d\n", token_size);
-
-    // int token_size;
-    // token_size = match_and_count_mk2(string, pattern, matcher);
-
-    // printf("match size: %d min pattern length: %d\n", token_size, why_matcher_get_min_pattern_length(matcher));
-
-    char *substring;
-    while ((substring = why_matcher_get_next_match(matcher, pattern, false)))
+    while (why_vector_get_length(vector))
     {
-        printf("%s\n", substring);
-        free(substring);
+        pattern = why_vector_pop(vector);
+        string = why_vector_pop(vector);
+        matcher = why_matcher_create(string);
+
+        if (!string)
+            break ;
+
+        char *substring;
+        printf("string: %s\npattern: %s\n\n", string, pattern);
+
+        while ((substring = why_matcher_get_next_match(matcher, pattern, true)))
+        {
+            printf("%s\n", substring);
+            free(substring);
+        }
+
+        printf("---------------\n");
+
+        free(string);
+        free(pattern);
+        why_matcher_destroy(&matcher);
     }
 
     why_vector_destroy(&vector);
     why_buffer_destroy(&buffer);
-    why_matcher_destroy(&matcher);
-    free(string);
-    free(pattern);
 }
 
 //create apply functions for all containers?
 //make it so that hash table is "derived" from vector?
 //regex
-//a : a*a*a causes problems; avoid malformeed patterns?
-//a : .*a - this one is fine though
+//regex tests?
 
 int main()
 {

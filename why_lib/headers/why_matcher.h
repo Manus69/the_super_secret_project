@@ -10,6 +10,7 @@
 #define WITESPACE ' '
 #define ANY_LETTER '@'
 #define ANY_DIGIT '#'
+#define QUANTIFIERS "*+?"
 
 struct why_matcher
 {
@@ -17,8 +18,9 @@ struct why_matcher
     char *pattern;
     char *current_position;
 
-    int token_length;
-    int min_pattern_length; //this is a clusterfuck
+    int match_length;
+
+    char quantifier;
 };
 
 #endif

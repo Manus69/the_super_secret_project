@@ -118,6 +118,7 @@ why_matcher *why_matcher_create(const char *string);
 
 char *why_matcher_get_next_match(why_matcher *matcher, char *pattern, int greedy);
 
+void why_matcher_reset(why_matcher *matcher, const char *string);
 void why_matcher_destroy(why_matcher **matcher);
 
 //print

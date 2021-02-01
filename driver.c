@@ -95,7 +95,7 @@ void print_test()
     free(string);
 }
 
-void token_test()
+void matcher_test()
 {
     why_buffer *buffer;
     why_vector *vector;
@@ -103,7 +103,7 @@ void token_test()
     char *string;
     char *pattern;
 
-    buffer = why_buffer_create("text_file.txt", 0, 0);
+    buffer = why_buffer_create("match_test.txt", 0, 0);
     vector = why_vector_create(0, NULL, NULL);
     why_buffer_read_all_lines_into_structure(buffer, '\n', vector, why_vector_push);
 
@@ -120,7 +120,7 @@ void token_test()
         char *substring;
         printf("string: %s\npattern: %s\n\n", string, pattern);
 
-        while ((substring = why_matcher_get_next_match(matcher, pattern, true)))
+        while ((substring = why_matcher_get_next_match(matcher, pattern, false)))
         {
             printf("%s\n", substring);
             free(substring);
@@ -137,10 +137,50 @@ void token_test()
     why_buffer_destroy(&buffer);
 }
 
+void matcher_test2()
+{
+    why_buffer *buffer;
+    why_vector *vector;
+    why_matcher *matcher;
+    char *string;
+    char *pattern;
+
+    buffer = why_buffer_create("text_file.txt", 0, 0);
+    vector = why_vector_create(0, NULL, NULL);
+    why_buffer_read_all_lines_into_structure(buffer, '\n', vector, why_vector_push);
+
+    pattern = "c.*k";
+    matcher = why_matcher_create(string);
+    while (why_vector_get_length(vector))
+    {
+        string = why_vector_pop(vector);
+        why_matcher_reset(matcher, string);
+
+        char *substring;
+
+        // printf("string: %s\npattern: %s\n\n", string, pattern);
+
+        while ((substring = why_matcher_get_next_match(matcher, pattern, false)))
+        {
+            printf("%s\n", substring);
+            free(substring);
+        }
+
+        // printf("---------------\n");
+
+        free(string);
+    }
+
+    why_matcher_destroy(&matcher);
+    why_vector_destroy(&vector);
+    why_buffer_destroy(&buffer);
+}
+
 //create apply functions for all containers?
 //make it so that hash table is "derived" from vector?
 //regex
 //regex tests?
+//get rid of unused fields in matcher
 
 int main()
 {
@@ -154,7 +194,8 @@ int main()
     // list_test();
     // hash_test();
     // print_test();
-    token_test();
+    // matcher_test();
+    matcher_test2();
 
     end = clock();
 

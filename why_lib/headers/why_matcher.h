@@ -15,12 +15,12 @@
 struct why_matcher
 {
     char *string;
-    char *pattern;
+    char *pattern; //not used
     char *current_position;
 
     int match_length;
 
-    char quantifier;
+    char quantifier; //not used
 };
 
 #endif

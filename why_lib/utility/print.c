@@ -1,26 +1,26 @@
 #include "why_lib.h"
+#include "why_print.h"
+#include "why_matcher.h"
 
 #include <stdarg.h>
-
-#define SPECIAL_CHAR '%'
-#define SPECIFIERS "dfsp"
 
 
 #include "why_display.h"
 why_vector *parse_format_string(const char *format_string)
 {
     why_vector *vector;
-    char *token;
-    char *current_pointer;
-    int length;
-    int special_char_encountered;
+    why_string_token *token;
+    why_matcher *matcher;
+    char *substring;
 
     vector = why_vector_create(0, NULL, NULL);
 
-    current_pointer = (char *)format_string;
-    special_char_encountered = false;
+    matcher = why_matcher_create(format_string);
 
-    
+    while (true)
+    {
+        ;
+    }
 
     return vector;
 }

@@ -120,7 +120,7 @@ void matcher_test()
         char *substring;
         printf("string: %s\npattern: %s\n\n", string, pattern);
 
-        while ((substring = why_matcher_get_next_match(matcher, pattern, false)))
+        while ((substring = why_matcher_get_next_match(matcher, pattern, false, false)))
         {
             printf("%s\n", substring);
             free(substring);
@@ -150,7 +150,7 @@ void matcher_test2()
     why_buffer_read_all_lines_into_structure(buffer, '\n', vector, why_vector_push);
 
     pattern = "c.*k";
-    matcher = why_matcher_create(string);
+    matcher = why_matcher_create(NULL);
     while (why_vector_get_length(vector))
     {
         string = why_vector_pop(vector);
@@ -160,7 +160,7 @@ void matcher_test2()
 
         // printf("string: %s\npattern: %s\n\n", string, pattern);
 
-        while ((substring = why_matcher_get_next_match(matcher, pattern, false)))
+        while ((substring = why_matcher_get_next_match(matcher, pattern, false, true)))
         {
             printf("%s\n", substring);
             free(substring);
@@ -194,8 +194,8 @@ int main()
     // list_test();
     // hash_test();
     // print_test();
-    // matcher_test();
-    matcher_test2();
+    matcher_test();
+    // matcher_test2();
 
     end = clock();
 

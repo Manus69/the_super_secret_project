@@ -10,17 +10,16 @@
 #define WITESPACE ' '
 #define ANY_LETTER '@'
 #define ANY_DIGIT '#'
+#define START '$'
+#define END '^'
 #define QUANTIFIERS "*+?"
 
 struct why_matcher
 {
     char *string;
-    char *pattern; //not used
     char *current_position;
 
     int match_length;
-
-    char quantifier; //not used
 };
 
 #endif

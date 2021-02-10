@@ -2,6 +2,8 @@
 %.*%|f|d
 f(g(x)+h(x))=H(x)
 (.*))
+f(g(x)+h(x))=H(x)
+$(.*)^
 What is this: exp(i*pi)+1=0 ? How about this: sin^2(x)+cos^2(x)=1 ???
 (.*)
 )=

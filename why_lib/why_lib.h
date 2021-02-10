@@ -102,10 +102,13 @@ void *why_vector_accumualte(const why_vector *vector, int start, int number_of_i
 unsigned int why_math_random(unsigned int seed, unsigned int max);
 
 //hash
-unsigned int why_hash_string(const char *string, unsigned int table_size);
 why_hash_table *why_hash_table_create(unsigned int size, unsigned int (*hash_function)(), void *(*copy)(), void (*destroy)());
+
+unsigned int why_hash_string(const char *string, unsigned int table_size);
 int why_hash_table_add(why_hash_table *table, void *item);
+
 void *why_hash_table_search(why_hash_table *table, void *item, int (*compare)());
+
 void why_hash_table_apply(why_hash_table *table, void (*top_function)(), void (*bottom_function)());
 void why_hash_table_destroy(why_hash_table **table);
 
@@ -116,7 +119,9 @@ unsigned int why_hash_table_get_size(const why_hash_table *table); //
 
 why_matcher *why_matcher_create(const char *string);
 
-char *why_matcher_get_next_match(why_matcher *matcher, char *pattern, int greedy);
+char *why_matcher_get_next_match(why_matcher *matcher, char *pattern, int greedy, int inclusive);
+
+int why_matcher_shift_position(why_matcher *matcher, int shift);
 
 void why_matcher_reset(why_matcher *matcher, const char *string);
 void why_matcher_destroy(why_matcher **matcher);

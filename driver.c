@@ -187,7 +187,7 @@ void print_format_test()
 //make it so that hash table is "derived" from vector?
 //regex
 //regex tests?
-//get rid of unused fields in matcher
+//make functions either all safe or all unsafe
 
 int main()
 {

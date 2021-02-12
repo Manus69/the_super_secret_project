@@ -16,7 +16,7 @@ why_string_token *string_token_create(const char *string, int length)
 
     token = malloc(sizeof(why_string_token));
     token->string = (char *)string;
-    token->type = BROKEN;
+    token->type = BRICKED;
     token->length = length;
 
     token->alignment = 0;
@@ -26,13 +26,18 @@ why_string_token *string_token_create(const char *string, int length)
     return token;
 }
 
-enum token_type string_token_classify(why_string_token *token)
+enum token_type string_token_determine(why_string_token *token)
+{
+    ;
+}
+
+int string_token_classify(why_string_token *token)
 {
     char first_char;
     char last_char;
 
     if (token->length == 0)
-        return BROKEN;
+        return BRICKED;
 
     first_char = *token->string;
     last_char = token->string[token->length - 1];
@@ -49,19 +54,22 @@ enum token_type string_token_classify(why_string_token *token)
             token->type = S;
         else if (last_char == SPECIFIERS[P])
             token->type = P;
-        
-        return token->type;
     }
-
-    token->type = TEXT;
+    else
+        token->type = TEXT;
 
     return token->type;
 }
 
 //returns a bricked token if there is one
-why_string_token *classify_all_tokens(why_vector *vector)
+why_string_token *find_bricked_token(why_vector *vector)
 {
-    ;
+    why_string_token *bricked_token;
+
+
+    bricked_token = why_vector_apply_function_mk2(vector, string_token_classify, BRICKED);
+
+    return bricked_token;
 }
 
 void string_token_destroy(why_string_token **token)
@@ -138,12 +146,23 @@ char *why_string_get_formatted_string(const char *format, ...)
 {
     va_list arg_list;
     why_vector *tokens;
+    why_string_token *token;
     char *string;
 
 
     va_start(arg_list, format);
+
     string = NULL;
     tokens = get_string_tokens(format);
+    token = find_bricked_token(tokens);
+
+    if (token)
+    {
+        //do something with the bricked token?
+        // printf("malformed token: %s\n", token->string);
+        why_vector_destroy(&tokens);
+    }
+
     //
     why_display_vector(tokens, why_display_string_token);
     //

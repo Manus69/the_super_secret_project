@@ -8,7 +8,7 @@ typedef struct why_string_token why_string_token;
 
 enum token_type
 {
-    D, F, S, P, PERCENT_SYMBOL, TEXT, BROKEN,
+    D, F, S, P, PERCENT_SYMBOL, TEXT, BRICKED,
 };
 
 struct why_string_token

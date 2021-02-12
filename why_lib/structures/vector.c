@@ -191,6 +191,48 @@ int why_vector_nullify(why_vector *vector)
     return SUCCESS;
 }
 
+int why_vector_apply_function(why_vector *vector, void (*function)())
+{
+    int n;
+    int length;
+    void *item;
+
+    length = why_vector_get_length(vector);
+    n = 0;
+
+    while (n < length)
+    {
+        item = vector->content[n];
+        function(item);
+        n ++;
+    }
+
+    return SUCCESS;
+}
+
+//returns the first element, where the function returned a specified failure value
+void *why_vector_apply_function_mk2(why_vector *vector, int (*function)(), int failure_value)
+{
+    int length;
+    int n;
+    void *item;
+
+    length = why_vector_get_length(vector);
+    n = 0;
+
+    while (n < length)
+    {
+        item = vector->content[n];
+        if (function(item) == failure_value)
+        {
+            return item;
+        }
+        n ++;
+    }
+
+    return NULL;
+}
+
 void why_vector_destroy(why_vector **vector)
 {
     if (!vector || !*vector)
@@ -198,7 +240,7 @@ void why_vector_destroy(why_vector **vector)
     
     if ((*vector)->current_index)
         why_vector_content_destroy((*vector)->content, (*vector)->current_index, (*vector)->destructor);
-        
+
     why_memory_destroy((void **)&(*vector)->content);
     why_memory_destroy((void **)vector);
 }

@@ -196,7 +196,9 @@ void why_vector_destroy(why_vector **vector)
     if (!vector || !*vector)
         return ;
     
-    why_vector_content_destroy((*vector)->content, (*vector)->current_index, (*vector)->destructor);
+    if ((*vector)->current_index)
+        why_vector_content_destroy((*vector)->content, (*vector)->current_index, (*vector)->destructor);
+        
     why_memory_destroy((void **)&(*vector)->content);
     why_memory_destroy((void **)vector);
 }

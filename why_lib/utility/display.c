@@ -21,6 +21,12 @@ void why_display_double(double *x)
     printf("%f", *x);
 }
 
+#include "why_print.h"
+void why_display_string_token(const void *token)
+{
+    printf("%s ", ((why_string_token *)token)->string);
+}
+
 void why_display_list(const why_list *list, void (*display_function)())
 {
     struct why_list_item *iterator;

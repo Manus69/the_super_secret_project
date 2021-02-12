@@ -176,6 +176,13 @@ void matcher_test2()
     why_buffer_destroy(&buffer);
 }
 
+void print_format_test()
+{
+    char *string;
+
+    string = why_string_get_formatted_string("");
+}
+
 //create apply functions for all containers?
 //make it so that hash table is "derived" from vector?
 //regex
@@ -194,8 +201,9 @@ int main()
     // list_test();
     // hash_test();
     // print_test();
-    matcher_test();
+    // matcher_test();
     // matcher_test2();
+    print_format_test();
 
     end = clock();
 

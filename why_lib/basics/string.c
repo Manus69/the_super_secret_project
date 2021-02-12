@@ -44,7 +44,7 @@ char *why_string_create_from_char_array(const char *char_array, int left_index, 
 {
     char *string;
 
-    if (!char_array)
+    if (!char_array || left_index < 0)
         return NULL;
 
     if ((string = malloc(length + 1)))

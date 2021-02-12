@@ -4,6 +4,7 @@
 #include "why_lib.h"
 
 void why_display_string(const char *literal);
+void why_display_string_token(const void *token);
 void why_display_int(int *n);
 void why_display_double(double *x);
 void why_display_list(const struct why_list *list, void (*display_function)());

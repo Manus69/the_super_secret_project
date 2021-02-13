@@ -25,6 +25,28 @@ void *why_memory_copy(void *destination, const void *source, int number_of_bytes
     return destination;
 }
 
+void *why_memory_copy_backwards(void *destination, const void *source, int number_of_bytes)
+{
+    unsigned char *lhs;
+    unsigned char *rhs;
+
+    if (number_of_bytes <= 0 || !source)
+        return destination;
+
+    lhs = (unsigned char *)destination;
+    rhs = (unsigned char *)source;
+
+    while (number_of_bytes)
+    {
+        *lhs = *rhs;
+        lhs ++;
+        rhs --;
+        number_of_bytes --;
+    }
+
+    return destination;
+}
+
 void *why_memory_shallow_copy(const void *source)
 {
     return (void *)source;

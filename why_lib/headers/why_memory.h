@@ -7,6 +7,7 @@
 #define SWAP(array, type, li, ri) {type _store = array[li]; array[li] = array[ri]; array[ri] = _store;}
 
 void *why_memory_copy(void *destination, const void *source, int number_of_bytes);
+void *why_memory_copy_backwards(void *destination, const void *source, int number_of_bytes);
 void *why_memory_shallow_copy(const void *source);
 void *why_memory_set(void *location, unsigned char value, int number_of_bytes);
 void *why_memory_get_zeroes(int number_of_bytes);

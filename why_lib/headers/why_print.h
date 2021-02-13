@@ -17,7 +17,9 @@ struct why_string_token
 
     enum token_type type;
 
-    int length;
+    int string_length;
+    int actual_length;
+    
     int width;
     int precision;
     int alignment;

@@ -10,5 +10,6 @@
 #define FAILURE 1
 
 #define DIGITS "0123456789"
+#define HEX_DIGITS "0123456789abcdef"
 
 #endif

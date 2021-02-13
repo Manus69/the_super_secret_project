@@ -17,18 +17,50 @@ why_string_token *string_token_create(const char *string, int length)
     token = malloc(sizeof(why_string_token));
     token->string = (char *)string;
     token->type = BRICKED;
-    token->length = length;
 
-    token->alignment = 0;
+    token->string_length = length;
+    token->actual_length = length;
+
+    token->alignment = -1;
     token->precision = 0;
     token->width = 0;
 
     return token;
 }
 
-enum token_type string_token_determine(why_string_token *token)
+int string_token_determine(why_string_token *token)
 {
-    ;
+    char *current_position;
+    // char *specifier_position;
+
+
+    if (token->type == TEXT || token->type == PERCENT_SYMBOL)
+        return token->type;
+    
+    current_position = token->string;
+    // specifier_position = token->string + token->length - 1;
+
+    if (*current_position == '-')
+    {
+        token->alignment = -1;
+        current_position ++;
+    }
+    while (why_string_is_digit(*current_position))
+    {
+        token->width = token->width * 10 + *current_position - '0';
+        current_position ++;
+    }
+    if (*current_position == '.')
+    {
+        current_position ++;
+    }
+    while (why_string_is_digit(*current_position))
+    {
+        token->precision = token->precision * 10 + *current_position - '0';
+        current_position ++;
+    }
+
+    return token->type;
 }
 
 int string_token_classify(why_string_token *token)
@@ -36,11 +68,11 @@ int string_token_classify(why_string_token *token)
     char first_char;
     char last_char;
 
-    if (token->length == 0)
+    if (token->string_length == 0)
         return BRICKED;
 
     first_char = *token->string;
-    last_char = token->string[token->length - 1];
+    last_char = token->string[token->string_length - 1];
 
     if (first_char == SPECIAL_CHAR)
     {
@@ -57,6 +89,8 @@ int string_token_classify(why_string_token *token)
     }
     else
         token->type = TEXT;
+
+    token->type = string_token_determine(token);
 
     return token->type;
 }
@@ -166,6 +200,8 @@ char *why_string_get_formatted_string(const char *format, ...)
     //
     why_display_vector(tokens, why_display_string_token);
     //
+
+
 
     va_end(arg_list);
 

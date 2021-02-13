@@ -180,6 +180,9 @@ void print_format_test()
 {
     char *string;
 
+    //
+    printf("%.2d", 3111);
+    //
     string = why_string_get_formatted_string("");
 }
 

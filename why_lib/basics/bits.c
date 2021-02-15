@@ -2,8 +2,6 @@
 
 #include <limits.h>
 
-
-
 static inline unsigned int rotate_bits_right(unsigned int number, unsigned int shift)
 {
     return (number >> shift) | (number << (sizeof(number) * CHAR_BIT - shift));
@@ -53,4 +51,14 @@ unsigned int why_memory_rotate_byte_bits(void *stuff, int n)
     }
 
     return number;
+}
+
+unsigned int why_memory_flip_bits(unsigned int n)
+{
+    return ~0 ^ n;
+}
+
+unsigned int why_memory_get_complement(unsigned int n)
+{
+    return (~0 ^ n) + 1;
 }

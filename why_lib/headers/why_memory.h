@@ -20,6 +20,8 @@ void why_memory_pointer_swap(void **lhs, void **rhs);
 
 unsigned int why_memory_rotate_bits(void *stuff, int n);
 unsigned int why_memory_rotate_byte_bits(void *stuff, int n);
+unsigned int why_memory_flip_bits(unsigned int n);
+unsigned int why_memory_get_complement(unsigned int n);
 
 unsigned char why_memory_get_byte(void *stuff, int n);
 

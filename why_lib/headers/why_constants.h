@@ -12,4 +12,8 @@
 #define DIGITS "0123456789"
 #define HEX_DIGITS "0123456789abcdef"
 
+#define INT_BUFFER_SIZE 32
+#define DOUBLE_BUFFER_SIZE 512
+#define PRECISION_DEFAULT 5
+
 #endif

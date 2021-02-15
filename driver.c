@@ -181,16 +181,19 @@ void print_format_test()
     char *string;
 
     //
-    printf("%.2d", 3111);
+    // printf("%1.10f", 3.1415);
+    string = why_string_itoa(-14, 10);
+    printf("%s\n", string);
     //
-    string = why_string_get_formatted_string("");
+    // string = why_string_get_formatted_string("");
 }
 
 //create apply functions for all containers?
 //make it so that hash table is "derived" from vector?
 //regex
 //regex tests?
-//make functions either all safe or all unsafe
+//make functions either all safe or all unsafe?
+//unfuck the headers
 
 int main()
 {

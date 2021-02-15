@@ -14,6 +14,7 @@ char *why_string_concat_and_destroy(char *lhs, char *rhs);
 char *why_string_concat_destroy_left(char *lhs, char *rhs);
 char *why_string_join(const char *lhs, const char *joint, const char *rhs);
 char *why_string_find_char(const char *string, const char *set);
+char *why_string_itoa(int number, int base);
 
 void why_string_destroy(char **string);
 
@@ -23,7 +24,7 @@ int why_string_search_char_array(const char *array, char c, int left_index, int 
 int why_string_get_index_of_any(const char *string, const char *char_set, int starting_index);
 int why_string_compare(const char *lhs, const char *rhs);
 int why_string_compare_mk2(const char *lhs, const char *rhs);
-int why_string_atoi_buffer(int number, int base, char *buffer, int buffer_size);
+int why_string_atoi_buffer(int number, int base, char *buffer);
 
 int why_string_compare_test(const void *lhs, const void *rhs); //
 

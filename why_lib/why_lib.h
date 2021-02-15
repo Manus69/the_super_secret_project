@@ -1,18 +1,10 @@
 #ifndef WHY_LIB_H
 #define WHY_LIB_H
 
-typedef struct why_buffer why_buffer;
-typedef struct why_vector why_vector;
-typedef struct why_list why_list;
-typedef struct why_list_item why_list_item;
-typedef struct why_hash_table why_hash_table;
-typedef struct why_matcher why_matcher;
-typedef why_vector why_stack;
-typedef why_list why_queue;
 
+#include "headers/why_typedefs.h"
 #include "headers/why_string.h"
 #include "headers/why_display.h"
-
 
 #define DEFAULT 0
 
@@ -131,5 +123,15 @@ void why_matcher_destroy(why_matcher **matcher);
 //print
 
 char *why_string_get_formatted_string(const char *format, ...);
+
+//conversions
+// int why_string_itoa_buffer(int number, int base, char *buffer); //put this in a private header
+
+//string buffer
+why_string_buffer *why_string_buffer_create(int size);
+
+int why_string_buffer_write_string(why_string_buffer *buffer, const char *string);
+
+void why_string_buffer_destory(why_string_buffer **buffer);
 
 #endif

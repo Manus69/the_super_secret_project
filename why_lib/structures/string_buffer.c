@@ -113,12 +113,10 @@ int why_string_buffer_write_int(why_string_buffer *buffer, int number)
 {
     int length;
 
-    if (why_string_buffer_get_capacity(buffer) < INT_BUFFER_SIZE)
-    {
-        if (why_string_buffer_realloc(buffer, 0) == FAILURE)
-            return 0;
-    }
-    length = why_string_atoi_buffer(number, 10, buffer->current);
+    if (check_capacity(buffer, INT_BUFFER_SIZE) == FAILURE)
+        return FAILURE;
+
+    length = why_string_itoa_buffer(number, 10, buffer->current);
     buffer->current += length;
 
     return length;

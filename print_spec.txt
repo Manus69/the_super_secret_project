@@ -1,0 +1,14 @@
+
+char *format_string(const char *format, ...)
+{
+
+}
+
+create buffer;
+parse format -> vector of tokens ;
+
+put formatted arguments into buffer
+
+return buffer string
+
+int put_int(buffer *buffer, int n)

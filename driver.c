@@ -181,11 +181,16 @@ void print_format_test()
     char *string;
 
     //
-    printf("%.1f", -1.56);
+    // printf("%.0f\n", 1.5);
     // string = why_string_itoa(-14, 10);
     // printf("%s\n", string);
     //
+    string = why_string_ftoa(3.55, 1);
+    printf("%s\n", string);
+
+
     // string = why_string_get_formatted_string("");
+    free(string);
 }
 
 //create apply functions for all containers?

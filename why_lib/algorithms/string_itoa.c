@@ -15,10 +15,14 @@ int why_string_itoa_buffer(int number, int base, char *buffer)
     why_memory_set(bytes, 0, INT_BUFFER_SIZE);
     current_pointer = bytes;
     sign = 1;
-    value = base == 10 ? -number : number;
 
-    if (number < 0)
-        sign = base == 10 ? -1 : 1;
+    value = number;
+
+    if (number < 0 && base == 10)
+    {
+        sign = -1;
+        value = -number;
+    }
 
     while (value)
     {

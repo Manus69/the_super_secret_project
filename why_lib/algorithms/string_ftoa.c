@@ -5,10 +5,11 @@ struct fpn_representation
 {
     int sign;
     int integer;
+    int precision;
     double decimal;
 };
 
-struct fpn_representation *fpn_representation_create(double x)
+struct fpn_representation *fpn_representation_create(double x, int precision)
 {
     struct fpn_representation *representation;
 
@@ -18,27 +19,31 @@ struct fpn_representation *fpn_representation_create(double x)
 
     representation->sign = x < 0 ? -1 : 1;
     representation->integer = representation->sign == 1 ? (int)x : (int) -x;
+    representation->precision = precision;
     representation->decimal = x - representation->integer;
 
     return representation;
 }
 
-static int process_decimal_fraction(struct fpn_representation *representation, int precision)
+static int process_decimal_fraction(struct fpn_representation *representation)
 {
     int carry_digit;
+    int count;
     double decimal;
     double adjustment;
 
-    adjustment = 1;
+    adjustment = 10;
+    count = 0;
+    carry_digit = 0;
     decimal = representation->decimal;
-    while (precision + 1)
+    while (count < representation->precision + 1)
     {
         decimal = decimal * 10;
         carry_digit = (int)decimal;
         decimal = decimal - carry_digit;
 
         adjustment = adjustment / 10;
-        precision --;
+        count ++;
     }
     
     if (carry_digit >= 5)
@@ -65,8 +70,8 @@ int why_string_ftoa_buffer(double x, int precision, char *buffer)
     if (x > INT_MAX || x < INT_MIN)
         x = 0;
     
-    representation = fpn_representation_create(x);
-    process_decimal_fraction(representation, precision);
+    representation = fpn_representation_create(x, precision);
+    process_decimal_fraction(representation);
     
     length = why_string_itoa_buffer(representation->integer * representation->sign, 10, buffer);
     buffer += length;
@@ -82,11 +87,30 @@ int why_string_ftoa_buffer(double x, int precision, char *buffer)
     {
         decimal = decimal * 10;
         digit = (int)decimal;
-        *buffer = decimal + '0';
+        *buffer = digit + '0';
         decimal = decimal - digit;
         precision --;
         buffer ++;
     }
 
+    precision = representation->precision;
+    free(representation);
+
     return length + precision + 1;
+}
+
+//limit precision?
+char *why_string_ftoa(double x, int precision)
+{
+    char buffer[DOUBLE_BUFFER_SIZE];
+    char *current;
+    char *string;
+    int length;
+
+    why_memory_set(buffer, 0, DOUBLE_BUFFER_SIZE);
+    current = buffer;
+    length = why_string_ftoa_buffer(x, precision, buffer);
+    string = why_string_create_from_char_array(current, 0, length);
+
+    return string;
 }

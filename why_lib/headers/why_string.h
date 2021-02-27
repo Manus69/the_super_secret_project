@@ -15,6 +15,7 @@ char *why_string_concat_destroy_left(char *lhs, char *rhs);
 char *why_string_join(const char *lhs, const char *joint, const char *rhs);
 char *why_string_find_char(const char *string, const char *set);
 char *why_string_itoa(int number, int base);
+char *why_string_ftoa(double x, int precision);
 
 void why_string_destroy(char **string);
 

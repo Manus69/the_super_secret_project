@@ -46,6 +46,9 @@ static int process_decimal_fraction(struct fpn_representation *representation)
         count ++;
     }
     
+    if (1 - decimal < EPSILON)
+        carry_digit ++;
+    
     if (carry_digit >= 5)
     {
         representation->decimal += adjustment;

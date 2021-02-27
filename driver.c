@@ -181,7 +181,7 @@ void print_format_test()
     char *string;
 
     //
-    // printf("%.0f\n", 1.5);
+    // printf("%.0f\n", 1.49);
     // string = why_string_itoa(-14, 10);
     // printf("%s\n", string);
     //

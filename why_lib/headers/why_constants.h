@@ -15,5 +15,6 @@
 #define INT_BUFFER_SIZE 32
 #define DOUBLE_BUFFER_SIZE 512
 #define PRECISION_DEFAULT 5
+#define EPSILON 1e-7
 
 #endif

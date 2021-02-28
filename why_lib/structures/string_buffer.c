@@ -11,7 +11,7 @@ why_string_buffer *why_string_buffer_create(int size)
     why_string_buffer *buffer;
 
     if (size <= 0)
-        return NULL;
+        size = DEFAULT_CAPACITY;
 
     buffer = malloc(sizeof(why_string_buffer));
     if (!buffer)
@@ -36,7 +36,12 @@ void why_string_buffer_destory(why_string_buffer **buffer)
     why_memory_destroy((void **)buffer);
 }
 
-int why_string_buffer_get_capacity(why_string_buffer *buffer)
+char *why_string_buffer_get_content(const why_string_buffer *buffer)
+{
+    return buffer->content;
+}
+
+int why_string_buffer_get_capacity(const why_string_buffer *buffer)
 {
     return buffer->end - buffer->content;
 }
@@ -94,6 +99,18 @@ int why_string_buffer_write_string(why_string_buffer *buffer, const char *string
     return length;
 }
 
+void *why_string_buffer_write_string_rvp(why_string_buffer *buffer, const char *string)
+{
+    if (!buffer)
+    {
+        if (!(buffer = why_string_buffer_create(DEFAULT_CAPACITY)))
+            return NULL;        
+    }
+    why_string_buffer_write_string(buffer, string);
+
+    return buffer;
+}
+
 int why_string_buffer_write_string_backwards(why_string_buffer *buffer, const char *string)
 {
     int length;
@@ -120,4 +137,13 @@ int why_string_buffer_write_int(why_string_buffer *buffer, int number)
     buffer->current += length;
 
     return length;
+}
+
+int why_string_buffer_write_double(why_string_buffer *buffer, double x)
+{
+    int length;
+
+    if (check_capacity(buffer, INT_BUFFER_SIZE) == FAILURE)
+        return FAILURE;
+
 }

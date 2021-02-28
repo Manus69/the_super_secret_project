@@ -17,6 +17,8 @@ char *why_string_find_char(const char *string, const char *set);
 char *why_string_itoa(int number, int base);
 char *why_string_ftoa(double x, int precision);
 
+void *why_string_concat_destroy_left_rvp(char *lhs, char *rhs);
+
 void why_string_destroy(char **string);
 
 int why_string_get_length(const char *literal);
@@ -27,6 +29,7 @@ int why_string_compare(const char *lhs, const char *rhs);
 int why_string_compare_mk2(const char *lhs, const char *rhs);
 int why_string_atoi_buffer(int number, int base, char *buffer);
 int why_string_itoa_buffer(int number, int base, char *buffer);
+int why_string_ftoa_buffer(double x, int precision, char *buffer);
 
 int why_string_compare_test(const void *lhs, const void *rhs); //
 

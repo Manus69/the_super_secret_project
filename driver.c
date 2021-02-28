@@ -10,7 +10,7 @@ void string_sort_test()
 
     buffer = why_buffer_create("text_file.txt", 0, 0);
     vector = why_vector_create(0, NULL, NULL);
-    why_buffer_read_all_lines_into_structure(buffer, '\n', vector, why_vector_push);
+    why_file_read_all_lines_into_structure(buffer, '\n', vector, why_vector_push);
     why_buffer_destroy(&buffer);
 
     why_sort_vector_heapsort(vector, why_string_compare_mk2);
@@ -31,10 +31,10 @@ void split_test()
 
     buffer = why_buffer_create("text_file.txt", 0, 0);
     vector = why_vector_create(0, NULL, NULL);
-    vector = why_buffer_read_all_lines_into_structure(buffer, '\n', vector, why_vector_push);
+    vector = why_file_read_all_lines_into_structure(buffer, '\n', vector, why_vector_push);
     why_buffer_destroy(&buffer);
 
-    string = why_vector_accumualte(vector, 0, why_vector_get_length(vector), why_string_concat_destroy_left);
+    string = why_vector_accumualte(vector, 0, why_vector_get_length(vector), why_string_concat_destroy_left_rvp);
     printf("%s\n", string);
 
     why_vector *lines = why_string_split(string, '1');
@@ -53,7 +53,7 @@ void hash_test()
     table = why_hash_table_create(10, why_hash_string, NULL, NULL);
     buffer = why_buffer_create("text_file.txt", 0, 0);
 
-    why_buffer_read_all_lines_into_structure(buffer, '\n', table, why_hash_table_add);
+    why_file_read_all_lines_into_structure(buffer, '\n', table, why_hash_table_add);
     why_display_hash_table(table, why_display_list);
 
     why_buffer_destroy(&buffer);
@@ -68,7 +68,7 @@ void list_test()
     buffer = why_buffer_create("text_file.txt", 0, 0);
     list = why_list_create(NULL, NULL);
 
-    why_buffer_read_all_lines_into_structure(buffer, '\n', list, why_list_push);
+    why_file_read_all_lines_into_structure(buffer, '\n', list, why_list_push);
     why_display_list(list, why_display_string);
 
     why_buffer_destroy(&buffer);
@@ -83,7 +83,7 @@ void print_test()
 
     buffer = why_buffer_create("text_file.txt", 0, 0);
     vector = why_vector_create(0, NULL, NULL);
-    why_buffer_read_all_lines_into_structure(buffer, '\n', vector, why_vector_push);
+    why_file_read_all_lines_into_structure(buffer, '\n', vector, why_vector_push);
 
     string = why_vector_pop(vector);
 
@@ -105,7 +105,7 @@ void matcher_test()
 
     buffer = why_buffer_create("match_test.txt", 0, 0);
     vector = why_vector_create(0, NULL, NULL);
-    why_buffer_read_all_lines_into_structure(buffer, '\n', vector, why_vector_push);
+    why_file_read_all_lines_into_structure(buffer, '\n', vector, why_vector_push);
 
     
     while (why_vector_get_length(vector))
@@ -147,7 +147,7 @@ void matcher_test2()
 
     buffer = why_buffer_create("text_file.txt", 0, 0);
     vector = why_vector_create(0, NULL, NULL);
-    why_buffer_read_all_lines_into_structure(buffer, '\n', vector, why_vector_push);
+    why_file_read_all_lines_into_structure(buffer, '\n', vector, why_vector_push);
 
     pattern = "c.*k";
     matcher = why_matcher_create(NULL);
@@ -185,19 +185,22 @@ void print_format_test()
     // string = why_string_itoa(-14, 10);
     // printf("%s\n", string);
     //
-    string = why_string_ftoa(3.55, 1);
+    // string = why_string_ftoa(3.95, 0);
+    // printf("%s\n", string);
+    // free(string);
+
+
+    // string = why_string_get_formatted_string("this is a test");
+    string = why_file_read_file_into_string("text_file.txt");
     printf("%s\n", string);
-
-
-    // string = why_string_get_formatted_string("");
     free(string);
+
 }
 
 //create apply functions for all containers?
 //make it so that hash table is "derived" from vector?
-//regex
-//regex tests?
 //make functions either all safe or all unsafe?
+//unfuck the headers
 //unfuck the headers
 
 int main()

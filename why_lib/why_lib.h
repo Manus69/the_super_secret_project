@@ -15,8 +15,13 @@ void why_buffer_destroy(why_buffer **buffer);
 
 char *why_buffer_read_from(why_buffer *buffer, int number_of_bytes);
 
-void *why_buffer_read_all_lines_into_structure
+//file
+void *why_file_read_all_lines_into_structure
 (why_buffer *buffer, char terminator, void *structure, int (*push)());
+
+char *why_file_read_file_into_string(const char *file_name);
+
+why_vector *why_file_read_all_lines(const char *file_name);
 
 //vector
 why_vector *why_vector_create(int item_capacity, void *(*copy)(), void (*destroy)());
@@ -90,7 +95,7 @@ void why_sort_array_insert(void **array, int left_index, int right_index, int (*
 void why_sort_vector_insert(why_vector *vector, int (*compare)());
 
 //accumulate
-void *why_vector_accumualte(const why_vector *vector, int start, int number_of_items, char *(*combine)());
+void *why_vector_accumualte(const why_vector *vector, int start, int number_of_items, void *(*combine)());
 
 //math
 unsigned int why_math_random(unsigned int seed, unsigned int max);
@@ -130,7 +135,12 @@ char *why_string_get_formatted_string(const char *format, ...);
 //string buffer
 why_string_buffer *why_string_buffer_create(int size);
 
+char *why_string_buffer_get_content(const why_string_buffer *buffer);
+
+void *why_string_buffer_write_string_rvp(why_string_buffer *buffer, const char *string);
+
 int why_string_buffer_write_string(why_string_buffer *buffer, const char *string);
+int why_string_buffer_write_int(why_string_buffer *buffer, int number);
 
 void why_string_buffer_destory(why_string_buffer **buffer);
 

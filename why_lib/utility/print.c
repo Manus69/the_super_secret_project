@@ -181,12 +181,13 @@ char *why_string_get_formatted_string(const char *format, ...)
     va_list arg_list;
     why_vector *tokens;
     why_string_token *token;
+    why_string_buffer *string_buffer;
     char *string;
 
 
     va_start(arg_list, format);
 
-    string = NULL;
+    string_buffer = why_string_buffer_create(DEFAULT);
     tokens = get_string_tokens(format);
     token = find_bricked_token(tokens);
 
@@ -198,14 +199,31 @@ char *why_string_get_formatted_string(const char *format, ...)
     }
 
     //
-    why_display_vector(tokens, why_display_string_token);
+    // why_display_vector(tokens, why_display_string_token);
     //
 
+    int n;
+    n = 0;
 
+    while (n < why_vector_get_length(tokens))
+    {
+        token = why_vector_at(tokens, n);
+        if (token->type == TEXT)
+        {
+            why_string_buffer_write_string(string_buffer, token->string);
+        }
+        if (token->type == D)
+            why_string_buffer_write_int(string_buffer, va_arg(arg_list, int));
+        
+        n ++;
+    }
+
+    string = why_string_buffer_get_content(string_buffer);
 
     va_end(arg_list);
-
     why_vector_destroy(&tokens);
+    free(string_buffer);
+
     return string;
 }
 

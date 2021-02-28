@@ -3,7 +3,7 @@
 #include "why_math.h"
 #include "why_vector.h"
 
-void *why_vector_accumualte(const why_vector *vector, int start, int number_of_items, char *(*combine)())
+void *why_vector_accumualte(const why_vector *vector, int start, int number_of_items, void *(*combine)())
 {
     void *accumulator;
 

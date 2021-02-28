@@ -3,7 +3,7 @@
 
 #include <stdlib.h>
 
-void *why_buffer_read_all_lines_into_structure
+void *why_file_read_all_lines_into_structure
 (struct why_buffer *buffer, char terminator, void *structure, int (*push)())
 {
     int index;
@@ -46,4 +46,43 @@ void *why_buffer_read_all_lines_into_structure
         push(structure, accumulator);
 
     return structure;
+}
+
+why_vector *why_file_read_all_lines(const char *file_name)
+{
+    why_buffer *buffer;
+    why_vector *vector;
+
+    buffer = why_buffer_create(file_name, DEFAULT, DEFAULT);
+    if (!buffer)
+        return NULL;
+    
+    vector = why_vector_create(DEFAULT, NULL, NULL);
+    if (!vector)
+        return NULL;
+
+    why_file_read_all_lines_into_structure(buffer, '\n', vector, why_vector_push);
+    
+    why_buffer_destroy(&buffer);
+
+    return vector;
+}
+
+char *why_file_read_file_into_string(const char *file_name)
+{
+    why_vector *vector;
+    why_string_buffer *string_buffer;
+    char *string;
+    int length;
+
+    vector = why_file_read_all_lines(file_name);
+    length = why_vector_get_length(vector);
+    // string_buffer = why_string_buffer_create(DEFAULT);
+    string_buffer = why_vector_accumualte(vector, 0, length, why_string_buffer_write_string_rvp);
+    string = why_string_buffer_get_content(string_buffer);
+
+    why_vector_destroy(&vector);
+    free(string_buffer);
+
+    return string;
 }

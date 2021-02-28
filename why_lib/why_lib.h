@@ -127,7 +127,9 @@ void why_matcher_destroy(why_matcher **matcher);
 
 //print
 
-char *why_string_get_formatted_string(const char *format, ...);
+// char *why_string_get_formatted_string(const char *format, va_arg *arg_list);
+
+int why_print(const char *format, ... );
 
 //conversions
 // int why_string_itoa_buffer(int number, int base, char *buffer); //put this in a private header
@@ -140,7 +142,8 @@ char *why_string_buffer_get_content(const why_string_buffer *buffer);
 void *why_string_buffer_write_string_rvp(why_string_buffer *buffer, const char *string);
 
 int why_string_buffer_write_string(why_string_buffer *buffer, const char *string);
-int why_string_buffer_write_int(why_string_buffer *buffer, int number);
+// int why_string_buffer_write_int(why_string_buffer *buffer, int number);
+int why_string_buffer_check_capacity(why_string_buffer *buffer, int requirement);
 
 void why_string_buffer_destory(why_string_buffer **buffer);
 

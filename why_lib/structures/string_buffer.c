@@ -3,6 +3,7 @@
 #include "why_constants.h"
 #include "why_string.h"
 #include "why_typedefs.h"
+#include "why_lib.h"
 
 #include <stdlib.h>
 
@@ -41,7 +42,12 @@ char *why_string_buffer_get_content(const why_string_buffer *buffer)
     return buffer->content;
 }
 
-int why_string_buffer_get_capacity(const why_string_buffer *buffer)
+int why_string_buffer_get_current_capacity(const why_string_buffer *buffer)
+{
+    return buffer->end - buffer->current;
+}
+
+int why_string_buffer_get_total_capacity(const why_string_buffer *buffer)
 {
     return buffer->end - buffer->content;
 }
@@ -52,9 +58,11 @@ int why_string_buffer_realloc(why_string_buffer *buffer, int extra_capacity)
     int old_capacity;
     int old_index;
 
-    old_capacity = why_string_buffer_get_capacity(buffer);
+    old_capacity = why_string_buffer_get_total_capacity(buffer);
 
     if (extra_capacity <= 0)
+        extra_capacity = old_capacity;
+    else if (extra_capacity < old_capacity)
         extra_capacity = old_capacity;
 
     old_index = buffer->current - buffer->content;
@@ -73,11 +81,14 @@ int why_string_buffer_realloc(why_string_buffer *buffer, int extra_capacity)
     return SUCCESS;    
 }
 
-static int check_capacity(why_string_buffer *buffer, int requirement)
+int why_string_buffer_check_capacity(why_string_buffer *buffer, int requirement)
 {
-    if (requirement > why_string_buffer_get_capacity(buffer))
+    int capacity;
+
+    capacity = why_string_buffer_get_current_capacity(buffer);
+    if (requirement > capacity)
     {
-        if (why_string_buffer_realloc(buffer, 0) == FAILURE)
+        if (why_string_buffer_realloc(buffer, requirement) == FAILURE)
             return 0;
     }
 
@@ -90,7 +101,7 @@ int why_string_buffer_write_string(why_string_buffer *buffer, const char *string
 
     length = why_string_get_length(string);
 
-    if (check_capacity(buffer, length) == FAILURE)
+    if (why_string_buffer_check_capacity(buffer, length) == FAILURE)
         return FAILURE;
 
     why_memory_copy(buffer->current, string, length);
@@ -117,33 +128,11 @@ int why_string_buffer_write_string_backwards(why_string_buffer *buffer, const ch
 
     length = why_string_get_length(string);
 
-    if (check_capacity(buffer, length) == FAILURE)
+    if (why_string_buffer_check_capacity(buffer, length) == FAILURE)
         return FAILURE;
 
     why_memory_copy_backwards(buffer->current, string, length);
     buffer->current += length;
 
     return length;
-}
-
-int why_string_buffer_write_int(why_string_buffer *buffer, int number)
-{
-    int length;
-
-    if (check_capacity(buffer, INT_BUFFER_SIZE) == FAILURE)
-        return FAILURE;
-
-    length = why_string_itoa_buffer(number, 10, buffer->current);
-    buffer->current += length;
-
-    return length;
-}
-
-int why_string_buffer_write_double(why_string_buffer *buffer, double x)
-{
-    int length;
-
-    if (check_capacity(buffer, INT_BUFFER_SIZE) == FAILURE)
-        return FAILURE;
-
 }

@@ -75,26 +75,6 @@ void list_test()
     why_list_destroy(&list);
 }
 
-void print_test()
-{
-    why_buffer *buffer;
-    why_vector *vector;
-    char *string;
-
-    buffer = why_buffer_create("text_file.txt", 0, 0);
-    vector = why_vector_create(0, NULL, NULL);
-    why_file_read_all_lines_into_structure(buffer, '\n', vector, why_vector_push);
-
-    string = why_vector_pop(vector);
-
-    why_string_get_formatted_string(string);
-    // printf("%qqxxx", "ass");
-
-    why_vector_destroy(&vector);
-    why_buffer_destroy(&buffer);
-    free(string);
-}
-
 void matcher_test()
 {
     why_buffer *buffer;
@@ -176,12 +156,35 @@ void matcher_test2()
     why_buffer_destroy(&buffer);
 }
 
+void string_buffer_test()
+{
+    why_string_buffer *buffer;
+    char *string;
+    int n;
+
+    n = 11;
+    buffer = NULL;
+    while (n)
+    {
+        buffer = why_string_buffer_write_string_rvp(buffer, "012");
+        n --;
+    }
+
+
+    string = why_string_buffer_get_content(buffer);
+    free(buffer);
+    printf("%s\n", string);
+
+    free(string);
+}
+
 void print_format_test()
 {
     char *string;
+    char *file_string;
 
     //
-    // printf("%.0f\n", 1.49);
+    printf("%2d\n", 111);
     // string = why_string_itoa(-14, 10);
     // printf("%s\n", string);
     //
@@ -190,10 +193,12 @@ void print_format_test()
     // free(string);
 
 
-    // string = why_string_get_formatted_string("this is a test");
-    string = why_file_read_file_into_string("text_file.txt");
-    printf("%s\n", string);
-    free(string);
+    // file_string = why_file_read_file_into_string("text_file.txt");
+    string = "this is a test %d eat shit! %d";
+    // printf("%s\n", file_string);
+    why_print(string, -1, 3);
+    // free(string);
+    // free(file_string);
 
 }
 
@@ -202,6 +207,7 @@ void print_format_test()
 //make functions either all safe or all unsafe?
 //unfuck the headers
 //unfuck the headers
+//make a string formatter
 
 int main()
 {
@@ -214,10 +220,10 @@ int main()
     // split_test();
     // list_test();
     // hash_test();
-    // print_test();
     // matcher_test();
     // matcher_test2();
     print_format_test();
+    // string_buffer_test();
 
     end = clock();
 

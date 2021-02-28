@@ -1,9 +1,10 @@
 #include "why_lib.h"
 #include "why_print.h"
 #include "why_matcher.h"
+#include "why_string_buffer.h"
 
 #include <stdarg.h>
-
+#include <unistd.h>
 
 enum state
 {
@@ -176,16 +177,35 @@ why_vector *get_string_tokens(const char *format_string)
     return vector;
 }
 
-char *why_string_get_formatted_string(const char *format, ...)
+
+int why_string_buffer_write_int(why_string_buffer *buffer, why_string_token *token, int number)
 {
-    va_list arg_list;
+    int length;
+
+    if (why_string_buffer_check_capacity(buffer, INT_BUFFER_SIZE) == FAILURE)
+        return FAILURE;
+
+    length = why_string_itoa_buffer(number, 10, buffer->current);
+    buffer->current += length;
+
+    return length;
+}
+
+int why_string_buffer_write_double(why_string_buffer *buffer, double x)
+{
+    int length;
+
+    if (why_string_buffer_check_capacity(buffer, INT_BUFFER_SIZE) == FAILURE)
+        return FAILURE;
+
+}
+
+char *why_string_get_formatted_string(const char *format, va_list *arg_list)
+{
     why_vector *tokens;
     why_string_token *token;
     why_string_buffer *string_buffer;
     char *string;
-
-
-    va_start(arg_list, format);
 
     string_buffer = why_string_buffer_create(DEFAULT);
     tokens = get_string_tokens(format);
@@ -213,14 +233,13 @@ char *why_string_get_formatted_string(const char *format, ...)
             why_string_buffer_write_string(string_buffer, token->string);
         }
         if (token->type == D)
-            why_string_buffer_write_int(string_buffer, va_arg(arg_list, int));
+            why_string_buffer_write_int(string_buffer, token, va_arg(*arg_list, int));
         
         n ++;
     }
 
     string = why_string_buffer_get_content(string_buffer);
 
-    va_end(arg_list);
     why_vector_destroy(&tokens);
     free(string_buffer);
 
@@ -229,6 +248,18 @@ char *why_string_get_formatted_string(const char *format, ...)
 
 int why_print(const char *format, ... )
 {
-    ;
+    char *string;
+    va_list arg_list;
+    int length;
+
+    va_start(arg_list, format);
+    string = why_string_get_formatted_string(format, &arg_list);
+    length = why_string_get_length(string);
+    write(STDOUT_FILENO, string, length);
+
+    va_end(arg_list);
+    free(string);
+
+    return length;
 }
 

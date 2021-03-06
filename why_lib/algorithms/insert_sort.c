@@ -1,6 +1,7 @@
 #include "why_constants.h"
 #include "why_typedefs.h"
 #include "why_vector_structure.h"
+#include "why_vector_functions.h"
 
 void why_sort_array_insert(void **array, int left_index, int right_index, int (*compare)())
 {

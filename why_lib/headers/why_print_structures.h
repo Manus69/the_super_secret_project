@@ -19,6 +19,7 @@ enum state
     INSIDE = 1, OUTSIDE,
 };
 
+//this is all wrong
 struct why_string_token
 {
     char *string;
@@ -28,6 +29,17 @@ struct why_string_token
     int string_length;
     int actual_length;
     
+    int width;
+    int precision;
+    int alignment;
+};
+
+struct why_printf_token
+{
+    why_string_buffer *buffer;
+
+    enum token_type type;
+
     int width;
     int precision;
     int alignment;

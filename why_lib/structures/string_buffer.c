@@ -50,6 +50,11 @@ int why_string_buffer_get_total_capacity(const why_string_buffer *buffer)
     return buffer->end - buffer->content;
 }
 
+void why_string_buffer_reset(why_string_buffer *buffer)
+{
+    buffer->current = buffer->content;
+}
+
 int why_string_buffer_realloc(why_string_buffer *buffer, int extra_capacity)
 {
     char *new_content;
@@ -106,6 +111,20 @@ int why_string_buffer_write_string(why_string_buffer *buffer, const char *string
     buffer->current += length;
 
     return length;
+}
+
+int why_string_buffer_write_from_string(why_string_buffer *buffer, const char *string, int n_chars)
+{
+    if (n_chars == DEFAULT)
+        return why_string_buffer_write_string(buffer, string);
+    
+    if (why_string_buffer_check_capacity(buffer, n_chars) == FAILURE)
+        return FAILURE;
+    
+    why_memory_copy(buffer->current, string, n_chars);
+    buffer->current += n_chars;
+
+    return n_chars;
 }
 
 void *why_string_buffer_write_string_rvp(why_string_buffer *buffer, const char *string)

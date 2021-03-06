@@ -196,7 +196,7 @@ void print_format_test()
     // file_string = why_file_read_file_into_string("text_file.txt");
     string = "this is a test %d eat shit! %d";
     // printf("%s\n", file_string);
-    why_print(string, -1, 3);
+    why_printf(string, -1, 3);
     // free(string);
     // free(file_string);
 

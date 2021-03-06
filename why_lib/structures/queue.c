@@ -1,4 +1,6 @@
 #include "why_queue_functions.h"
+#include "why_vector_functions.h"
+#include "why_list_functions.h"
 
 why_queue *why_queue_create(void *(*copy)(), void (*destroy)())
 {

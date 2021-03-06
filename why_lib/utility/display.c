@@ -1,7 +1,11 @@
 #include "why_display_functions.h"
 #include "why_print_structures.h"
+#include "why_list_functions.h"
+#include "why_hash_table_functions.h"
+#include "why_vector_functions.h"
+#include "why_string_functions.h"
 
-#include <stdio.h>
+#include <stdio.h> //
 
 static const char *item_separator = ";\n";
 static const char *string_separator = "\n-------------\n";

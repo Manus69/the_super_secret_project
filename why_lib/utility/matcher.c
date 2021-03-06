@@ -4,6 +4,7 @@
 #include "why_typedefs.h"
 #include "why_memory_functions.h"
 #include "why_constants.h"
+#include "why_string_functions.h"
 
 static inline int max(int a, int b)
 {

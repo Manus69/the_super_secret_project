@@ -2,6 +2,10 @@
 #include "why_constants.h"
 #include "why_matcher_functions.h"
 #include "why_string_buffer_structure.h"
+#include "why_string_buffer_functions.h"
+#include "why_memory_functions.h"
+#include "why_vector_functions.h"
+#include "why_string_functions.h"
 
 #include <stdarg.h>
 #include <unistd.h>
@@ -124,7 +128,7 @@ static void form_token_and_push(const char *format_string, const char *current_p
     why_vector_push(vector, token);
 }
 
-#include "why_display_functions.h"
+#include "why_display_functions.h" //
 why_vector *get_string_tokens(const char *format_string)
 {
     why_vector *vector;
@@ -243,7 +247,7 @@ char *why_string_get_formatted_string(const char *format, va_list *arg_list)
     return string;
 }
 
-int why_print(const char *format, ... )
+int why_printf(const char *format, ... )
 {
     char *string;
     va_list arg_list;

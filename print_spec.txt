@@ -1,14 +1,13 @@
 
-char *format_string(const char *format, ...)
-{
+//
 
-}
+get a token from the format string - get next token - it goes to the token string buffer, that is rewritable
+check if the token is valid
+form a string - get formatted string - it calls va_arg(); the string goes into another(?) rewritable buffer
+inject the string buffer into the return buffer
+etc
+return
 
-create buffer;
-parse format -> vector of tokens ;
-
-each agument gets stringified into a flushable buffer
-
-put formatted arguments into string buffer
-
-return buffer string
+string_buffer *token_buffer;
+string_buffer *argument_buffer;
+string_buffer *string_buffer;

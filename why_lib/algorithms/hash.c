@@ -1,22 +1,21 @@
-#include "why_lib.h"
-
-#include "why_hash_table.h"
-#include "why_math.h"
-
-#define ALPHABET_SIZE 71 //a prime close to the actual number of symbols; does it matter?
-#define LARGE_PRIME 433494437
+#include "why_hash_table_structure.h"
+#include "why_typedefs.h"
+#include "why_constants.h"
+#include "why_memory_functions.h"
+#include "why_math_functions.h"
+#include "why_list_functions.h"
 
 unsigned int why_hash_string(const char *string, unsigned int table_size)
 {
     unsigned int hash_value;
     int n;
 
-    table_size = !table_size ? LARGE_PRIME : table_size;
+    table_size = !table_size ? HASH_LARGE_PRIME : table_size;
     hash_value = 0;
     n = 0;
     while (string[n])
     {
-        hash_value = (hash_value * ALPHABET_SIZE + string[n]) % table_size;
+        hash_value = (hash_value * HASH_ALPHABET_SIZE + string[n]) % table_size;
         n ++;
     }
 

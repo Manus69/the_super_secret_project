@@ -1,5 +1,5 @@
 #include "why_constants.h"
-#include "why_string.h"
+#include "why_string_functions.h"
 
 int why_string_atoi(const char *string)
 {

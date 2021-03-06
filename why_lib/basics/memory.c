@@ -1,7 +1,4 @@
-#include "why_memory.h"
-
-//does it work?
-#define CAST_COPY(target, source, type) *(type *)target = *(type *)source
+#include "why_memory_functions.h"
 
 void *why_memory_copy(void *destination, const void *source, int number_of_bytes)
 {

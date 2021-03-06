@@ -1,7 +1,6 @@
-#include "why_lib.h"
-
-#include "why_math.h"
-#include "why_vector.h"
+#include "why_typedefs.h"
+#include "why_vector_structure.h"
+#include "why_memory_functions.h"
 
 void *why_vector_accumualte(const why_vector *vector, int start, int number_of_items, void *(*combine)())
 {

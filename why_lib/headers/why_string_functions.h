@@ -1,8 +1,5 @@
-#ifndef WHY_STRING_H
-#define WHY_STRING_H
-
-#include "why_memory.h"
-#include "why_constants.h"
+#ifndef WHY_STRING_FUNCTIONS_H
+#define WHY_STRING_FUNCTIONS_H
 
 char *why_string_create(const char *literal);
 char *why_string_create_shallow(const char *char_string);

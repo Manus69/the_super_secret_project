@@ -1,8 +1,8 @@
-#include "why_memory.h"
-#include "why_math.h"
-#include "why_vector.h"
-
-#include "why_display.h" //
+#include "why_memory_functions.h"
+#include "why_math_functions.h"
+#include "why_vector_functions.h"
+#include "why_vector_structure.h"
+#include "why_macros.h"
 
 static inline int get_item_count(int size, int frame_size)
 {
@@ -111,10 +111,6 @@ void why_sort_vector_merge_mk2(why_vector *vector, int (*compare)())
         while (frame_size < size)
         {
             make_a_pass(second_array, first_array, size, frame_size, compare);
-            
-            //
-            // why_display_array(second_array, size, why_display_string);
-            //
 
             vector->content = second_array;
             store = second_array;

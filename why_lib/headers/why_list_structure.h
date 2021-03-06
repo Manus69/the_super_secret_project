@@ -1,5 +1,5 @@
-#ifndef WHY_LIST_H
-#define WHY_LIST_H
+#ifndef WHY_LIST_STRUCTURE_H
+#define WHY_LIST_STRUCTURE_H
 
 struct why_list
 {

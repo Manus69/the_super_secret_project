@@ -1,7 +1,8 @@
-#include "why_lib.h"
-#include "why_vector.h"
+#include "why_vector_structure.h"
+#include "why_vector_functions.h"
+#include "why_typedefs.h"
 #include "why_constants.h"
-#include "why_memory.h"
+#include "why_memory_functions.h"
 
 static void **repopulate_content(void **new_array, void **old_array, int number_of_items)
 {
@@ -38,7 +39,7 @@ why_vector *why_vector_create(int item_capacity, void *(*copy)(), void (*destroy
 {
     why_vector *vector;
     
-    item_capacity = item_capacity <= 0 ? DEFAULT_CAPACITY : item_capacity;
+    item_capacity = item_capacity <= 0 ? VECTOR_DC : item_capacity;
     copy = copy ? copy : why_memory_shallow_copy;
     destroy = destroy ? destroy : why_memory_destroy;
 

@@ -1,5 +1,9 @@
-#include "why_lib.h"
-#include "why_buffer.h"
+#include "why_buffer_structure.h"
+#include "why_buffer_functions.h"
+#include "why_string_buffer_functions.h"
+#include "why_vector_functions.h"
+#include "why_constants.h"
+#include "why_string_functions.h"
 
 #include <stdlib.h>
 

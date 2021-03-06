@@ -1,5 +1,5 @@
-#include "why_lib.h"
-#include "why_display.h"
+#include "why_display_functions.h"
+#include "why_print_structures.h"
 
 #include <stdio.h>
 
@@ -21,7 +21,7 @@ void why_display_double(double *x)
     printf("%f", *x);
 }
 
-#include "why_print.h"
+// #include "why_print.h"
 void why_display_string_token(const void *token)
 {
     printf("%s ", ((why_string_token *)token)->string);

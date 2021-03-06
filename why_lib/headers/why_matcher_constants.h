@@ -1,5 +1,5 @@
-#ifndef WHY_TOKENIZER_H
-#define WHY_TOKENIZER_H
+#ifndef WHY_MATCHER_CONSTANTS_H
+#define WHY_MATCHER_CONSTANTS_H
 
 #define ZERO_OR_MANY '*'
 #define ONE_OR_MANY '+'
@@ -13,13 +13,5 @@
 #define START '$'
 #define END '^'
 #define QUANTIFIERS "*+?"
-
-struct why_matcher
-{
-    char *string;
-    char *current_position;
-
-    int match_length;
-};
 
 #endif

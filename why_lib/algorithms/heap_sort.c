@@ -1,8 +1,8 @@
-#include "why_lib.h"
-
-#include "why_vector.h"
+#include "why_vector_structure.h"
+#include "why_vector_functions.h"
+#include "why_typedefs.h"
 #include "why_constants.h"
-
+#include "why_macros.h"
 
 void why_downheap(void **array, int size, int index, int (*compare)())
 {

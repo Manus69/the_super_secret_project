@@ -1,18 +1,16 @@
-#include "why_string_buffer.h"
-#include "why_memory.h"
+#include "why_string_buffer_structure.h"
+#include "why_string_buffer_functions.h"
+#include "why_memory_functions.h"
 #include "why_constants.h"
-#include "why_string.h"
+#include "why_string_functions.h"
 #include "why_typedefs.h"
-#include "why_lib.h"
-
-#include <stdlib.h>
 
 why_string_buffer *why_string_buffer_create(int size)
 {
     why_string_buffer *buffer;
 
     if (size <= 0)
-        size = DEFAULT_CAPACITY;
+        size = STRING_BUFFER_DC;
 
     buffer = malloc(sizeof(why_string_buffer));
     if (!buffer)
@@ -114,7 +112,7 @@ void *why_string_buffer_write_string_rvp(why_string_buffer *buffer, const char *
 {
     if (!buffer)
     {
-        if (!(buffer = why_string_buffer_create(DEFAULT_CAPACITY)))
+        if (!(buffer = why_string_buffer_create(STRING_BUFFER_DC)))
             return NULL;        
     }
     why_string_buffer_write_string(buffer, string);

@@ -1,15 +1,10 @@
-#include "why_lib.h"
-#include "why_print.h"
-#include "why_matcher.h"
-#include "why_string_buffer.h"
+#include "why_print_structures.h"
+#include "why_constants.h"
+#include "why_matcher_functions.h"
+#include "why_string_buffer_structure.h"
 
 #include <stdarg.h>
 #include <unistd.h>
-
-enum state
-{
-    INSIDE = 1, OUTSIDE,
-};
 
 why_string_token *string_token_create(const char *string, int length)
 {
@@ -129,7 +124,7 @@ static void form_token_and_push(const char *format_string, const char *current_p
     why_vector_push(vector, token);
 }
 
-#include "why_display.h"
+#include "why_display_functions.h"
 why_vector *get_string_tokens(const char *format_string)
 {
     why_vector *vector;
@@ -234,6 +229,8 @@ char *why_string_get_formatted_string(const char *format, va_list *arg_list)
         }
         if (token->type == D)
             why_string_buffer_write_int(string_buffer, token, va_arg(*arg_list, int));
+        else if (token->type == F)
+            why_string_buffer_write_double(string_buffer, va_arg(*arg_list, double));
         
         n ++;
     }

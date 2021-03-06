@@ -1,14 +1,22 @@
-#ifndef WHY_PRINT_H
-#define WHY_PRINT_H
+#ifndef WHY_PRINT_STRUCTURES_H
+#define WHY_PRINT_STRUCTURES_H
 
-#define SPECIAL_CHAR '%'
-#define SPECIFIERS "dfsp"
-
-typedef struct why_string_token why_string_token;
+struct fpn_representation
+{
+    int sign;
+    int integer;
+    int precision;
+    double decimal;
+};
 
 enum token_type
 {
     D, F, S, P, PERCENT_SYMBOL, TEXT, BRICKED,
+};
+
+enum state
+{
+    INSIDE = 1, OUTSIDE,
 };
 
 struct why_string_token
@@ -24,6 +32,5 @@ struct why_string_token
     int precision;
     int alignment;
 };
-
 
 #endif

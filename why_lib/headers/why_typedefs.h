@@ -8,6 +8,7 @@ typedef struct why_list_item why_list_item;
 typedef struct why_hash_table why_hash_table;
 typedef struct why_matcher why_matcher;
 typedef struct why_string_buffer why_string_buffer;
+typedef struct why_string_token why_string_token;
 typedef why_vector why_stack;
 typedef why_list why_queue;
 

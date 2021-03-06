@@ -1,5 +1,5 @@
-#ifndef WHY_HASH_TABLE_H
-#define WHY_HASH_TABLE_H
+#ifndef WHY_HASH_TABLE_STRUCTURE_H
+#define WHY_HASH_TABLE_STRUCTURE_H
 
 struct why_hash_table
 {

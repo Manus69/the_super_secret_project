@@ -1,9 +1,5 @@
-#ifndef WHY_UTILITY_H
-#define WHY_UTILITY_H
-
-#include "why_string.h"
-
-#define WHY_MAX(a, b) (((a) > (b)) ? (a) : (b))
+#ifndef WHY_UTILITY_FUNCTIONS_H
+#define WHY_UTILITY_FUNCTIONS_H
 
 //check which one is better
 int why_utility_compare_ints(int *a, int *b);

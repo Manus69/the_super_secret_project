@@ -1,13 +1,8 @@
 #include "why_constants.h"
-#include "why_string.h"
-
-struct fpn_representation
-{
-    int sign;
-    int integer;
-    int precision;
-    double decimal;
-};
+#include "why_string_functions.h"
+#include "why_constants.h"
+#include "why_print_structures.h"
+#include "why_memory_functions.h"
 
 struct fpn_representation *fpn_representation_create(double x, int precision)
 {

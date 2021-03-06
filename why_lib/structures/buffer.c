@@ -1,7 +1,7 @@
-#include "why_lib.h"
-#include "why_buffer.h"
-#include "why_string.h"
-
+#include "why_buffer_structure.h"
+#include "why_buffer_functions.h"
+#include "why_string_functions.h"
+#include "why_constants.h"
 
 #include <stdlib.h>
 #include <fcntl.h> //unix only
@@ -37,8 +37,8 @@ struct why_buffer *why_buffer_create(const char *file_name, int capacity, int re
     if ((file = get_file_descriptor(file_name)) < 0)
         return NULL;
 
-    capacity = capacity < 1 ? DEFAULT_BUFFER_CAPACITY : capacity;
-    read_size = read_size < 1 ? DEFAULT_READ_SIZE : read_size;
+    capacity = capacity < 1 ? BUFFER_DBC : capacity;
+    read_size = read_size < 1 ? BUFFER_DRS : read_size;
     read_size = read_size > capacity ? capacity : read_size;
 
     if ((buffer = malloc(sizeof(struct why_buffer))))

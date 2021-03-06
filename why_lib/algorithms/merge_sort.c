@@ -1,7 +1,7 @@
 // #include "why_math.h"
-#include "why_memory.h"
-
-#include "why_display.h" //
+#include "why_memory_functions.h"
+#include "why_constants.h"
+#include "why_macros.h"
 
 static inline int swap(void **array, int left_index, int right_index)
 {
@@ -38,9 +38,6 @@ static inline void **get_sub_array(void **array, int left_index, int number_of_i
     
     // why_memory_copy((void *)subarray, array[left_index], number_of_items * sizeof(void *));
     copy_pointers(subarray, &array[left_index], number_of_items);
-    //
-    // why_display_array(subarray, number_of_items, why_display_int);
-    //
     
     return subarray;     
 }
@@ -102,7 +99,6 @@ void **why_sort_array_merge(void **array, int number_of_items, int (*compare)())
     else if (number_of_items == 2)
     {
         if (compare(array[0], array[1]) > 0)
-            // swap(array, 0, 1);
             SWAP(array, void *, 0, 1);
 
         return array;

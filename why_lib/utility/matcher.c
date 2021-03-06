@@ -1,7 +1,9 @@
-#include "why_lib.h"
-#include "why_matcher.h"
-
-#include "why_math.h"
+#include "why_matcher_structure.h"
+#include "why_matcher_constants.h"
+#include "why_math_functions.h"
+#include "why_typedefs.h"
+#include "why_memory_functions.h"
+#include "why_constants.h"
 
 static inline int max(int a, int b)
 {

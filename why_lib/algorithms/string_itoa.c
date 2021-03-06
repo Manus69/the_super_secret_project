@@ -1,5 +1,6 @@
 #include "why_constants.h"
-#include "why_string.h"
+#include "why_string_functions.h"
+#include "why_memory_functions.h"
 
 int why_string_itoa_buffer(int number, int base, char *buffer)
 {
@@ -12,7 +13,7 @@ int why_string_itoa_buffer(int number, int base, char *buffer)
     if (base < 2 || base > 16)
         return 0;
 
-    why_memory_set(bytes, 0, INT_BUFFER_SIZE);
+    // why_memory_set(bytes, 0, INT_BUFFER_SIZE);
     current_pointer = bytes;
     sign = 1;
 

@@ -1,4 +1,5 @@
-#include "why_string.h"
+#include "why_string_functions.h"
+#include "why_memory_functions.h"
 
 int why_string_get_length(const char *literal)
 {

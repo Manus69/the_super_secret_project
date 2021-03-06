@@ -7,8 +7,8 @@ char *format_string(const char *format, ...)
 create buffer;
 parse format -> vector of tokens ;
 
-put formatted arguments into buffer
+each agument gets stringified into a flushable buffer
+
+put formatted arguments into string buffer
 
 return buffer string
-
-int put_int(buffer *buffer, int n)

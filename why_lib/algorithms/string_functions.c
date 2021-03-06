@@ -1,7 +1,7 @@
-#include "why_lib.h"
-#include "why_string.h"
-
-#define DEFAULT_VECTOR_SIZE 16
+#include "why_string_functions.h"
+#include "why_memory_functions.h"
+#include "why_constants.h"
+#include "why_vector_functions.h"
 
 struct why_vector *why_string_split(const char *literal, char separator)
 {
@@ -12,7 +12,7 @@ struct why_vector *why_string_split(const char *literal, char separator)
     int distance_to_separator;
 
 
-    vector = why_vector_create(DEFAULT_VECTOR_SIZE, why_memory_shallow_copy, why_string_destroy);
+    vector = why_vector_create(S_FUNCTIONS_DVS, why_memory_shallow_copy, why_string_destroy);
 
     current_position = (char *)literal;
     separator_position = (char *)literal;

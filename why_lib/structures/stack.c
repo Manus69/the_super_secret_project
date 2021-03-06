@@ -1,4 +1,4 @@
-#include "why_lib.h"
+#include "why_stack_functions.h"
 
 why_stack *why_stack_create(int item_capacity, void *(*copy)(), void (*destroy)())
 {

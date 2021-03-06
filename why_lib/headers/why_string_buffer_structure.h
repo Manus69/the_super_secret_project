@@ -1,7 +1,5 @@
-#ifndef WHY_STRING_BUFFER_H
-#define WHY_STRING_BUFFER_H
-
-#define DEFAULT_CAPACITY 1 << 10
+#ifndef WHY_STRING_BUFFER_STRUCTURE_H
+#define WHY_STRING_BUFFER_STRUCTURE_H
 
 struct why_string_buffer
 {

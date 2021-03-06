@@ -1,4 +1,4 @@
-#include "why_lib.h"
+#include "why_queue_functions.h"
 
 why_queue *why_queue_create(void *(*copy)(), void (*destroy)())
 {

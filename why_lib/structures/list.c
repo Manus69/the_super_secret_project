@@ -1,5 +1,7 @@
-#include "why_lib.h"
-#include "why_list.h"
+#include "why_list_structure.h"
+#include "why_list_functions.h"
+#include "why_memory_functions.h"
+#include "why_constants.h"
 
 why_list *why_list_create(void *(*copy)(), void (*destroy)())
 {

@@ -1,7 +1,7 @@
 #ifndef WHY_DISPLAY_H
 #define WHY_DISPLAY_H
 
-#include "why_lib.h"
+#include "why_typedefs.h"
 
 void why_display_string(const char *literal);
 void why_display_string_token(const void *token);

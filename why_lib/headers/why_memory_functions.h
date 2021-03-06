@@ -1,10 +1,7 @@
-#ifndef WHY_MEMORY_H
-#define WHY_MEMORY_H
+#ifndef WHY_MEMORY_FUNCTIONS_H
+#define WHY_MEMORY_FUNCTIONS_H
 
 #include <stdlib.h>
-
-#define DEFAULT_ITEM_SIZE (int)sizeof(void *)
-#define SWAP(array, type, li, ri) {type _store = array[li]; array[li] = array[ri]; array[ri] = _store;}
 
 void *why_memory_copy(void *destination, const void *source, int number_of_bytes);
 void *why_memory_copy_backwards(void *destination, const void *source, int number_of_bytes);

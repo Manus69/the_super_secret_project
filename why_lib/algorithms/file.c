@@ -81,7 +81,7 @@ char *why_file_read_file_into_string(const char *file_name)
 
     vector = why_file_read_all_lines(file_name);
     length = why_vector_get_length(vector);
-    string_buffer = why_vector_accumualte(vector, 0, length, why_string_buffer_write_string_rvp);
+    string_buffer = why_vector_accumualte(vector, 0, length, why_string_buffer_append_string_rvp);
     string = why_string_buffer_get_content(string_buffer);
 
     why_vector_destroy(&vector);

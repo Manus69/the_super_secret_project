@@ -181,7 +181,7 @@ int why_string_buffer_write_int(why_string_buffer *buffer, why_string_token *tok
 {
     int length;
 
-    if (why_string_buffer_check_capacity(buffer, INT_BUFFER_SIZE) == FAILURE)
+    if (why_string_buffer_check_capacity(buffer, PRINTF_INT_DBC) == FAILURE)
         return FAILURE;
 
     length = why_string_itoa_buffer(number, 10, buffer->current);
@@ -194,7 +194,7 @@ int why_string_buffer_write_double(why_string_buffer *buffer, double x)
 {
     int length;
 
-    if (why_string_buffer_check_capacity(buffer, INT_BUFFER_SIZE) == FAILURE)
+    if (why_string_buffer_check_capacity(buffer, PRINTF_INT_DBC) == FAILURE)
         return FAILURE;
 
 }
@@ -229,7 +229,7 @@ char *why_string_get_formatted_string(const char *format, va_list *arg_list)
         token = why_vector_at(tokens, n);
         if (token->type == TEXT)
         {
-            why_string_buffer_write_string(string_buffer, token->string);
+            why_string_buffer_append_string(string_buffer, token->string);
         }
         if (token->type == D)
             why_string_buffer_write_int(string_buffer, token, va_arg(*arg_list, int));
@@ -247,20 +247,20 @@ char *why_string_get_formatted_string(const char *format, va_list *arg_list)
     return string;
 }
 
-int why_printf(const char *format, ... )
-{
-    char *string;
-    va_list arg_list;
-    int length;
+// int why_printf(const char *format, ... )
+// {
+//     char *string;
+//     va_list arg_list;
+//     int length;
 
-    va_start(arg_list, format);
-    string = why_string_get_formatted_string(format, &arg_list);
-    length = why_string_get_length(string);
-    write(STDOUT_FILENO, string, length);
+//     va_start(arg_list, format);
+//     string = why_string_get_formatted_string(format, &arg_list);
+//     length = why_string_get_length(string);
+//     write(STDOUT_FILENO, string, length);
 
-    va_end(arg_list);
-    free(string);
+//     va_end(arg_list);
+//     free(string);
 
-    return length;
-}
+//     return length;
+// }
 

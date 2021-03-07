@@ -98,7 +98,7 @@ int why_string_buffer_check_capacity(why_string_buffer *buffer, int requirement)
     return SUCCESS;
 }
 
-int why_string_buffer_write_string(why_string_buffer *buffer, const char *string)
+int why_string_buffer_append_string(why_string_buffer *buffer, const char *string)
 {
     int length;
 
@@ -113,10 +113,10 @@ int why_string_buffer_write_string(why_string_buffer *buffer, const char *string
     return length;
 }
 
-int why_string_buffer_write_from_string(why_string_buffer *buffer, const char *string, int n_chars)
+int why_string_buffer_append_from_string(why_string_buffer *buffer, const char *string, int n_chars)
 {
     if (n_chars == DEFAULT)
-        return why_string_buffer_write_string(buffer, string);
+        return why_string_buffer_append_string(buffer, string);
     
     if (why_string_buffer_check_capacity(buffer, n_chars) == FAILURE)
         return FAILURE;
@@ -127,19 +127,19 @@ int why_string_buffer_write_from_string(why_string_buffer *buffer, const char *s
     return n_chars;
 }
 
-void *why_string_buffer_write_string_rvp(why_string_buffer *buffer, const char *string)
+void *why_string_buffer_append_string_rvp(why_string_buffer *buffer, const char *string)
 {
     if (!buffer)
     {
         if (!(buffer = why_string_buffer_create(STRING_BUFFER_DC)))
             return NULL;        
     }
-    why_string_buffer_write_string(buffer, string);
+    why_string_buffer_append_string(buffer, string);
 
     return buffer;
 }
 
-int why_string_buffer_write_string_backwards(why_string_buffer *buffer, const char *string)
+int why_string_buffer_append_string_backwards(why_string_buffer *buffer, const char *string)
 {
     int length;
 
@@ -152,4 +152,18 @@ int why_string_buffer_write_string_backwards(why_string_buffer *buffer, const ch
     buffer->current += length;
 
     return length;
+}
+
+int why_string_buffer_append_char(why_string_buffer *buffer, char c, int number_of_times)
+{
+    if (number_of_times <= 0)
+        return 0;
+
+    if (why_string_buffer_check_capacity(buffer, number_of_times) == FAILURE)
+        return FAILURE;
+    
+    why_memory_set(buffer->current, c, number_of_times);
+    buffer->current += number_of_times;
+
+    return number_of_times;
 }

@@ -41,7 +41,7 @@ static int process_decimal_fraction(struct fpn_representation *representation)
         count ++;
     }
     
-    if (1 - decimal < EPSILON)
+    if (1 - decimal < PRINTF_EPSILON)
         carry_digit ++;
     
     if (carry_digit >= 5)
@@ -74,6 +74,9 @@ int why_string_ftoa_buffer(double x, int precision, char *buffer)
     length = why_string_itoa_buffer(representation->integer * representation->sign, 10, buffer);
     buffer += length;
 
+    if (length + precision >= PRINTF_DOUBLE_DBC)
+        precision = PRINTF_DOUBLE_DBC - length;
+
     if (precision)
     {
         *buffer = '.';
@@ -100,12 +103,12 @@ int why_string_ftoa_buffer(double x, int precision, char *buffer)
 //limit precision?
 char *why_string_ftoa(double x, int precision)
 {
-    char buffer[DOUBLE_BUFFER_SIZE];
+    char buffer[PRINTF_DOUBLE_DBC];
     char *current;
     char *string;
     int length;
 
-    why_memory_set(buffer, 0, DOUBLE_BUFFER_SIZE);
+    why_memory_set(buffer, 0, PRINTF_DOUBLE_DBC);
     current = buffer;
     length = why_string_ftoa_buffer(x, precision, buffer);
     string = why_string_create_from_char_array(current, 0, length);

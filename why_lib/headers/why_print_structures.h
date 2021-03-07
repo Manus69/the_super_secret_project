@@ -11,7 +11,7 @@ struct fpn_representation
 
 enum token_type
 {
-    D, F, S, P, PERCENT_SYMBOL, TEXT, BRICKED,
+    D, F, S, P, PERCENT_SYMBOL, TEXT, BRICKED, UNKNOWN
 };
 
 enum state
@@ -36,13 +36,21 @@ struct why_string_token
 
 struct why_printf_token
 {
-    why_string_buffer *buffer;
+    char *start;
+    char *end;
 
     enum token_type type;
 
     int width;
     int precision;
     int alignment;
+    char padding_char;
+
+    char eos;
+    char width_processed;
+    char precision_processed;
+    char alignment_processed;
+    char dot_encountered;
 };
 
 #endif

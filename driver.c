@@ -166,7 +166,7 @@ void string_buffer_test()
     buffer = NULL;
     while (n)
     {
-        buffer = why_string_buffer_write_string_rvp(buffer, "012");
+        buffer = why_string_buffer_append_string_rvp(buffer, "012");
         n --;
     }
 
@@ -181,10 +181,9 @@ void string_buffer_test()
 void print_format_test()
 {
     char *string;
-    char *file_string;
 
     //
-    printf("%2d\n", 111);
+    // printf("%2d\n", 111);
     // string = why_string_itoa(-14, 10);
     // printf("%s\n", string);
     //
@@ -192,14 +191,30 @@ void print_format_test()
     // printf("%s\n", string);
     // free(string);
 
+    // printf("%20.10f\n", 3.1);
 
-    // file_string = why_file_read_file_into_string("text_file.txt");
-    string = "this is a test %d eat shit! %d";
+    char *file_string;
+    file_string = why_file_read_file_into_string("text_file.txt");
     // printf("%s\n", file_string);
-    why_printf(string, -1, 3);
-    // free(string);
-    // free(file_string);
+    // printf(file_string);
+    // why_printf("%s\n", file_string);
+    free(file_string);
 
+    // string = "%3d %d";
+    // why_printf(string, -1, 3);
+    // free(string);
+
+}
+
+char *file_read_test()
+{
+    char *file_name;
+    char *string;
+
+    file_name = "text_file.txt";
+    string = why_file_read_file_into_string(file_name);
+
+    return string;
 }
 
 //create apply functions for all containers?
@@ -224,6 +239,8 @@ int main()
     // matcher_test2();
     print_format_test();
     // string_buffer_test();
+
+    // char *test = file_read_test();
 
     end = clock();
 

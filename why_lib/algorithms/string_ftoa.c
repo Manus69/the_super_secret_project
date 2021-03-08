@@ -2,7 +2,7 @@
 #include "why_string_functions.h"
 #include "why_macros.h"
 #include "why_printf_constants.h"
-#include "why_print_structures.h"
+#include "why_printf_structures.h"
 #include "why_memory_functions.h"
 
 void reset_fpn_representation(struct fpn_representation *representation, double x, int precision)

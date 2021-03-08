@@ -1,5 +1,5 @@
-#ifndef WHY_PRINT_STRUCTURES_H
-#define WHY_PRINT_STRUCTURES_H
+#ifndef WHY_PRINTF_STRUCTURES_H
+#define WHY_PRINTF_STRUCTURES_H
 
 struct fpn_representation
 {

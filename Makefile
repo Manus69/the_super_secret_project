@@ -20,7 +20,6 @@ all: executable
 $(driver_file:.c=.o): $(driver_file)
 	$(compiler) $(flags) -I $(directory) $(driver_file) -c -o $(driver_file:.c=.o)
 
-# $(executable): $(driver_file)
 executable: $(driver_file:.c=.o)
 	make flags=$(flags) -C $(directory)
 	$(compiler) $(flags) -o $(executable) -I ./$(directory) -L ./$(directory) $(driver_file:.c=.o) $(addprefix $(full_path)/,$(lib_name))

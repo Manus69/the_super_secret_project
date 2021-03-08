@@ -176,6 +176,7 @@ void string_buffer_test()
     free(buffer);
     printf("%s\n", string);
 
+
     free(string);
 }
 
@@ -184,27 +185,16 @@ void print_format_test()
     char *string;
 
     //
-    // printf("%2d\n", 111);
-    // string = why_string_itoa(-14, 10);
-    // printf("%s\n", string);
-    //
-    // string = why_string_ftoa(3.95, 0);
-    // printf("%s\n", string);
+    // string = why_sprintf("this is a test %10d\n ??? %3f\n", -1, 3.14159);
+    // why_printf(string);
     // free(string);
 
-    // printf("%20.10f\n", 3.1);
+    string = why_file_read_file_into_string("text_file.txt");
+    
+    why_printf("%s\n", string);
+    free(string);
 
-    // char *file_string;
-    // file_string = why_file_read_file_into_string("text_file.txt");
-    // printf("%s\n", file_string);
-    // printf(file_string);
-    // why_printf("%s\n", file_string);
-    // free(file_string);
-
-    unsigned int n = INT_MAX - 1;
-    string = "%x\n";
-    why_printf(string, n);
-    printf(string, n);
+    // why_fprintf("this is a test %666d!\n", "text_file.txt", FILE_MODE_TRUNCATE | FILE_MODE_WRITE, -1);
 
 }
 
@@ -222,9 +212,6 @@ char *file_read_test()
 //create apply functions for all containers?
 //make it so that hash table is "derived" from vector?
 //make functions either all safe or all unsafe?
-//unfuck the headers
-//unfuck the headers
-//make a string formatter
 
 int main()
 {

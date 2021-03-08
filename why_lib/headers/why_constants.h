@@ -11,9 +11,6 @@
 #define BUFFER_DBC (1 << 13)
 #define BUFFER_DRS (1 << 13)
 
-#define SPECIAL_CHAR '%'
-#define SPECIFIERS "dfsp"
-
 #define true 1
 #define false 0
 
@@ -24,14 +21,6 @@
 
 #define DIGITS "0123456789"
 #define HEX_DIGITS "0123456789abcdef"
-
-#define PRINTF_INT_DBC 32
-#define PRINTF_DOUBLE_DBC 512
-#define PRINTF_PRECISION_DEFAULT 5
-#define PRINTF_EPSILON 1e-7
-
-#define PRINTF_SPECIAL_CHAR '%'
-#define PRINTF_SPECIFIERS "dfsp"
 
 #define STRING_BUFFER_DC 1 << 10
 #define VECTOR_DC 32

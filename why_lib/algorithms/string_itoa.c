@@ -1,6 +1,63 @@
 #include "why_constants.h"
+#include "why_printf_constants.h"
 #include "why_string_functions.h"
 #include "why_memory_functions.h"
+
+int why_string_ultoa_buffer(unsigned long number, int base, char *buffer)
+{
+    char bytes[PRINTF_INT_DBC];
+    char *current_pointer;
+    int length;
+
+    if (base < 2 || base > 16)
+        return 0;
+    
+    current_pointer = bytes;
+    if (!number)
+    {
+        *current_pointer = '0';
+        current_pointer ++;
+    }
+
+    while (number)
+    {
+        *current_pointer = HEX_DIGITS[number % base];
+        number = number / base;
+        current_pointer ++;
+    }
+    length = current_pointer - bytes;
+    why_memory_copy_backwards(buffer, current_pointer - 1, length);
+
+    return length;
+}
+
+int why_string_uitoa_buffer(unsigned int number, int base, char *buffer)
+{
+    char bytes[PRINTF_INT_DBC];
+    char *current_pointer;
+    int length;
+
+    if (base < 2 || base > 16)
+        return 0;
+    
+    current_pointer = bytes;
+    if (!number)
+    {
+        *current_pointer = '0';
+        current_pointer ++;
+    }
+
+    while (number)
+    {
+        *current_pointer = HEX_DIGITS[number % base];
+        number = number / base;
+        current_pointer ++;
+    }
+    length = current_pointer - bytes;
+    why_memory_copy_backwards(buffer, current_pointer - 1, length);
+
+    return length;
+}
 
 int why_string_itoa_buffer(int number, int base, char *buffer)
 {
@@ -24,13 +81,7 @@ int why_string_itoa_buffer(int number, int base, char *buffer)
         sign = -1;
         value = -number;
     }
-
-    while (value)
-    {
-        *current_pointer = HEX_DIGITS[value % base];
-        value = value / base;
-        current_pointer ++;
-    }
+    current_pointer += why_string_uitoa_buffer(value, base, bytes);
     if (sign == -1)
     {
         *current_pointer = '-';

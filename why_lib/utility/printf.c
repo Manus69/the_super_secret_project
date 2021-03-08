@@ -4,6 +4,7 @@
 #include "why_string_buffer_structure.h"
 #include "why_memory_functions.h"
 #include "why_constants.h"
+#include "why_printf_constants.h"
 #include "why_string_functions.h"
 
 #include <stdarg.h>
@@ -15,7 +16,7 @@ void token_reset(struct why_printf_token *token)
     token->type = UNKNOWN;
 
     token->alignment = 1;
-    token->precision = PRINTF_PRECISION_DEFAULT;
+    token->precision = 0;
     token->width = 0;
 
     token->width_processed = false;
@@ -102,7 +103,7 @@ void process_plus_minus(struct why_printf_token *token, char current_char)
     if (current_char == '-')
         token->alignment = -1;
     else if (current_char == '+')
-        token->alignment = 1;
+        // token->alignment = 1; //implement this shit later?
 
     token->alignment_processed = true;
 }
@@ -110,9 +111,15 @@ void process_plus_minus(struct why_printf_token *token, char current_char)
 void process_digit(struct why_printf_token *token, char current_char)
 {
     if (token->dot_encountered == false)
+    {
         token->width = token->width * 10 + current_char - '0';
+        token->width_processed = true;
+    }
     else
+    {
         token->precision = token->precision * 10 + current_char - '0';
+        token->precision_processed = true;
+    }
 }
 
 void process_dot(struct why_printf_token *token)
@@ -133,6 +140,8 @@ struct why_printf_token *process_specifier(struct why_printf_token *token, char 
         token->type = S;
     else if (*current_position == PRINTF_SPECIFIERS[P])
         token->type = P;
+    else if (*current_position == PRINTF_SPECIFIERS[X])
+        token->type = X;
     else
         token->type = BRICKED;
     
@@ -172,15 +181,31 @@ struct why_printf_token *get_next_token(struct why_printf_token *token)
     return token;
 }
 
+#include <stdio.h>
 int form_argument_string(char *argument_buffer, va_list *arg_list, const struct why_printf_token *token)
 {
     int length;
+    int actual_precision;
 
     length = 0;
     if (token->type == D)
         length = why_string_itoa_buffer(va_arg(*arg_list, int), 10, argument_buffer);
     else if (token->type == F)
-        length = why_string_ftoa_buffer(va_arg(*arg_list, double), token->precision, argument_buffer);
+    {
+        actual_precision = token->precision_processed ? token->precision : PRINTF_PRECISION_DEFAULT;
+        length = why_string_ftoa_buffer(va_arg(*arg_list, double), actual_precision, argument_buffer);
+    }
+    else if (token->type == X)
+    {
+        length += why_string_uitoa_buffer(va_arg(*arg_list, unsigned int), 16, argument_buffer);
+    }
+    else if (token->type == P)
+    {
+        why_memory_copy(argument_buffer, "0x", 2);
+        argument_buffer += 2;
+        length = 2;
+        length += why_string_ultoa_buffer(va_arg(*arg_list, unsigned long), 16, argument_buffer);
+    }
 
     return length;
 }
@@ -195,8 +220,16 @@ int append_literal(why_string_buffer *buffer, va_list *arg_list, struct why_prin
     length = why_string_get_length(string);
     delta = token->width - length;
 
-    why_string_buffer_append_char(buffer, token->padding_char, delta);
-    why_string_buffer_append_string(buffer, string);
+    if (token->alignment = 1)
+    {
+        why_string_buffer_append_char(buffer, token->padding_char, delta);
+        why_string_buffer_append_string(buffer, string);
+    }
+    else
+    {
+        why_string_buffer_append_string(buffer, string);
+        why_string_buffer_append_char(buffer, token->padding_char, delta);
+    }
     length = delta > 0 ? token->width : length;
 
     return length;
@@ -210,10 +243,20 @@ int append_to_buffer(why_string_buffer *string_buffer, char *argument_buffer, va
         return why_string_buffer_append_from_string(string_buffer, token->start, token->end - token->start);
     if (token->type == S)
         return append_literal(string_buffer, arg_list, token);
+    if (token->type == PERCENT_SYMBOL)
+        return why_string_buffer_append_char(string_buffer, PRINTF_SPECIAL_CHAR, 1);
 
     length = form_argument_string(argument_buffer, arg_list, token);
-    why_string_buffer_append_char(string_buffer, token->padding_char, token->width - length);
-    why_string_buffer_append_from_string(string_buffer, argument_buffer, length);
+    if (token->alignment == 1)
+    {
+        why_string_buffer_append_char(string_buffer, token->padding_char, token->width - length);
+        why_string_buffer_append_from_string(string_buffer, argument_buffer, length);
+    }
+    else
+    {
+        why_string_buffer_append_from_string(string_buffer, argument_buffer, length);
+        why_string_buffer_append_char(string_buffer, token->padding_char, token->width - length);
+    }
 
     return length;
 }
@@ -256,8 +299,26 @@ int why_printf(const char *format, ...)
     va_start(arg_list, format);
     buffer = why_string_buffer_format_string(format, &arg_list);
     length = write(STDOUT_FILENO, buffer->content, buffer->current - buffer->content);
+
     va_end(arg_list);
     why_string_buffer_destory(&buffer);
 
     return length;
+}
+
+char *why_sprintf(const char *format, ...)
+{
+    va_list arg_list;
+    why_string_buffer *buffer;
+    char *string;
+    
+    va_start(arg_list, format);
+    buffer = why_string_buffer_format_string(format, &arg_list);
+    string = buffer->content;
+    string[buffer->current - buffer->content] = '\0';
+
+    va_end(arg_list);
+    free(buffer);
+
+    return string;
 }

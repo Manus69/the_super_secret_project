@@ -26,6 +26,8 @@ int why_string_compare(const char *lhs, const char *rhs);
 int why_string_compare_mk2(const char *lhs, const char *rhs);
 int why_string_atoi_buffer(int number, int base, char *buffer);
 int why_string_itoa_buffer(int number, int base, char *buffer);
+int why_string_uitoa_buffer(unsigned int number, int base, char *buffer);
+int why_string_ultoa_buffer(unsigned long number, int base, char *buffer);
 int why_string_ftoa_buffer(double x, int precision, char *buffer);
 
 int why_string_compare_test(const void *lhs, const void *rhs); //

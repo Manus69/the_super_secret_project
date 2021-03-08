@@ -4,14 +4,14 @@
 struct fpn_representation
 {
     int sign;
-    int integer;
+    unsigned int integer;
     int precision;
     double decimal;
 };
 
 enum token_type
 {
-    D, F, S, P, PERCENT_SYMBOL, TEXT, BRICKED, UNKNOWN
+    D, F, S, P, X, PERCENT_SYMBOL, TEXT, BRICKED, UNKNOWN
 };
 
 enum state

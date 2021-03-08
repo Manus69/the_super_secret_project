@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <time.h>
+#include <float.h>
 
 void string_sort_test()
 {
@@ -193,16 +194,17 @@ void print_format_test()
 
     // printf("%20.10f\n", 3.1);
 
-    char *file_string;
-    file_string = why_file_read_file_into_string("text_file.txt");
+    // char *file_string;
+    // file_string = why_file_read_file_into_string("text_file.txt");
     // printf("%s\n", file_string);
     // printf(file_string);
     // why_printf("%s\n", file_string);
-    free(file_string);
+    // free(file_string);
 
-    // string = "%3d %d";
-    // why_printf(string, -1, 3);
-    // free(string);
+    unsigned int n = INT_MAX - 1;
+    string = "%x\n";
+    why_printf(string, n);
+    printf(string, n);
 
 }
 

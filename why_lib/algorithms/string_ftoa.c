@@ -1,8 +1,17 @@
 #include "why_constants.h"
 #include "why_string_functions.h"
-#include "why_constants.h"
+#include "why_macros.h"
+#include "why_printf_constants.h"
 #include "why_print_structures.h"
 #include "why_memory_functions.h"
+
+void reset_fpn_representation(struct fpn_representation *representation, double x, int precision)
+{
+    representation->sign = x < 0 ? -1 : 1;
+    representation->integer = representation->sign == 1 ? (unsigned int)x : (unsigned int) -x;
+    representation->precision = precision;
+    representation->decimal = ABS(x) - representation->integer;
+}
 
 struct fpn_representation *fpn_representation_create(double x, int precision)
 {
@@ -12,10 +21,7 @@ struct fpn_representation *fpn_representation_create(double x, int precision)
     if (!representation)
         return NULL;
 
-    representation->sign = x < 0 ? -1 : 1;
-    representation->integer = representation->sign == 1 ? (int)x : (int) -x;
-    representation->precision = precision;
-    representation->decimal = x - representation->integer;
+    reset_fpn_representation(representation, x, precision);
 
     return representation;
 }
@@ -60,7 +66,8 @@ static int process_decimal_fraction(struct fpn_representation *representation)
 //there is some bullshit with . and .0
 int why_string_ftoa_buffer(double x, int precision, char *buffer)
 {
-    struct fpn_representation *representation;
+    // struct fpn_representation *representation;
+    struct fpn_representation representation;
     int length;
     int digit;
     double decimal;
@@ -68,10 +75,15 @@ int why_string_ftoa_buffer(double x, int precision, char *buffer)
     if (x > INT_MAX || x < INT_MIN)
         x = 0;
     
-    representation = fpn_representation_create(x, precision);
-    process_decimal_fraction(representation);
+    // representation = fpn_representation_create(x, precision);
+    reset_fpn_representation(&representation, x, precision);
+    // process_decimal_fraction(representation);
+    process_decimal_fraction(&representation);
+
     
-    length = why_string_itoa_buffer(representation->integer * representation->sign, 10, buffer);
+    // length = why_string_itoa_buffer(representation->integer * representation->sign, 10, buffer);
+    length = why_string_itoa_buffer(representation.integer * representation.sign, 10, buffer);
+
     buffer += length;
 
     if (length + precision >= PRINTF_DOUBLE_DBC)
@@ -83,7 +95,8 @@ int why_string_ftoa_buffer(double x, int precision, char *buffer)
         buffer ++;
     }
 
-    decimal = representation->decimal;
+    // decimal = representation->decimal;
+    decimal = representation.decimal;
     while (precision)
     {
         decimal = decimal * 10;
@@ -94,10 +107,12 @@ int why_string_ftoa_buffer(double x, int precision, char *buffer)
         buffer ++;
     }
 
-    precision = representation->precision;
-    free(representation);
+    // precision = representation->precision;
+    precision = representation.precision;
+    length = precision ? length + precision + 1 : length;
+    // free(representation);
 
-    return length + precision + 1;
+    return length;
 }
 
 //limit precision?

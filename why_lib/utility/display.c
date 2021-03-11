@@ -4,31 +4,32 @@
 #include "why_hash_table_functions.h"
 #include "why_vector_functions.h"
 #include "why_string_functions.h"
+#include "why_memory_functions.h"
+#include "why_printf_functions.h"
 
-#include <stdio.h> //
+// #include <stdio.h> //
 
 static const char *item_separator = ";\n";
 static const char *string_separator = "\n-------------\n";
 
 void why_display_string(const char *literal)
 {
-    printf("%s", literal);
+    why_printf("%s", literal);
 }
 
 void why_display_int(int *n)
 {
-    printf("%d ", *n);
+    why_printf("%d ", *n);
 }
 
 void why_display_double(double *x)
 {
-    printf("%f", *x);
+    why_printf("%f", *x);
 }
 
-// #include "why_print.h"
 void why_display_string_token(const void *token)
 {
-    printf("%s ", ((why_string_token *)token)->string);
+    why_printf("%s ", ((why_string_token *)token)->string);
 }
 
 void why_display_list(const why_list *list, void (*display_function)())
@@ -44,10 +45,10 @@ void why_display_list(const why_list *list, void (*display_function)())
     {
         content = why_list_get_content(iterator);
         display_function(content);
-        printf("%s", item_separator);
+        why_printf("%s", item_separator);
         iterator = why_list_next(iterator);
     }
-    printf("LENGTH: %d\n\n", why_list_get_length(list));
+    why_printf("LENGTH: %d\n\n", why_list_get_length(list));
 }
 
 void why_display_hash_table(const why_hash_table *table, void (*display)())
@@ -61,9 +62,9 @@ void why_display_hash_table(const why_hash_table *table, void (*display)())
     n = 0;
     while (n < size)
     {
-        printf("index = %u: ", n);
+        why_printf("index = %u: ", n);
         why_display_list(array[n], why_display_string);
-        printf("\n");
+        why_printf("\n");
         n ++;
     }
 }
@@ -80,10 +81,10 @@ void why_display_vector(const why_vector *vector, void (*display_function)())
     {
         current_item = why_vector_at(vector, n); //replace with an iterator?
         display_function(current_item);
-        printf("%s", item_separator);
+        why_printf("%s", item_separator);
         n ++;
     }
-    printf("%s", string_separator);
+    why_printf("%s", string_separator);
 }
 
 void why_display_array(void **array, int number_of_elements, void (*display_functon)())
@@ -96,8 +97,8 @@ void why_display_array(void **array, int number_of_elements, void (*display_func
     {
         current_element = array[n];
         display_functon(current_element);
-        printf("%s", item_separator);
+        why_printf("%s", item_separator);
         n ++;
     }
-    printf("\n");
+    why_printf("\n");
 }

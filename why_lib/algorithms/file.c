@@ -4,6 +4,7 @@
 #include "why_vector_functions.h"
 #include "why_constants.h"
 #include "why_string_functions.h"
+#include "why_memory_functions.h"
 
 #include <stdlib.h>
 
@@ -61,7 +62,7 @@ why_vector *why_file_read_all_lines(const char *file_name)
     if (!buffer)
         return NULL;
     
-    vector = why_vector_create(DEFAULT, NULL, NULL);
+    vector = why_vector_create(DEFAULT, DEFAULT, why_memory_destroy);
     if (!vector)
         return NULL;
 

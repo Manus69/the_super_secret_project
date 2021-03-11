@@ -22,6 +22,19 @@ void *why_memory_copy(void *destination, const void *source, int number_of_bytes
     return destination;
 }
 
+void *why_memory_copy_double(double x)
+{
+    double *new_number;
+
+    new_number = malloc(sizeof(double));
+    if (!new_number)
+        return NULL;
+    
+    *new_number = x;
+
+    return (void *)new_number;
+}
+
 void *why_memory_copy_backwards(void *destination, const void *source, int number_of_bytes)
 {
     unsigned char *lhs;

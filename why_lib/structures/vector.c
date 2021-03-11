@@ -23,7 +23,7 @@ void why_vector_content_destroy(void **content, int number_of_items, void (*dest
     int n;
     void *current_item;
 
-    if (!content || !*content)
+    if (!content || !*content || !destroy)
         return ;
 
     n = 0;
@@ -41,7 +41,7 @@ why_vector *why_vector_create(int item_capacity, void *(*copy)(), void (*destroy
     
     item_capacity = item_capacity <= 0 ? VECTOR_DC : item_capacity;
     copy = copy ? copy : why_memory_shallow_copy;
-    destroy = destroy ? destroy : why_memory_destroy;
+    // destroy = destroy ? destroy : why_memory_destroy; //this is questionable
 
     if ((vector = malloc(sizeof(why_vector))))
     {

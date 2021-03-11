@@ -37,6 +37,8 @@ int why_string_is_digit(char c);
 int why_string_is_letter(char c);
 int why_string_atoi(const char *string); //this is rather permissive
 
+double why_string_atof(const char *number_string);
+
 struct why_vector *why_string_split(const char *literal, char separator);
 
 #endif

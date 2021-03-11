@@ -22,6 +22,9 @@
 #define DIGITS "0123456789"
 #define HEX_DIGITS "0123456789abcdef"
 
+#define EPSILON 1e-6
+#define NAN __DBL_MIN__
+
 #define STRING_BUFFER_DC 1 << 10
 #define VECTOR_DC 32
 

@@ -26,22 +26,12 @@ void string_sort_test()
 
 void split_test()
 {
-    why_buffer *buffer;
+    // why_buffer *buffer;
     why_vector *vector;
-    char *string;
 
-    buffer = why_buffer_create("text_file.txt", 0, 0);
-    vector = why_vector_create(0, NULL, NULL);
-    vector = why_file_read_all_lines_into_structure(buffer, '\n', vector, why_vector_push);
-    why_buffer_destroy(&buffer);
-
-    string = why_vector_accumualte(vector, 0, why_vector_get_length(vector), why_string_concat_destroy_left_rvp);
-    printf("%s\n", string);
-
-    why_vector *lines = why_string_split(string, '1');
-    why_display_vector(lines, why_display_string);
-    free(string);
-    why_vector_destroy(&lines);
+    // buffer = why_buffer_create("text_file.txt", DEFAULT, DEFAULT);
+    vector = why_file_read_all_lines("text_file.txt");
+    why_display_vector(vector, why_display_string);
 
     why_vector_destroy(&vector);
 }
@@ -184,15 +174,18 @@ void print_format_test()
 {
     char *string;
 
+    string = "%f\n";
+    why_printf(string, 10);
+
     //
     // string = why_sprintf("this is a test %10d\n ??? %3f\n", -1, 3.14159);
     // why_printf(string);
     // free(string);
 
-    string = why_file_read_file_into_string("text_file.txt");
+    // string = why_file_read_file_into_string("text_file.txt");
     
-    why_printf("%s\n", string);
-    free(string);
+    // why_printf("%s\n", string);
+    // free(string);
 
     // why_fprintf("this is a test %666d!\n", "text_file.txt", FILE_MODE_TRUNCATE | FILE_MODE_WRITE, -1);
 
@@ -209,9 +202,44 @@ char *file_read_test()
     return string;
 }
 
+void sqrt_test()
+{
+    why_vector *vector;
+    why_vector *number_strings;
+    why_vector *square_roots;
+
+
+    vector = why_file_read_all_lines("text_file.txt");
+    number_strings = why_string_split(why_vector_at(vector, 0), ' ');
+    square_roots = why_vector_create(DEFAULT, why_memory_copy_double, why_memory_destroy);
+
+    int n = 0;
+    char *current;
+    double x;
+    
+    while (n < why_vector_get_length(number_strings))
+    {
+        current = why_vector_at(number_strings, n);
+        x = why_string_atof(current);
+        x = why_math_sqrt(x);
+        why_vector_push(square_roots, &x);
+        n ++;
+    }
+
+    why_display_vector(square_roots, why_display_double);
+
+    why_vector_destroy(&vector);
+    why_vector_destroy(&number_strings);
+    why_vector_destroy(&square_roots);
+}
+
 //create apply functions for all containers?
 //make it so that hash table is "derived" from vector?
 //make functions either all safe or all unsafe?
+//complex
+//matrix
+//polynomial
+//sqrt
 
 int main()
 {
@@ -228,6 +256,8 @@ int main()
     // matcher_test2();
     print_format_test();
     // string_buffer_test();
+    // sqrt_test();
+
 
     // char *test = file_read_test();
 

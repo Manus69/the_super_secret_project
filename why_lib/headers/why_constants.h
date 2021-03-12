@@ -25,7 +25,7 @@
 #define EPSILON 1e-6
 #define NAN __DBL_MIN__
 
-#define STRING_BUFFER_DC 1 << 10
+#define STRING_BUFFER_DC 1 << 5
 #define VECTOR_DC 32
 
 #define S_FUNCTIONS_DVS 16

@@ -10,6 +10,7 @@ typedef struct why_matcher why_matcher;
 typedef struct why_string_buffer why_string_buffer;
 typedef struct why_string_token why_string_token;
 typedef struct why_complex why_complex;
+typedef struct why_real_polynomial why_real_polynomial;
 
 typedef why_vector why_stack;
 typedef why_list why_queue;

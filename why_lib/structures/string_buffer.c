@@ -16,9 +16,14 @@ why_string_buffer *why_string_buffer_create(int size)
     if (!buffer)
         return NULL;
 
-    buffer->content = why_memory_get_zeroes(size + 1);
+    // buffer->content = why_memory_get_zeroes(size + 1);
+    buffer->content = malloc(size + 1);
     if (!buffer->content)
+    {
+        free(buffer);
+
         return NULL;
+    }
     
     buffer->current = buffer->content;
     buffer->end = buffer->content + size;

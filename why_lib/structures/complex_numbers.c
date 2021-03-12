@@ -1,6 +1,7 @@
 #include "why_complex_structure.h"
 #include "why_typedefs.h"
 #include "why_memory_functions.h"
+#include "why_math_functions.h"
 
 void why_complex_set(why_complex *z, double x, double y)
 {
@@ -40,7 +41,11 @@ why_complex *why_complex_multiply(const why_complex *z, const why_complex *w)
 
 double why_complex_modulus(const why_complex *z)
 {
-    ;
+    double distance_squared;
+
+    distance_squared = z->x * z->x + z->y * z->y;
+
+    return why_math_sqrt(distance_squared);
 }
 
 double why_complex_argument(const why_complex *z)

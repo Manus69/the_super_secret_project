@@ -174,18 +174,18 @@ void print_format_test()
 {
     char *string;
 
-    string = "%f\n";
-    why_printf(string, 10);
+    // string = "%d";
+    // why_printf(string, -10);
 
     //
     // string = why_sprintf("this is a test %10d\n ??? %3f\n", -1, 3.14159);
     // why_printf(string);
     // free(string);
 
-    // string = why_file_read_file_into_string("text_file.txt");
+    string = why_file_read_file_into_string("text_file.txt");
     
-    // why_printf("%s\n", string);
-    // free(string);
+    why_printf("%s\n", string);
+    free(string);
 
     // why_fprintf("this is a test %666d!\n", "text_file.txt", FILE_MODE_TRUNCATE | FILE_MODE_WRITE, -1);
 
@@ -233,6 +233,17 @@ void sqrt_test()
     why_vector_destroy(&square_roots);
 }
 
+void sqrt_test2()
+{
+    double root;
+    double x;
+
+    x = (double)INT_MAX;
+    root = why_math_sqrt(x);
+    why_printf("%.20f", root);
+}
+
+
 //create apply functions for all containers?
 //make it so that hash table is "derived" from vector?
 //make functions either all safe or all unsafe?
@@ -254,10 +265,10 @@ int main()
     // hash_test();
     // matcher_test();
     // matcher_test2();
-    print_format_test();
+    // print_format_test();
     // string_buffer_test();
     // sqrt_test();
-
+    // sqrt_test2();
 
     // char *test = file_read_test();
 

@@ -107,7 +107,7 @@ void *why_vector_pop(why_vector *vector)
     return item;
 }
 
-void *why_vector_replace_at(why_vector *vector, const void *item, int index) //returns the old item
+int why_vector_replace_at(why_vector *vector, const void *item, int index)
 {
     void *old_item;
 
@@ -117,8 +117,9 @@ void *why_vector_replace_at(why_vector *vector, const void *item, int index) //r
     old_item = vector->content[index];
     // vector->content[index] = (void *)item;
     vector->content[index] = vector->copy_function(item);
+    vector->destructor(&old_item);
 
-    return old_item;
+    return SUCCESS;
 }
 
 int why_vector_push(why_vector *vector, const void *item)

@@ -73,22 +73,20 @@ int why_string_itoa_buffer(int number, int base, char *buffer)
     // why_memory_set(bytes, 0, INT_BUFFER_SIZE);
     current_pointer = bytes;
     sign = 1;
-
     value = number;
+    length = 0;
 
     if (number < 0 && base == 10)
     {
         sign = -1;
         value = -number;
+        *buffer = '-';
+        buffer ++;
+        length ++;
     }
     current_pointer += why_string_uitoa_buffer(value, base, bytes);
-    if (sign == -1)
-    {
-        *current_pointer = '-';
-        current_pointer ++;
-    }
-    length = current_pointer - bytes;
-    why_memory_copy_backwards(buffer, current_pointer - 1, length); //spooky?
+    length += current_pointer - bytes;
+    why_memory_copy(buffer, bytes, length);
 
     return length;
 }

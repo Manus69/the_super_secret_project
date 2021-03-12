@@ -21,7 +21,8 @@ int form_argument_string(char *argument_buffer, va_list *arg_list, const struct 
     else if (token->type == F)
     {
         actual_precision = token->precision_processed ? token->precision : PRINTF_PRECISION_DEFAULT;
-        length = why_string_ftoa_buffer(va_arg(*arg_list, double), actual_precision, argument_buffer);
+
+        length = why_string_ftoa_buffer((double)va_arg(*arg_list, double), actual_precision, argument_buffer);
     }
     else if (token->type == X)
     {
@@ -98,6 +99,7 @@ why_string_buffer *why_string_buffer_create_formatted(const char *format, va_lis
     
     string_buffer = why_string_buffer_create(STRING_BUFFER_DC);
     token = printf_token_create(format);
+    // why_memory_set(argument_buffer, 0, PRINTF_DOUBLE_DBC);
 
     while (true)
     {

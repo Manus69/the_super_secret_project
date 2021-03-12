@@ -4,7 +4,9 @@
 #include <stdlib.h>
 
 void *why_memory_copy(void *destination, const void *source, int number_of_bytes);
-void *why_memory_copy_double(double x);
+void *why_memory_copy_double(double *x);
+// void *why_memory_copy_double(void *x);
+
 void *why_memory_copy_backwards(void *destination, const void *source, int number_of_bytes);
 void *why_memory_shallow_copy(const void *source);
 void *why_memory_set(void *location, unsigned char value, int number_of_bytes);

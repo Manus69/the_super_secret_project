@@ -22,15 +22,19 @@ void *why_memory_copy(void *destination, const void *source, int number_of_bytes
     return destination;
 }
 
-void *why_memory_copy_double(double x)
+void *why_memory_copy_double(double *x)
 {
     double *new_number;
+    
+    
+    // int size = sizeof(double); //
+
 
     new_number = malloc(sizeof(double));
     if (!new_number)
         return NULL;
     
-    *new_number = x;
+    *new_number = *x;
 
     return (void *)new_number;
 }

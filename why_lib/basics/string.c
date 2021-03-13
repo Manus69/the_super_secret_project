@@ -307,3 +307,8 @@ int why_string_is_letter(char c)
 {
     return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
 }
+
+int why_string_is_whitespace(char c)
+{
+    return (c == ' ' || c == '\t');
+}

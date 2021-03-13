@@ -35,6 +35,7 @@ int why_string_compare_test(const void *lhs, const void *rhs); //
 //assumes ascii char set
 int why_string_is_digit(char c);
 int why_string_is_letter(char c);
+int why_string_is_whitespace(char c);
 int why_string_atoi(const char *string); //this is rather permissive
 
 double why_string_atof(const char *number_string);

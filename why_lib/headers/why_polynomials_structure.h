@@ -9,25 +9,35 @@ struct why_real_polynomial
     int degree;
 };
 
-enum polynomial_token_status
+enum p_token_status
 {
-    GREEN, BRICKED, EOS,
+    GREEN, FOUND, BRICKED, EOS,
 };
 
-struct polynomial_token
+enum p_string_item
+{
+    NONE, WS, SIGN, DIGIT, DOT, LETTER, CARET,
+};
+
+struct p_token
 {
     double decimal;
+    double decimal_divisor;
     int sign;
     unsigned int integer;
     unsigned int degree;
 
-    enum polynomial_token_status status;
+    enum p_token_status status;
+    enum p_string_item previous_item;
 
     char *string;
 
+    char variable_symbol;
     char dot_processed;
     char sign_processed;
+    char caret_processed;
     char variable_processed;
+    char partial_token;
 };
 
 

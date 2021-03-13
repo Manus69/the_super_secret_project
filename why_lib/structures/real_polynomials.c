@@ -1,6 +1,7 @@
 #include "why_polynomials_structure.h"
 #include "why_memory_functions.h"
 #include "why_vector_functions.h"
+#include "why_polynomials_internal.h"
 
 why_real_polynomial *why_polynomial_create()
 {
@@ -63,7 +64,9 @@ void why_polynomial_set_coefficient(why_real_polynomial *p, int degree, double v
 why_real_polynomial *why_polynomial_from_string(const char *string)
 {
     why_real_polynomial *p;
+    struct p_token *token;
 
-    p = why_polynomial_create();
+    token = p_token_create(string);
+
 
 }

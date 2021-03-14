@@ -11,5 +11,6 @@ void why_display_list(const struct why_list *list, void (*display_function)());
 void why_display_vector(const struct why_vector *vector, void (*display_function)());
 void why_display_array(void **array, int number_of_elements, void (*display_functon)());
 void why_display_hash_table(const why_hash_table *table, void (*display)()); //rework this
+void why_display_polynomial(why_real_polynomial *polynomial);
 
 #endif

@@ -112,7 +112,7 @@ int why_vector_replace_at(why_vector *vector, const void *item, int index)
     void *old_item;
 
     if (!vector || index < 0)
-        return NULL;
+        return FAILURE;
     
     old_item = vector->content[index];
     // vector->content[index] = (void *)item;

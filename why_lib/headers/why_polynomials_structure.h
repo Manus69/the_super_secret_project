@@ -33,11 +33,13 @@ struct p_token
     char *string;
 
     char variable_symbol;
+
     char dot_processed;
     char sign_processed;
     char caret_processed;
     char variable_processed;
     char partial_token;
+    char coefficient_processed;
 };
 
 

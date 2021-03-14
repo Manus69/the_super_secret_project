@@ -243,6 +243,15 @@ void sqrt_test2()
     why_printf("%.20f", root);
 }
 
+void p_test()
+{
+    why_real_polynomial *p;
+
+    p = why_polynomial_from_string("x^2");
+    why_display_polynomial(p);
+
+    why_polynomial_destroy(&p);
+}
 
 //create apply functions for all containers?
 //make it so that hash table is "derived" from vector?
@@ -269,6 +278,7 @@ int main()
     // string_buffer_test();
     // sqrt_test();
     // sqrt_test2();
+    p_test();
 
     // char *test = file_read_test();
 

@@ -6,6 +6,8 @@
 #include "why_string_functions.h"
 #include "why_memory_functions.h"
 #include "why_printf_functions.h"
+#include "why_typedefs.h"
+#include "why_polynomial_functions.h"
 
 // #include <stdio.h> //
 
@@ -98,6 +100,29 @@ void why_display_array(void **array, int number_of_elements, void (*display_func
         current_element = array[n];
         display_functon(current_element);
         why_printf("%s", item_separator);
+        n ++;
+    }
+    why_printf("\n");
+}
+
+void why_display_polynomial(why_real_polynomial *polynomial)
+{
+    int n;
+    int degree;
+
+    n = 0;
+    degree = why_polynomial_get_degree(polynomial);
+    while (n <= degree)
+    {
+        why_printf("%.3f", why_polynomial_get_coefficient(polynomial, n));
+        if (n > 1)
+        {
+            why_printf("x^%d ", n);
+        }
+        else if (n == 1)
+            why_printf("x");
+        if (n < degree)
+            why_printf(" + ");
         n ++;
     }
     why_printf("\n");

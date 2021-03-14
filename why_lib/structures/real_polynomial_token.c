@@ -17,6 +17,7 @@ void p_token_reset(struct p_token *token)
     token->variable_symbol = 'x';
 
     token->caret_processed = false;
+    token->coefficient_processed = false;
     token->dot_processed = false;
     token->partial_token = false;
     token->sign_processed = false;
@@ -77,6 +78,13 @@ int p_token_process_sign(struct p_token *token)
     if (token->sign_processed || token->previous_item == DOT || token->previous_item == CARET)
         return p_token_brick(token);
 
+    if (token->previous_item == DIGIT || token->previous_item == LETTER)
+    {
+        token->status = FOUND;
+
+        return token->status;
+    }
+
     if (*token->string == '-')
         token->sign = -1;
 
@@ -125,6 +133,9 @@ int p_token_process_letter(struct p_token *token)
 {
     if (token->previous_item == CARET || token->previous_item == DOT)
         return p_token_brick(token);
+    if (token->previous_item == DIGIT)
+        token->coefficient_processed = true;
+
     if (token->variable_processed == false)
     {
         token->variable_symbol = *token->string;
@@ -152,6 +163,15 @@ int p_token_process_caret(struct p_token *token)
 
 int p_token_process_nul(struct p_token *token)
 {
+    if (token->previous_item == CARET || token->previous_item == DOT)
+        return p_token_brick(token);
+
+    if (token->previous_item == LETTER)
+    {
+        token->degree = 1;
+        token->integer = 1;
+    }
+
     if (token->partial_token)
         token->status = EOS;
     else
@@ -163,9 +183,9 @@ int p_token_next(struct p_token *token)
 {
     char current_char;
 
-    current_char = *token->string;    
     while (true)
     {
+        current_char = *token->string;
         if (why_string_is_whitespace(current_char))
             p_token_process_whitespace(token);
         else if (current_char == '+' || current_char == '-')
@@ -174,6 +194,8 @@ int p_token_next(struct p_token *token)
             p_token_process_digit(token);
         else if (why_string_is_letter(current_char))
             p_token_process_letter(token);
+        else if (current_char == '^')
+            p_token_process_caret(token);
         else if (current_char == '\0')
             p_token_process_nul(token);
         

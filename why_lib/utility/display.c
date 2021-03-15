@@ -110,6 +110,9 @@ void why_display_polynomial(why_real_polynomial *polynomial)
     int n;
     int degree;
 
+    if (!polynomial)
+        return ;
+        
     n = 0;
     degree = why_polynomial_get_degree(polynomial);
     while (n <= degree)

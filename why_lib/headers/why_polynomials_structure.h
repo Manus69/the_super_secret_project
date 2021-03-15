@@ -40,6 +40,7 @@ struct p_token
     char variable_processed;
     char partial_token;
     char coefficient_processed;
+    char empty_token;
 };
 
 

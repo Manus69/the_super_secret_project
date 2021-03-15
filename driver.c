@@ -247,7 +247,7 @@ void p_test()
 {
     why_real_polynomial *p;
 
-    p = why_polynomial_from_string("x^2");
+    p = why_polynomial_from_string("x^3");
     why_display_polynomial(p);
 
     why_polynomial_destroy(&p);

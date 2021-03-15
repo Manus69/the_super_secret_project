@@ -63,12 +63,12 @@ void why_polynomial_destroy(why_real_polynomial **p)
     why_memory_destroy((void **)p);
 }
 
-int why_polynomial_get_degree(why_real_polynomial *p)
+int why_polynomial_get_degree(const why_real_polynomial *p)
 {
     return p->degree;
 }
 
-double why_polynomial_get_coefficient(why_real_polynomial *p, int n)
+double why_polynomial_get_coefficient(const why_real_polynomial *p, int n)
 {
     double coefficient;
 
@@ -118,12 +118,33 @@ int why_polynomial_set_coefficient(why_real_polynomial *p, int degree, double va
     return SUCCESS;
 }
 
+static int adjust_coefficient(why_real_polynomial *p, const struct p_token *token)
+{
+    double old_coefficient;
+    double new_coefficient;
+    int current_length;
+
+    current_length = why_vector_get_length(p->coefficients);
+    if (token->degree >= current_length)
+    {
+        if (why_polynomial_reallocate(p, token->degree - current_length + 1) == FAILURE)
+            return FAILURE;
+    }
+
+    new_coefficient = (token->integer + token->decimal) * token->sign;
+    old_coefficient = why_polynomial_get_coefficient(p, token->degree);
+    why_polynomial_set_coefficient(p, token->degree, new_coefficient + old_coefficient);
+
+    return SUCCESS;
+}
+
 //a + bx + cx^2 + ... + qx^n
 why_real_polynomial *why_polynomial_from_string(const char *string)
 {
     why_real_polynomial *p;
     struct p_token *token;
     double coefficient;
+    double old_coefficient;
 
     token = p_token_create(string);
     p = why_polynomial_create();
@@ -134,13 +155,11 @@ why_real_polynomial *why_polynomial_from_string(const char *string)
 
         if (token->status == FOUND)
         {
-            coefficient = token->integer + token->decimal;
-            why_polynomial_set_coefficient(p, token->degree, coefficient);
+            adjust_coefficient(p, token);
         }
-        else if (token->status == EOS && token->partial_token)
+        else if (token->status == EOS && (token->partial_token || token->empty_token))
         {
-            coefficient = token->integer + token->decimal;
-            why_polynomial_set_coefficient(p, token->degree, coefficient);
+            adjust_coefficient(p, token);
             free(token);
             
             return p;
@@ -149,9 +168,26 @@ why_real_polynomial *why_polynomial_from_string(const char *string)
         {
             //handle errors;
             free(token);
+            why_polynomial_destroy(&p);
             
-            return p;
+            return NULL;
         }
         p_token_reset(token);
     }
+}
+
+double why_polynomial_evaluate(const why_real_polynomial *p, double x)
+{
+    double value;
+    int n;
+
+    value = why_polynomial_get_coefficient(p, p->degree);
+    n = p->degree - 1;
+    while (n >= 0)
+    {
+        value = value * x + why_polynomial_get_coefficient(p, n);
+        n --;
+    }
+
+    return value;
 }

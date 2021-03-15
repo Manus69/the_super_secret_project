@@ -19,6 +19,7 @@ void p_token_reset(struct p_token *token)
     token->caret_processed = false;
     token->coefficient_processed = false;
     token->dot_processed = false;
+    token->empty_token = true;
     token->partial_token = false;
     token->sign_processed = false;
     token->variable_processed = false;
@@ -62,7 +63,7 @@ int p_token_process_whitespace(struct p_token *token)
     enum p_string_item previous;
 
     previous = token->previous_item;
-    if (previous == DOT)
+    if (previous == DOT || previous == CARET)
         return p_token_brick(token);
 
     if (previous == DIGIT || token->caret_processed)
@@ -78,7 +79,8 @@ int p_token_process_sign(struct p_token *token)
     if (token->sign_processed || token->previous_item == DOT || token->previous_item == CARET)
         return p_token_brick(token);
 
-    if (token->previous_item == DIGIT || token->previous_item == LETTER)
+    token->empty_token = false;
+    if (token->previous_item == DIGIT || token->previous_item == LETTER || token->previous_item == WS)
     {
         token->status = FOUND;
 
@@ -113,6 +115,7 @@ int p_token_process_digit(struct p_token *token)
     }
     token->previous_item = DIGIT;
     token->partial_token = true;
+    token->empty_token = false;
 
     return token->status;
 }
@@ -125,6 +128,7 @@ int p_token_process_dot(struct p_token *token)
         return p_token_brick(token);
     
     token->previous_item = DOT;
+    token->empty_token = false;
 
     return token->status;
 }
@@ -144,8 +148,15 @@ int p_token_process_letter(struct p_token *token)
     else if (*token->string != token->variable_symbol)
         return p_token_brick(token);
 
+    if (token->previous_item != DIGIT)
+    {
+        token->integer = 1;
+        token->degree = 1;
+    }
+
     token->previous_item = LETTER;
     token->partial_token = true;
+    token->empty_token = false;
 
     return token->status;
 }
@@ -157,6 +168,10 @@ int p_token_process_caret(struct p_token *token)
 
     token->previous_item = CARET;
     token->caret_processed = true;
+    token->variable_processed = true;
+    token->empty_token = false;
+
+    token->degree = 0;
 
     return token->status;
 }
@@ -166,13 +181,7 @@ int p_token_process_nul(struct p_token *token)
     if (token->previous_item == CARET || token->previous_item == DOT)
         return p_token_brick(token);
 
-    if (token->previous_item == LETTER)
-    {
-        token->degree = 1;
-        token->integer = 1;
-    }
-
-    if (token->partial_token)
+    if (token->partial_token || token->empty_token)
         token->status = EOS;
     else
         return p_token_brick(token);

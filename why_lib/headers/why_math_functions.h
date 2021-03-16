@@ -10,5 +10,6 @@ int why_math_is_prime(unsigned int number);
 
 double why_math_sqrt(double x);
 double why_math_modulus(double x, double mod);
+double why_math_sin(double phi);
 
 #endif

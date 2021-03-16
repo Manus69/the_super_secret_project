@@ -253,6 +253,21 @@ void p_test()
     why_polynomial_destroy(&p);
 }
 
+void math_test()
+{
+    double x;
+    double pi;
+
+    pi = PI;
+    x = pi / 2;
+    // x = why_math_modulus(-x, 2 * pi);
+    // why_printf("%f\n", x);
+    
+    double y;
+    y = why_math_sin(PI/4);
+    why_printf("%f\n", y);
+}
+
 //create apply functions for all containers?
 //make it so that hash table is "derived" from vector?
 //make functions either all safe or all unsafe?
@@ -278,7 +293,8 @@ int main()
     // string_buffer_test();
     // sqrt_test();
     // sqrt_test2();
-    p_test();
+    // p_test();
+    math_test();
 
     // char *test = file_read_test();
 

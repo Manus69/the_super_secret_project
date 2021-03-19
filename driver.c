@@ -255,18 +255,16 @@ void p_test()
 
 void math_test()
 {
-    double x;
-    double pi;
-
-    pi = PI;
-    x = pi / 2;
+    // double x;
     // x = why_math_modulus(-x, 2 * pi);
     // why_printf("%f\n", x);
     
-    // double y;
-    // y = why_math_sin(1.5 * PI + 0.25 * PI);
-    // why_printf("%.10f\n", y);
-    why_printf("%f", -0.5);
+    double y;
+    y = why_math_sin(-PI / 8);
+    why_printf("%.10f\n", y);
+
+    y = why_math_sin_test(-PI / 8);
+    why_printf("%.10f\n", y);
 }
 
 //create apply functions for all containers?

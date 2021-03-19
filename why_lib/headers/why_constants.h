@@ -24,7 +24,7 @@
 
 #define EPSILON 1e-6
 #define NAN __DBL_MIN__
-#define PI 3.141526535897932384
+#define PI (long double)3.1415926535897932384
 
 #define STRING_BUFFER_DC 1 << 5
 #define VECTOR_DC 32

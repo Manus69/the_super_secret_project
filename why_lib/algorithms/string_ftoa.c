@@ -81,8 +81,7 @@ int why_string_ftoa_buffer(double x, int precision, char *buffer)
     
     if (representation.integer == 0 && representation.sign == -1)
     {
-        
-        *buffer == '-';
+        *buffer = '-';
         buffer ++;
         length ++;
     }

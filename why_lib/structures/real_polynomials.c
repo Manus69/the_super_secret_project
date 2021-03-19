@@ -79,14 +79,13 @@ double why_polynomial_get_coefficient(const why_real_polynomial *p, int n)
 
 int why_polynomial_reallocate(why_real_polynomial *p, int extra_capacity)
 {
-    int current_length;
-    int n;
+    // int current_length;
     double value;
 
     if (extra_capacity <= 0)
         return FAILURE;
 
-    current_length = why_vector_get_length(p->coefficients);
+    // current_length = why_vector_get_length(p->coefficients);
     value = 0;
 
     if (why_vector_reallocate(p->coefficients, extra_capacity) == FAILURE)
@@ -125,7 +124,7 @@ static int adjust_coefficient(why_real_polynomial *p, const struct p_token *toke
     int current_length;
 
     current_length = why_vector_get_length(p->coefficients);
-    if (token->degree >= current_length)
+    if ((int)token->degree >= current_length)
     {
         if (why_polynomial_reallocate(p, token->degree - current_length + 1) == FAILURE)
             return FAILURE;
@@ -143,8 +142,6 @@ why_real_polynomial *why_polynomial_from_string(const char *string)
 {
     why_real_polynomial *p;
     struct p_token *token;
-    double coefficient;
-    double old_coefficient;
 
     token = p_token_create(string);
     p = why_polynomial_create();

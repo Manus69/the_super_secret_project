@@ -21,7 +21,8 @@ $(driver_file:.c=.o): $(driver_file)
 	$(compiler) $(flags) -I $(directory) $(driver_file) -c -o $(driver_file:.c=.o)
 
 executable: $(driver_file:.c=.o)
-	make flags=$(flags) -C $(directory)
+	# make flags=$(flags) -C $(directory)
+	make -C $(directory)
 	$(compiler) $(flags) -o $(executable) -I ./$(directory) -L ./$(directory) $(driver_file:.c=.o) $(addprefix $(full_path)/,$(lib_name))
 
 clean:

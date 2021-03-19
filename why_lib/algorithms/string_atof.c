@@ -9,7 +9,7 @@ struct number
     char dot_encountered;
 };
 
-struct number number_reset(struct number *number)
+void  number_reset(struct number *number)
 {
     number->integer = 0;
     number->decimal = 0;

@@ -50,7 +50,9 @@ void process_plus_minus(struct why_printf_token *token, char current_char)
     if (current_char == '-')
         token->alignment = -1;
     else if (current_char == '+')
+    {
         ; // token->alignment = 1; //implement this shit later?
+    }
 
     token->alignment_processed = true;
 }

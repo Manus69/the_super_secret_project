@@ -49,7 +49,7 @@ int append_literal(why_string_buffer *buffer, va_list *arg_list, struct why_prin
     length = why_string_get_length(string);
     delta = token->width - length;
 
-    if (token->alignment = 1)
+    if (token->alignment == 1)
     {
         why_string_buffer_append_char(buffer, token->padding_char, delta);
         why_string_buffer_append_string(buffer, string);

@@ -64,7 +64,6 @@ int why_string_itoa_buffer(int number, int base, char *buffer)
     unsigned int value;
     char bytes[PRINTF_INT_DBC];
     char *current_pointer;
-    int sign;
     int length;
 
     if (base < 2 || base > 16)
@@ -72,13 +71,11 @@ int why_string_itoa_buffer(int number, int base, char *buffer)
 
     // why_memory_set(bytes, 0, INT_BUFFER_SIZE);
     current_pointer = bytes;
-    sign = 1;
     value = number;
     length = 0;
 
     if (number < 0 && base == 10)
     {
-        sign = -1;
         value = -number;
         *buffer = '-';
         buffer ++;

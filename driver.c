@@ -263,9 +263,10 @@ void math_test()
     // x = why_math_modulus(-x, 2 * pi);
     // why_printf("%f\n", x);
     
-    double y;
-    y = why_math_sin(PI/4);
-    why_printf("%f\n", y);
+    // double y;
+    // y = why_math_sin(1.5 * PI + 0.25 * PI);
+    // why_printf("%.10f\n", y);
+    why_printf("%f", -0.5);
 }
 
 //create apply functions for all containers?

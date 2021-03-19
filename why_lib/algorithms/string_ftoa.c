@@ -66,7 +66,6 @@ static int process_decimal_fraction(struct fpn_representation *representation)
 //there is some bullshit with . and .0
 int why_string_ftoa_buffer(double x, int precision, char *buffer)
 {
-    // struct fpn_representation *representation;
     struct fpn_representation representation;
     int length;
     int digit;
@@ -75,14 +74,20 @@ int why_string_ftoa_buffer(double x, int precision, char *buffer)
     if (x > INT_MAX || x < INT_MIN)
         x = 0;
     
-    // representation = fpn_representation_create(x, precision);
+    length = 0;
     reset_fpn_representation(&representation, x, precision);
-    // process_decimal_fraction(representation);
     process_decimal_fraction(&representation);
 
     
-    // length = why_string_itoa_buffer(representation->integer * representation->sign, 10, buffer);
-    length = why_string_itoa_buffer(representation.integer * representation.sign, 10, buffer);
+    if (representation.integer == 0 && representation.sign == -1)
+    {
+        
+        *buffer == '-';
+        buffer ++;
+        length ++;
+    }
+
+    length += why_string_itoa_buffer(representation.integer * representation.sign, 10, buffer);
 
     buffer += length;
 

@@ -186,6 +186,7 @@ int p_token_process_nul(struct p_token *token)
     else
         return p_token_brick(token);
 
+    return token->status;
 }
 
 int p_token_next(struct p_token *token)

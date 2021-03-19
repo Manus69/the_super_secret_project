@@ -13,7 +13,7 @@ why_complex *why_complex_create(double x, double y)
 {
     why_complex *z;
 
-    if (z = malloc(sizeof(why_complex)))
+    if ((z = malloc(sizeof(why_complex))))
     {
         why_complex_set(z, x, y);
 
@@ -48,7 +48,7 @@ double why_complex_modulus(const why_complex *z)
     return why_math_sqrt(distance_squared);
 }
 
-double why_complex_argument(const why_complex *z)
-{
-    ;
-}
+// double why_complex_argument(const why_complex *z)
+// {
+//     ;
+// }

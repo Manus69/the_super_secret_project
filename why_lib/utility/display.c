@@ -65,7 +65,7 @@ void why_display_hash_table(const why_hash_table *table, void (*display)())
     while (n < size)
     {
         why_printf("index = %u: ", n);
-        why_display_list(array[n], why_display_string);
+        why_display_list(array[n], display); //?
         why_printf("\n");
         n ++;
     }

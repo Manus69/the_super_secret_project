@@ -99,7 +99,6 @@ int why_string_ftoa_buffer(double x, int precision, char *buffer)
         buffer ++;
     }
 
-    // decimal = representation->decimal;
     decimal = representation.decimal;
     while (precision)
     {
@@ -111,10 +110,8 @@ int why_string_ftoa_buffer(double x, int precision, char *buffer)
         buffer ++;
     }
 
-    // precision = representation->precision;
     precision = representation.precision;
     length = precision ? length + precision + 1 : length;
-    // free(representation);
 
     return length;
 }

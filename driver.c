@@ -259,11 +259,12 @@ void math_test()
     // x = why_math_modulus(-x, 2 * pi);
     // why_printf("%f\n", x);
     
+    double phi = 7 * PI / 4;
     double y;
-    y = why_math_sin(-PI / 8);
+    y = why_math_sin(phi);
     why_printf("%.10f\n", y);
 
-    y = why_math_sin_test(-PI / 8);
+    y = why_math_cos(phi);
     why_printf("%.10f\n", y);
 }
 

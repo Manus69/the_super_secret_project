@@ -188,3 +188,8 @@ double why_polynomial_evaluate(const why_real_polynomial *p, double x)
 
     return value;
 }
+
+why_vector *why_polynomial_get_roots(const why_real_polynomial *p)
+{
+    ;
+}

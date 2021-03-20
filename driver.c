@@ -293,8 +293,8 @@ int main()
     // string_buffer_test();
     // sqrt_test();
     // sqrt_test2();
-    // p_test();
-    math_test();
+    p_test();
+    // math_test();
 
     // char *test = file_read_test();
 

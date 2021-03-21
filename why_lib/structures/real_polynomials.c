@@ -189,7 +189,23 @@ double why_polynomial_evaluate(const why_real_polynomial *p, double x)
     return value;
 }
 
+why_vector *no_roots()
+{
+    return why_vector_create(1, why_memory_copy_double, why_memory_destroy);
+}
+
+why_vector *solve_first_degree_polynomial(const why_real_polynomial *p)
+{
+    double coefficient;
+
+    coefficient = why_polynomial_get_coefficient(p, 1);
+}
+
+
 why_vector *why_polynomial_get_roots(const why_real_polynomial *p)
 {
-    ;
+    if (p->degree == 0)
+        return no_roots();
+    if (p->degree == 1)
+        return solve_first_degree_polynomial(p);
 }

@@ -4,6 +4,9 @@
 #include "why_polynomials_internal.h"
 #include "why_constants.h"
 #include "why_polynomial_functions.h"
+#include "why_math_functions.h"
+
+#define DEFAULT_P_SIZE 3
 
 void why_polynomial_get_zeroes(why_real_polynomial *p)
 {
@@ -22,17 +25,18 @@ void why_polynomial_get_zeroes(why_real_polynomial *p)
     }
 }
 
-why_real_polynomial *why_polynomial_create()
+why_real_polynomial *why_polynomial_create(int size)
 {
     why_real_polynomial *p;
-    int length;
     double value;
 
+    if (size <= 0)
+        size = DEFAULT_P_SIZE;
     p = malloc(sizeof(why_real_polynomial));
+
     if (p)
     {
-        length = 3;
-        p->coefficients = why_vector_create(length, why_memory_copy_double, why_memory_destroy);
+        p->coefficients = why_vector_create(size, why_memory_copy_double, why_memory_destroy);
         if (!p->coefficients)
         {
             free(p);
@@ -41,10 +45,10 @@ why_real_polynomial *why_polynomial_create()
         }
         // why_polynomial_get_zeroes(p);
         value = 0;
-        while (length)
+        while (size)
         {
             why_vector_push(p->coefficients, &value);
-            length --;
+            size --;
         }
         p->degree = 0;
 
@@ -144,7 +148,7 @@ why_real_polynomial *why_polynomial_from_string(const char *string)
     struct p_token *token;
 
     token = p_token_create(string);
-    p = why_polynomial_create();
+    p = why_polynomial_create(DEFAULT);
 
     while (true)
     {
@@ -189,23 +193,24 @@ double why_polynomial_evaluate(const why_real_polynomial *p, double x)
     return value;
 }
 
-why_vector *no_roots()
-{
-    return why_vector_create(1, why_memory_copy_double, why_memory_destroy);
-}
+// f(x) = a + bx + cx^2 + dx^3 + ... + kx^n
+// f'(x) = b + 2cx + 3dx^2 + ... + nkx^(n-1)
 
-why_vector *solve_first_degree_polynomial(const why_real_polynomial *p)
+why_real_polynomial *why_polynomial_get_derivative(const why_real_polynomial *p)
 {
+    why_real_polynomial *derivative;
+    int n;
     double coefficient;
 
-    coefficient = why_polynomial_get_coefficient(p, 1);
-}
+    derivative = why_polynomial_create(p->degree);
+    n = 0;
 
+    while (n < p->degree)
+    {
+        coefficient = (n + 1) * why_polynomial_get_coefficient(p, n + 1);
+        why_polynomial_set_coefficient(derivative, n, coefficient);
+        n ++;
+    }
 
-why_vector *why_polynomial_get_roots(const why_real_polynomial *p)
-{
-    if (p->degree == 0)
-        return no_roots();
-    if (p->degree == 1)
-        return solve_first_degree_polynomial(p);
+    return derivative;
 }

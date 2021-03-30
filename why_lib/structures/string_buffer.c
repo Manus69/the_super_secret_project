@@ -5,6 +5,11 @@
 #include "why_string_functions.h"
 #include "why_typedefs.h"
 
+void why_string_buffer_reset(why_string_buffer *buffer)
+{
+    buffer->current = buffer->content;
+}
+
 why_string_buffer *why_string_buffer_create(int size)
 {
     why_string_buffer *buffer;
@@ -25,7 +30,7 @@ why_string_buffer *why_string_buffer_create(int size)
         return NULL;
     }
     
-    buffer->current = buffer->content;
+    why_string_buffer_reset(buffer);
     buffer->end = buffer->content + size;
 
     return buffer;
@@ -53,11 +58,6 @@ int why_string_buffer_get_current_capacity(const why_string_buffer *buffer)
 int why_string_buffer_get_total_capacity(const why_string_buffer *buffer)
 {
     return buffer->end - buffer->content;
-}
-
-void why_string_buffer_reset(why_string_buffer *buffer)
-{
-    buffer->current = buffer->content;
 }
 
 int why_string_buffer_realloc(why_string_buffer *buffer, int extra_capacity)

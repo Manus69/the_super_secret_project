@@ -10,17 +10,18 @@
 
 void why_polynomial_get_zeroes(why_real_polynomial *p)
 {
-    double value;
+    // double value;
     int n;
     int length;
 
-    value = 0;
+    // value = 0;
     n = 0;
     length = why_vector_get_length(p->coefficients);
 
     while (n < length)
     {
-        why_vector_replace_at(p->coefficients, &value, n);
+        // why_vector_replace_at(p->coefficients, &value, n);
+        why_vector_replace_at(p->coefficients, NULL, n);
         n ++;
     }
 }
@@ -43,13 +44,13 @@ why_real_polynomial *why_polynomial_create(int size)
 
             return NULL;
         }
-        // why_polynomial_get_zeroes(p);
-        value = 0;
-        while (size)
-        {
-            why_vector_push(p->coefficients, &value);
-            size --;
-        }
+        why_polynomial_get_zeroes(p);
+        // value = 0;
+        // while (size)
+        // {
+        //     why_vector_push(p->coefficients, &value);
+        //     size --;
+        // }
         p->degree = 0;
 
         return p;

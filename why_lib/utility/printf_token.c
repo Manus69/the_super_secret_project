@@ -40,6 +40,21 @@ struct why_printf_token *printf_token_create(const char *string)
     return token;
 }
 
+struct why_printf_token printf_token_create_on_stack(const char *string)
+{
+    struct why_printf_token token;
+
+    token.start = (char *)string;
+    token.end = (char *)string;
+
+    token.padding_char = ' ';
+    token.eos = false;
+
+    token_reset(&token);
+
+    return token;
+}
+
 void token_destroy(struct why_printf_token **token)
 {
     if (!token || !*token)

@@ -109,6 +109,7 @@ void why_display_polynomial(why_real_polynomial *polynomial)
 {
     int n;
     int degree;
+    double coefficient;
 
     if (!polynomial)
         return ;
@@ -117,7 +118,14 @@ void why_display_polynomial(why_real_polynomial *polynomial)
     degree = why_polynomial_get_degree(polynomial);
     while (n <= degree)
     {
-        why_printf("%.3f", why_polynomial_get_coefficient(polynomial, n));
+        coefficient = why_polynomial_get_coefficient(polynomial, n);
+        if (coefficient)
+            why_printf("%.3f", coefficient);
+        else
+        {
+            n ++;
+            continue ;
+        }
         if (n > 1)
         {
             why_printf("x^%d ", n);

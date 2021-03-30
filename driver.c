@@ -147,27 +147,22 @@ void matcher_test2()
     why_buffer_destroy(&buffer);
 }
 
-void string_buffer_test()
+void printf_test()
 {
-    why_string_buffer *buffer;
-    char *string;
     int n;
+    double value;
 
-    n = 11;
-    buffer = NULL;
+    why_printf(NULL);
+
+    n = 1 << 20;
+    value = 0;
     while (n)
     {
-        buffer = why_string_buffer_append_string_rvp(buffer, "012");
+        why_printf("%f ", value);
+        // printf("%f ", value);
+
         n --;
     }
-
-
-    string = why_string_buffer_get_content(buffer);
-    free(buffer);
-    printf("%s\n", string);
-
-
-    free(string);
 }
 
 void print_format_test()
@@ -185,6 +180,8 @@ void print_format_test()
     string = why_file_read_file_into_string("text_file.txt");
     
     why_printf("%s\n", string);
+    // printf("%s\n", string);
+
     free(string);
 
     // why_fprintf("this is a test %666d!\n", "text_file.txt", FILE_MODE_TRUNCATE | FILE_MODE_WRITE, -1);
@@ -247,7 +244,7 @@ void p_test()
 {
     why_real_polynomial *p;
 
-    p = why_polynomial_from_string("1+1 +x^600");
+    p = why_polynomial_from_string("1+1 + 2x^600");
     why_display_polynomial(p);
     why_real_polynomial *p_prime;
 
@@ -300,17 +297,19 @@ int main()
     // matcher_test();
     // matcher_test2();
     // print_format_test();
-    // string_buffer_test();
+    // printf_test();
     // sqrt_test();
     // sqrt_test2();
     p_test();
     // math_test();
 
+
     // char *test = file_read_test();
 
     end = clock();
 
-    printf("\ntime elapsed: %f\n", ((double)(end - start)) / CLOCKS_PER_SEC);
+    why_printf("\ntime elapsed: %f\n", ((double)(end - start)) / CLOCKS_PER_SEC);
+    why_printf(NULL);
 
     return 0;
 }

@@ -90,14 +90,12 @@ int append_to_buffer(why_string_buffer *string_buffer, char *argument_buffer, va
     return length;
 }
 
-why_string_buffer *why_string_buffer_create_formatted(const char *format, va_list *arg_list)
+//
+void why_string_buffer_format_args(why_string_buffer *string_buffer, const char *format, va_list *arg_list)
 {
-    why_string_buffer *string_buffer;
     struct why_printf_token *token;
     char argument_buffer[PRINTF_DOUBLE_DBC];
 
-    
-    string_buffer = why_string_buffer_create(STRING_BUFFER_DC);
     token = printf_token_create(format);
     why_memory_set(argument_buffer, 0, PRINTF_DOUBLE_DBC); //get rid of this?
 
@@ -116,6 +114,43 @@ why_string_buffer *why_string_buffer_create_formatted(const char *format, va_lis
     }
     
     token_destroy(&token);
+}
+
+why_string_buffer *why_string_buffer_create_formatted(const char *format, va_list *arg_list)
+{
+    static why_string_buffer *string_buffer;
+    char argument_buffer[PRINTF_DOUBLE_DBC];
+    struct why_printf_token token;
+    // struct why_printf_token *token;
+
+    if (!string_buffer)
+        string_buffer = why_string_buffer_create(STRING_BUFFER_DC);
+
+    // if (string_buffer)
+    //     why_string_buffer_reset(string_buffer);
+    // else
+    //     string_buffer = why_string_buffer_create(STRING_BUFFER_DC);
+
+    // token = printf_token_create(format);
+    token = printf_token_create_on_stack(format);
+    why_memory_set(argument_buffer, 0, PRINTF_DOUBLE_DBC); //get rid of this?
+
+    while (true)
+    {
+        // token = get_next_token(token);
+        get_next_token(&token);
+        if (token.type == BRICKED)
+        {
+            //error handling?
+            break ;
+        }
+        if (token.eos == true)
+            break ;
+        append_to_buffer(string_buffer, argument_buffer, arg_list, &token);
+        token_reset(&token);
+    }
+    
+    // token_destroy(&token);
 
     return string_buffer;
 }

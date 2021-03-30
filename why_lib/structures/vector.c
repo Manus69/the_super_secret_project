@@ -23,7 +23,7 @@ void why_vector_content_destroy(void **content, int number_of_items, void (*dest
     int n;
     void *current_item;
 
-    if (!content || !*content || !destroy)
+    if (!content || !destroy)
         return ;
 
     n = 0;
@@ -142,6 +142,11 @@ int why_vector_push(why_vector *vector, const void *item)
 int why_vector_get_length(const why_vector *vector)
 {
     return vector ? vector->current_index : 0;
+}
+
+int why_vector_get_capacity(const why_vector *vector)
+{
+    return vector->item_capacity;
 }
 
 int why_vector_is_sorted(const why_vector *vector, int (*comapre)())

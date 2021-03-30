@@ -244,18 +244,18 @@ void p_test()
 {
     why_real_polynomial *p;
 
-    p = why_polynomial_from_string("1+1 + 2x^600");
+    p = why_polynomial_from_string("2*x^6+ x^6");
     why_display_polynomial(p);
-    why_real_polynomial *p_prime;
 
+    why_real_polynomial *p_prime;
     p_prime = why_polynomial_get_derivative(p);
     why_display_polynomial(p_prime);
     why_polynomial_destroy(&p_prime);
-    // double f;
-    // double x;
-    // x = -PI;
-    // f = why_polynomial_evaluate(p, x);
-    // why_printf("f(%.3f) = %.3f;\n", x, f);
+    double f;
+    double x;
+    x = -PI;
+    f = why_polynomial_evaluate(p, x);
+    why_printf("f(%.3f) = %.3f;\n", x, f);
 
     why_polynomial_destroy(&p);
 }

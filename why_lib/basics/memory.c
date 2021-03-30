@@ -29,6 +29,8 @@ void *why_memory_copy_double(double *x)
     
     // int size = sizeof(double); //
 
+    if (!x)
+        return NULL;
 
     new_number = malloc(sizeof(double));
     if (!new_number)

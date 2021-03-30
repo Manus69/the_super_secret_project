@@ -8,21 +8,15 @@
 
 #define DEFAULT_P_SIZE 3
 
-void why_polynomial_get_zeroes(why_real_polynomial *p)
+void why_polynomial_get_zeroes(why_real_polynomial *p, int number)
 {
-    // double value;
-    int n;
-    int length;
+    if (number < 0)
+        return ;
 
-    // value = 0;
-    n = 0;
-    length = why_vector_get_length(p->coefficients);
-
-    while (n < length)
+    while (number)
     {
-        // why_vector_replace_at(p->coefficients, &value, n);
-        why_vector_replace_at(p->coefficients, NULL, n);
-        n ++;
+        why_vector_push(p->coefficients, NULL);
+        number --;
     }
 }
 
@@ -44,13 +38,8 @@ why_real_polynomial *why_polynomial_create(int size)
 
             return NULL;
         }
-        why_polynomial_get_zeroes(p);
-        // value = 0;
-        // while (size)
-        // {
-        //     why_vector_push(p->coefficients, &value);
-        //     size --;
-        // }
+        why_polynomial_get_zeroes(p, size);
+
         p->degree = 0;
 
         return p;
@@ -75,32 +64,27 @@ int why_polynomial_get_degree(const why_real_polynomial *p)
 
 double why_polynomial_get_coefficient(const why_real_polynomial *p, int n)
 {
-    double coefficient;
+    double *coefficient;
 
-    coefficient = *(double *)why_vector_at(p->coefficients, n);
+    coefficient = (double *)why_vector_at(p->coefficients, n);
 
-    return coefficient;
+    if (!coefficient)
+        return 0;
+    
+    return *coefficient;
 }
 
 int why_polynomial_reallocate(why_real_polynomial *p, int extra_capacity)
 {
-    // int current_length;
-    double value;
-
     if (extra_capacity <= 0)
         return FAILURE;
 
     // current_length = why_vector_get_length(p->coefficients);
-    value = 0;
 
     if (why_vector_reallocate(p->coefficients, extra_capacity) == FAILURE)
         return FAILURE;
 
-    while (extra_capacity)
-    {
-        why_vector_push(p->coefficients, &value);
-        extra_capacity --;
-    }
+    why_polynomial_get_zeroes(p, extra_capacity);
     
     return SUCCESS;
 }
@@ -128,7 +112,7 @@ static int adjust_coefficient(why_real_polynomial *p, const struct p_token *toke
     double new_coefficient;
     int current_length;
 
-    current_length = why_vector_get_length(p->coefficients);
+    current_length = why_vector_get_capacity(p->coefficients);
     if ((int)token->degree >= current_length)
     {
         if (why_polynomial_reallocate(p, token->degree - current_length + 1) == FAILURE)
@@ -176,42 +160,4 @@ why_real_polynomial *why_polynomial_from_string(const char *string)
         }
         p_token_reset(token);
     }
-}
-
-double why_polynomial_evaluate(const why_real_polynomial *p, double x)
-{
-    double value;
-    int n;
-
-    value = why_polynomial_get_coefficient(p, p->degree);
-    n = p->degree - 1;
-    while (n >= 0)
-    {
-        value = value * x + why_polynomial_get_coefficient(p, n);
-        n --;
-    }
-
-    return value;
-}
-
-// f(x) = a + bx + cx^2 + dx^3 + ... + kx^n
-// f'(x) = b + 2cx + 3dx^2 + ... + nkx^(n-1)
-
-why_real_polynomial *why_polynomial_get_derivative(const why_real_polynomial *p)
-{
-    why_real_polynomial *derivative;
-    int n;
-    double coefficient;
-
-    derivative = why_polynomial_create(p->degree);
-    n = 0;
-
-    while (n < p->degree)
-    {
-        coefficient = (n + 1) * why_polynomial_get_coefficient(p, n + 1);
-        why_polynomial_set_coefficient(derivative, n, coefficient);
-        n ++;
-    }
-
-    return derivative;
 }

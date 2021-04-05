@@ -4,12 +4,19 @@
 #include "why_typedefs.h"
 
 int why_polynomial_get_degree(const why_real_polynomial *p);
+int why_polynomial_set_coefficient(why_real_polynomial *p, int degree, double value);
 
 double why_polynomial_get_coefficient(const why_real_polynomial *p, int n);
+double why_polynomial_increment_coefficient(why_real_polynomial *p, int degree, double value);
 double why_polynomial_evaluate(const why_real_polynomial *p, double x);
 
 why_real_polynomial *why_polynomial_from_string(const char *string);
+why_real_polynomial *why_polynomial_create(int size);
 why_real_polynomial *why_polynomial_get_derivative(const why_real_polynomial *p);
+why_real_polynomial *why_polynomial_add(const why_real_polynomial *p, const why_real_polynomial *q);
+why_real_polynomial *why_polynomial_multiply(const why_real_polynomial *p, const why_real_polynomial *q);
+
+void why_polynomial_add_to(why_real_polynomial * p, const why_real_polynomial *q);
 void why_polynomial_destroy(why_real_polynomial **p);
 
 // why_vector *no_roots();

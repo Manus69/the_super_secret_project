@@ -23,7 +23,14 @@ $(driver_file:.c=.o): $(driver_file)
 executable: $(driver_file:.c=.o)
 	# make flags=$(flags) -C $(directory)
 	make -C $(directory)
+	# make re -C $(directory)
 	$(compiler) $(flags) -o $(executable) -I ./$(directory) -L ./$(directory) $(driver_file:.c=.o) $(addprefix $(full_path)/,$(lib_name))
+
+release: flags=$(release_flags)
+release: $(driver_file:.c=.o)
+	make release -C $(directory)
+	$(compiler) $(flags) -o $(executable) -I ./$(directory) -L ./$(directory) $(driver_file:.c=.o) $(addprefix $(full_path)/,$(lib_name))
+
 
 clean:
 	rm -f $(driver_file:.c=.o)

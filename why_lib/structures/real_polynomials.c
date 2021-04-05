@@ -23,7 +23,6 @@ void why_polynomial_get_zeroes(why_real_polynomial *p, int number)
 why_real_polynomial *why_polynomial_create(int size)
 {
     why_real_polynomial *p;
-    double value;
 
     if (size <= 0)
         size = DEFAULT_P_SIZE;
@@ -104,6 +103,18 @@ int why_polynomial_set_coefficient(why_real_polynomial *p, int degree, double va
         p->degree = degree;
 
     return SUCCESS;
+}
+
+double why_polynomial_increment_coefficient(why_real_polynomial *p, int degree, double value)
+{
+    double old_coefficient;
+    double new_coefficient;
+
+    old_coefficient = why_polynomial_get_coefficient(p, degree);
+    new_coefficient = old_coefficient + value;
+    why_polynomial_set_coefficient(p, degree, new_coefficient);
+
+    return new_coefficient;
 }
 
 static int adjust_coefficient(why_real_polynomial *p, const struct p_token *token)

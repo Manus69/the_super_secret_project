@@ -30,7 +30,7 @@ int why_printf(const char *format, ...)
 
 
     va_start(arg_list, format);
-
+    length = 0;
     if (!format && !string_buffer)
         return 0;
     if (!format)

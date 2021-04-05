@@ -41,7 +41,9 @@ main_object = $(subst .c,.o,$(object_folder)/$(main_file))
 # all: $(target)
 
 all: $(target)
-	
+
+release: flags=$(release_flags)
+release: re
 
 $(object_folder)/%.o : $(alg_folder)/%.c
 	$(compiler) $(flags) -I $(header_folder) -I. $< -c -o $@

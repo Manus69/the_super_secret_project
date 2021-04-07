@@ -59,7 +59,7 @@ static double get_coefficient(const why_real_polynomial *p, const why_real_polyn
     return c;
 }
 
-//this is slow on high degree polynomials
+//this is slow on high degree (sparse) polynomials
 why_real_polynomial *why_polynomial_multiply(const why_real_polynomial *p, const why_real_polynomial *q)
 {
     why_real_polynomial *result;
@@ -95,7 +95,6 @@ why_real_polynomial *why_polynomial_add(const why_real_polynomial *p, const why_
 
 // f(x) = a + bx + cx^2 + dx^3 + ... + kx^n
 // f'(x) = b + 2cx + 3dx^2 + ... + nkx^(n-1)
-
 why_real_polynomial *why_polynomial_get_derivative(const why_real_polynomial *p)
 {
     why_real_polynomial *derivative;

@@ -7,6 +7,7 @@ struct why_real_polynomial
 {
     why_vector *coefficients;
     int degree;
+    char variable_symbol;
 };
 
 enum p_token_status

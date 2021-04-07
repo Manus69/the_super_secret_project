@@ -40,6 +40,7 @@ why_real_polynomial *why_polynomial_create(int size)
         why_polynomial_get_zeroes(p, size);
 
         p->degree = 0;
+        p->variable_symbol = '\0';
 
         return p;
     }
@@ -137,6 +138,19 @@ static int adjust_coefficient(why_real_polynomial *p, const struct p_token *toke
     return SUCCESS;
 }
 
+static int check_variable_symbol_consistency(const why_real_polynomial *p, const struct p_token *token)
+{
+    return (!p->variable_symbol || (p->variable_symbol == token->variable_symbol));
+}
+
+static void *clean_up(why_real_polynomial *p, struct p_token *token)
+{
+    free(token);
+    why_polynomial_destroy(&p);
+
+    return NULL;
+}
+
 //a + bx + cx^2 + ... + qx^n
 why_real_polynomial *why_polynomial_from_string(const char *string)
 {
@@ -150,10 +164,11 @@ why_real_polynomial *why_polynomial_from_string(const char *string)
     {
         p_token_next(token);
 
+        if (!check_variable_symbol_consistency(p, token))
+            return clean_up(p, token);
+
         if (token->status == FOUND)
-        {
             adjust_coefficient(p, token);
-        }
         else if (token->status == EOS && (token->partial_token || token->empty_token))
         {
             adjust_coefficient(p, token);
@@ -162,13 +177,9 @@ why_real_polynomial *why_polynomial_from_string(const char *string)
             return p;
         }
         else
-        {
-            //handle errors;
-            free(token);
-            why_polynomial_destroy(&p);
-            
-            return NULL;
-        }
+            return clean_up(p, token);
+
+        p->variable_symbol = token->variable_symbol;
         p_token_reset(token);
     }
 }

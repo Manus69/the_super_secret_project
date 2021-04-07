@@ -23,6 +23,7 @@
 #define HEX_DIGITS "0123456789abcdef"
 
 #define EPSILON 1e-6
+#define ROOT_EPSILON 1e-9
 #define NAN __DBL_MIN__
 #define PI (long double)3.1415926535897932384
 

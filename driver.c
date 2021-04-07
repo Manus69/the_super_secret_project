@@ -244,30 +244,22 @@ void p_test()
 {
     why_real_polynomial *p;
 
-    p = why_polynomial_from_string("2*x^6+ x^6+ 1");
+    p = why_polynomial_from_string("x^2");
     why_display_polynomial(p);
 
-    // why_real_polynomial *p_prime;
-    // p_prime = why_polynomial_get_derivative(p);
-    // why_display_polynomial(p_prime);
-    // why_polynomial_destroy(&p_prime);
-    // double f;
-    // double x;
-    // x = -PI;
-    // f = why_polynomial_evaluate(p, x);
-    // why_printf("f(%.3f) = %.3f;\n", x, f);
+    double root;
+    root = why_polynomial_newtons_method(p, 1);
+    why_printf("%f\n", root);
+    // why_printf("%f\n", why_math_sqrt(2));
+    
 
-    why_real_polynomial *q;
-    q = why_polynomial_from_string("-2");
-    why_display_polynomial(q);
+    // why_real_polynomial *result;
+    // // result = why_polynomial_add(p, q);
+    // result = why_polynomial_multiply(p, q);
+    // why_display_polynomial(result);
 
-    why_real_polynomial *result;
-    // result = why_polynomial_add(p, q);
-    result = why_polynomial_multiply(p, q);
-    why_display_polynomial(result);
-
-    why_polynomial_destroy(&q);
-    why_polynomial_destroy(&result);
+    // why_polynomial_destroy(&q);
+    // why_polynomial_destroy(&result);
 
     why_polynomial_destroy(&p);
 }

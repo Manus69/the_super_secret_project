@@ -14,7 +14,7 @@ void p_token_reset(struct p_token *token)
 
     token->previous_item = NONE;
     token->status = GREEN;
-    token->variable_symbol = 'x';
+    token->variable_symbol = DEFAULT_VARIABLE_SYMBOL;
 
     token->caret_processed = false;
     token->coefficient_processed = false;
@@ -145,7 +145,7 @@ int p_token_process_letter(struct p_token *token)
         token->variable_symbol = *token->string;
         token->variable_processed = true;
     }
-    else if (*token->string != token->variable_symbol)
+    else
         return p_token_brick(token);
 
     if (token->previous_item != DIGIT)
@@ -180,6 +180,9 @@ int p_token_process_nul(struct p_token *token)
 {
     if (token->previous_item == CARET || token->previous_item == DOT)
         return p_token_brick(token);
+
+    if (token->previous_item == LETTER)
+        token->degree = 1;
 
     if (token->partial_token || token->empty_token)
         token->status = EOS;

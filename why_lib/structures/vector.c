@@ -53,8 +53,6 @@ why_vector *why_vector_create(int item_capacity, void *(*copy)(), void (*destroy
             vector->copy_function = copy;
             vector->destructor = destroy;
 
-            // vector->last_element = vector->content[item_capacity];
-
             return vector;
         }
         free(vector);
@@ -78,7 +76,6 @@ int why_vector_reallocate(why_vector *vector, int extra_item_capacity)
 
         vector->content = new_content;
         vector->item_capacity = vector->item_capacity + extra_item_capacity;
-        // vector->last_element = vector->content[vector->item_capacity];
 
         return SUCCESS;
     }
@@ -123,10 +120,7 @@ int why_vector_replace_at(why_vector *vector, const void *item, int index)
 }
 
 int why_vector_push(why_vector *vector, const void *item)
-{
-    if (!vector)
-        return FAILURE;
-    
+{   
     if (vector->current_index == vector->item_capacity)
     {
         if (why_vector_reallocate(vector, vector->item_capacity) == FAILURE)
@@ -134,6 +128,20 @@ int why_vector_push(why_vector *vector, const void *item)
     }
 
     vector->content[vector->current_index] = vector->copy_function(item);
+    vector->current_index ++;
+
+    return SUCCESS;
+}
+
+static int shallow_push(why_vector *vector, const void *item)
+{
+    if (vector->current_index == vector->item_capacity)
+    {
+        if (why_vector_reallocate(vector, vector->item_capacity) == FAILURE)
+            return FAILURE;
+    }
+
+    vector->content[vector->current_index] = item;
     vector->current_index ++;
 
     return SUCCESS;
@@ -238,6 +246,20 @@ void *why_vector_apply_function_mk2(why_vector *vector, int (*function)(), int f
     }
 
     return NULL;
+}
+
+int why_vector_append_and_destroy(why_vector *left, why_vector *right)
+{
+    void *item;
+
+    while (right->current_index)
+    {
+        item = why_vector_pop(right);
+        shallow_push(left, item);
+    }
+    why_vector_destroy(&right);
+
+    return SUCCESS;
 }
 
 void why_vector_destroy(why_vector **vector)

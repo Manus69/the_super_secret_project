@@ -19,6 +19,7 @@ int why_vector_is_sorted(const why_vector *vector, int (*comapre)());
 int why_vector_swap(why_vector *vector, int j, int k);
 int why_vector_nullify(why_vector *vector);
 int why_vector_apply_function(why_vector *vector, void (*function)());
+int why_vector_append_and_destroy(why_vector *left, why_vector *right);
 
 void why_vector_destroy(why_vector **vector);
 // void why_vector_content_destroy(void **content, int number_of_items, void (*destroy)());

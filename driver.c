@@ -248,7 +248,7 @@ void p_test()
     why_display_polynomial(p);
 
     double root;
-    root = why_polynomial_newtons_method(p, 1);
+    root = why_polynomial_newtons_method(p, 0);
     why_printf("%f\n", root);
     // why_printf("%f\n", why_math_sqrt(2));
     

@@ -24,7 +24,7 @@
 
 #define EPSILON 1e-6
 #define ROOT_EPSILON 1e-9
-#define ROOT_DELTA 1e-7
+#define ROOT_DELTA 1e-3
 #define NAN __DBL_MIN__
 #define PI (long double)3.1415926535897932384
 

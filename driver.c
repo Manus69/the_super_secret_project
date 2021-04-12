@@ -244,13 +244,18 @@ void p_test()
 {
     why_real_polynomial *p;
 
-    p = why_polynomial_from_string("x^2");
+    p = why_polynomial_from_string("x^3");
     why_display_polynomial(p);
 
-    double root;
-    root = why_polynomial_newtons_method(p, 0);
-    why_printf("%f\n", root);
-    // why_printf("%f\n", why_math_sqrt(2));
+    why_vector *roots;
+    roots = why_polynomial_get_roots(p);
+    why_display_vector(roots, why_display_double);
+    why_vector_destroy(&roots);
+
+    // double root;
+    // root = why_polynomial_newtons_method(p, 0);
+    // if (root != NAN)
+    //     why_printf("%f\n", root);
     
 
     // why_real_polynomial *result;
@@ -285,7 +290,7 @@ void math_test()
 //complex
 //matrix
 //polynomial
-//sqrt
+//folder structure is obsolete
 
 int main()
 {

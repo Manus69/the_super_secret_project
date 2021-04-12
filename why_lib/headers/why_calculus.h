@@ -1,0 +1,9 @@
+#ifndef WHY_CALCULUS
+#define WHY_CALCULUS
+
+enum critical_point
+{
+    BRICKED_POINT, LOCAL_MAX, LOCAL_MIN, INFLECTION_INCREASING, INFLECTION_DECREASING,
+};
+
+#endif

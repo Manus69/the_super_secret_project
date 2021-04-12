@@ -10,13 +10,15 @@
 double why_polynomial_evaluate(const why_real_polynomial *p, double x)
 {
     double value;
+    double coefficient;
     int n;
 
     value = why_polynomial_get_coefficient(p, p->degree);
     n = p->degree - 1;
     while (n >= 0)
     {
-        value = value * x + why_polynomial_get_coefficient(p, n);
+        coefficient = why_polynomial_get_coefficient(p, n);
+        value = value * x + coefficient;
         n --;
     }
 

@@ -133,7 +133,7 @@ int why_vector_push(why_vector *vector, const void *item)
     return SUCCESS;
 }
 
-static int shallow_push(why_vector *vector, const void *item)
+static int shallow_push(why_vector *vector, void *item)
 {
     if (vector->current_index == vector->item_capacity)
     {

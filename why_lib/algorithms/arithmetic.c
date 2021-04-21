@@ -1,6 +1,7 @@
 #include "why_math_functions.h"
 #include "why_constants.h"
 #include "why_memory_functions.h"
+#include "why_macros.h"
 
 double why_math_modulus(double x, double mod)
 {
@@ -26,4 +27,9 @@ double why_math_modulus(double x, double mod)
     }
 
     return r;
+}
+
+int why_math_is_equal(double a, double b, double epsilon)
+{
+    return (ABS(a - b) < epsilon);
 }

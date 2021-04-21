@@ -155,7 +155,7 @@ void printf_test()
     why_printf(NULL);
 
     n = 1 << 20;
-    value = 0;
+    value = (double)INT_MIN;
     while (n)
     {
         why_printf("%f ", value);
@@ -244,18 +244,21 @@ void p_test()
 {
     why_real_polynomial *p;
 
-    p = why_polynomial_from_string("x^3");
+    p = why_polynomial_from_string("x^10-3x^5+8");
+    // p = why_polynomial_from_string("x^3 - 2x^2 - x + 2");
+    
     why_display_polynomial(p);
 
-    why_vector *roots;
-    roots = why_polynomial_get_roots(p);
-    why_display_vector(roots, why_display_double);
-    why_vector_destroy(&roots);
+    // why_vector *roots;
+    // roots = why_polynomial_get_roots(p);
+    // why_display_vector(roots, why_display_double);
+    // why_vector_destroy(&roots);
 
-    // double root;
-    // root = why_polynomial_newtons_method(p, 0);
-    // if (root != NAN)
-    //     why_printf("%f\n", root);
+
+    double root;
+    root = why_polynomial_newtons_mk2(p, 9);
+    if (root != NAN)
+        why_printf("%f\n", root);
     
 
     // why_real_polynomial *result;

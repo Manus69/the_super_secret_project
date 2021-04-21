@@ -24,14 +24,20 @@ why_vector *find_roots_near_critical_point(const why_real_polynomial *p, double 
     double f_x;
     double root;
 
-    f_x = why_polynomial_evaluate(p, critical_point);
-    point_type = classify_critical_point(p, critical_point, f_x);
     roots = no_roots();
+    f_x = why_polynomial_evaluate(p, critical_point);
+    if (why_math_is_equal(f_x, 0, ROOT_EPSILON))
+    {
+        check_root_and_push(roots, critical_point);
+        return roots;
+    }
 
-    if (point_type == LOCAL_MAX && f_x > 0)
+    point_type = classify_critical_point(p, critical_point, f_x);
+
+    if (point_type == LOCAL_MAX && f_x < 0)
         return roots;
     
-    if (point_type == LOCAL_MIN && f_x < 0)
+    if (point_type == LOCAL_MIN && f_x > 0)
         return roots;
     
     root = why_polynomial_newtons_method(p, critical_point - ROOT_DELTA);
@@ -46,23 +52,31 @@ why_vector *find_roots_near_critical_point(const why_real_polynomial *p, double 
     return roots;
 }
 
+#include "why_display_functions.h"
 why_vector *iterate_over_critical_points(const why_real_polynomial *p, why_vector *critical_points)
 {
     why_vector *roots;
     why_vector *local_roots;
     double current_point;
+    int n;
 
+    n = 0;
     roots = no_roots();
-    while (why_vector_get_length(critical_points))
+    while (n < why_vector_get_length(critical_points))
     {
-        current_point = *(double *)why_vector_pop(critical_points);
+        current_point = *(double *)why_vector_at(critical_points, n);
         local_roots = find_roots_near_critical_point(p, current_point);
+        //
+        // why_display_vector(local_roots, why_display_double);
+        //
         why_vector_append_and_destroy(roots, local_roots);
+        n ++;
     }
 
     return roots;
 }
 
+//this is fucked up
 why_vector *compute_roots_via_calculus(const why_real_polynomial *p)
 {
     why_real_polynomial *first_derivative;
@@ -90,6 +104,7 @@ why_vector *compute_roots_via_calculus(const why_real_polynomial *p)
     return roots;
 }
 
+//what if higher derivatives have the same roots?
 why_vector *why_polynomial_get_roots(const why_real_polynomial *p)
 {
     if (p->degree == 0)

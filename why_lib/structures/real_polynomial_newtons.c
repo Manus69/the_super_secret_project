@@ -143,3 +143,34 @@ double why_polynomial_newtons_method(const why_real_polynomial *p, double x)
 
     return x;
 }
+
+//this thing has overflow issues
+double why_polynomial_newtons_mk2(const why_real_polynomial *p, double x0)
+{
+    why_real_polynomial *p_prime;
+    double x1;
+    double p_x;
+    double p_prime_x;
+
+    p_prime = why_polynomial_get_derivative(p);
+
+    while (true)
+    {
+        p_x = why_polynomial_evaluate(p, x0);
+        p_prime_x = why_polynomial_evaluate(p_prime, x0);
+        
+        if (IS_EQUAL(p_prime_x, 0, ROOT_EPSILON))
+            return NAN;
+
+        x1 = x0 - p_x / p_prime_x;
+
+        if (IS_EQUAL(x0, x1, ROOT_DELTA))
+            break ;
+        
+        x0 = x1;
+    }
+
+    why_polynomial_destroy(&p_prime);
+
+    return x1;
+}

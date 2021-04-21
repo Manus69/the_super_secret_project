@@ -3,6 +3,8 @@
 
 #define ABS(x) (((x) < 0) ? (-x) : (x))
 
+#define IS_EQUAL(a, b, eps) ((ABS((a) - (b))) < (eps))
+
 #define MAX(a, b) (((a) > (b)) ? (a) : (b))
 #define MIN(a, b) (((a) < (b)) ? (a) : (b))
 

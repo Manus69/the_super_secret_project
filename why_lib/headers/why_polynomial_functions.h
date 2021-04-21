@@ -9,7 +9,8 @@ int why_polynomial_set_coefficient(why_real_polynomial *p, int degree, double va
 double why_polynomial_get_coefficient(const why_real_polynomial *p, int n);
 double why_polynomial_increment_coefficient(why_real_polynomial *p, int degree, double value);
 double why_polynomial_evaluate(const why_real_polynomial *p, double x);
-double why_polynomial_newtons_method(const why_real_polynomial *p, double x_initial);
+double why_polynomial_newtons_method(const why_real_polynomial *p, double x_initial); //this is bad
+double why_polynomial_newtons_mk2(const why_real_polynomial *p, double x0);
 double why_polynomial_get_root_bisection(const why_real_polynomial *p, double left, double right);
 
 why_real_polynomial *why_polynomial_from_string(const char *string);

@@ -127,7 +127,7 @@ why_string_buffer *why_string_buffer_create_formatted(const char *format, va_lis
         string_buffer = why_string_buffer_create(STRING_BUFFER_DC);
 
     token = printf_token_create_on_stack(format);
-    // why_memory_set(argument_buffer, 0, PRINTF_DOUBLE_DBC); //get rid of this?
+    why_memory_set(argument_buffer, 0, PRINTF_DOUBLE_DBC); //get rid of this?
 
     while (true)
     {

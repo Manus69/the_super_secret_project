@@ -60,7 +60,7 @@ int why_string_get_index_of_any(const char *string, const char *char_set, int st
         return -1;
     if (starting_index < 0)
         return -1;
-    if (char_set == (char *)DIGITS) //is this bad?
+    if (*(unsigned long *)char_set == *(unsigned long *)DIGITS) //is this bad?
         return get_index_of_digit(string, starting_index);
 
     while (string[starting_index] != '\0')

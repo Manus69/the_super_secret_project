@@ -11,6 +11,7 @@
 #include "headers/why_matcher_functions.h"
 #include "headers/why_math_functions.h"
 #include "headers/why_memory_functions.h"
+#include "headers/why_primes.h"
 #include "headers/why_printf_functions.h"
 #include "headers/why_queue_functions.h"
 #include "headers/why_sort_functions.h"

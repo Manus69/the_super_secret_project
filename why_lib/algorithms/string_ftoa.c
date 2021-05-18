@@ -91,7 +91,7 @@ int why_string_ftoa_buffer(double x, int precision, char *buffer)
     buffer += length;
 
     if (length + precision >= PRINTF_DOUBLE_DBC)
-        precision = PRINTF_DOUBLE_DBC - length;
+        precision = (PRINTF_DOUBLE_DBC) - length;
 
     if (precision)
     {

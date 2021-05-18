@@ -10,6 +10,8 @@ int why_vector_reallocate(why_vector *vector, int extra_item_capacity);
 void *why_vector_at(const why_vector *vector, int index);
 void *why_vector_pop(why_vector *vector);
 void *why_vector_apply_function_mk2(why_vector *vector, int (*function)(), int failure_value);
+void *why_vector_first(const why_vector *vector);
+void *why_vector_last(const why_vector *vector);
 
 int why_vector_replace_at(why_vector *vector, const void *item, int index);
 int why_vector_push(why_vector *vector, const void *item);

@@ -1,4 +1,5 @@
 #include "why_memory_functions.h"
+#include <stdlib.h>
 
 void *why_memory_copy(void *destination, const void *source, int number_of_bytes)
 {
@@ -39,6 +40,22 @@ void *why_memory_copy_double(double *x)
     *new_number = *x;
 
     return (void *)new_number;
+}
+
+void *why_memory_copy_int(int *number)
+{
+    int *new_number;
+
+    if (!number)
+        return NULL;
+
+    new_number = malloc(sizeof(int));
+    if (!new_number)
+        return NULL;
+    
+    *new_number = *number;
+
+    return new_number;
 }
 
 void *why_memory_copy_backwards(void *destination, const void *source, int number_of_bytes)

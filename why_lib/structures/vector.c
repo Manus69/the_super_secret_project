@@ -91,6 +91,16 @@ void *why_vector_at(const why_vector *vector, int index)
     return vector->content[index];
 }
 
+void *why_vector_first(const why_vector *vector)
+{
+    return vector->content[0];
+}
+
+void *why_vector_last(const why_vector *vector)
+{
+    return vector->content[vector->current_index - 1];
+}
+
 void *why_vector_pop(why_vector *vector)
 {
     void *item;

@@ -1,6 +1,7 @@
 #include "why_math_functions.h"
 #include "why_constants.h"
 
+
 //naive
 int why_math_is_prime(unsigned int number)
 {

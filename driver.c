@@ -287,6 +287,21 @@ void math_test()
     why_printf("%.10f\n", y);
 }
 
+void primes_test()
+{
+    why_vector *primes;
+
+    // primes = why_primes_get_primes(100000);
+    // why_display_vector(primes, why_display_int);
+    // why_printf("%d\n", why_vector_get_length(primes) - 1);
+
+    primes = why_primes_get_n_primes(100);
+
+    why_printf("number of primes = %d\n", why_vector_get_length(primes));
+
+    why_vector_destroy(&primes);
+}
+
 //create apply functions for all containers?
 //make it so that hash table is "derived" from vector?
 //make functions either all safe or all unsafe?
@@ -312,9 +327,9 @@ int main()
     // printf_test();
     // sqrt_test();
     // sqrt_test2();
-    p_test();
+    // p_test();
     // math_test();
-
+    primes_test();
 
     // char *test = file_read_test();
 

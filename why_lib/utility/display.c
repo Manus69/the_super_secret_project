@@ -11,7 +11,7 @@
 
 // #include <stdio.h> //
 
-static const char *item_separator = ";\n";
+static const char *item_separator = " ";
 static const char *string_separator = "\n-------------\n";
 
 void why_display_string(const char *literal)
@@ -21,7 +21,7 @@ void why_display_string(const char *literal)
 
 void why_display_int(int *n)
 {
-    why_printf("%d ", *n);
+    why_printf("%d", *n);
 }
 
 void why_display_double(double *x)
@@ -31,7 +31,7 @@ void why_display_double(double *x)
 
 void why_display_string_token(const void *token)
 {
-    why_printf("%s ", ((why_string_token *)token)->string);
+    why_printf("%s", ((why_string_token *)token)->string);
 }
 
 void why_display_list(const why_list *list, void (*display_function)())

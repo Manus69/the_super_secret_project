@@ -28,7 +28,7 @@
 #define NAN __DBL_MIN__
 #define PI (long double)3.1415926535897932384
 
-#define STRING_BUFFER_DC 1 << 5
+#define STRING_BUFFER_DC (1 << 5)
 #define VECTOR_DC 32
 
 #define S_FUNCTIONS_DVS 16

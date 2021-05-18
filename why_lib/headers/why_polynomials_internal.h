@@ -2,6 +2,7 @@
 #define WHY_POLYNOMIALS_INTERNAL_H
 
 #include "why_calculus.h"
+#include "why_polynomials_structure.h"
 
 #define DEFAULT_VARIABLE_SYMBOL 'x'
 

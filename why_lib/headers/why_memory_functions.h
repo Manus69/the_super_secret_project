@@ -5,6 +5,7 @@
 
 void *why_memory_copy(void *destination, const void *source, int number_of_bytes);
 void *why_memory_copy_double(double *x);
+void *why_memory_copy_int(int *number);
 // void *why_memory_copy_double(void *x);
 
 void *why_memory_copy_backwards(void *destination, const void *source, int number_of_bytes);

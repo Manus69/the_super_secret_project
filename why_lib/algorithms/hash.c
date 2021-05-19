@@ -1,4 +1,5 @@
 #include "why_hash_table_structure.h"
+#include "why_primes.h"
 #include "why_typedefs.h"
 #include "why_constants.h"
 #include "why_memory_functions.h"
@@ -27,7 +28,7 @@ why_hash_table *why_hash_table_create(unsigned int size, unsigned int (*hash_fun
     struct why_hash_table *hash_table;
     unsigned int n;
 
-    size = why_math_get_next_prime(size);
+    size = why_primes_get_next_prime(size);
 
     if (!size || !hash_function)
         return NULL;

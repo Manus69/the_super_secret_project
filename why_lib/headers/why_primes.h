@@ -6,7 +6,11 @@
 
 typedef unsigned long integer; //i should do it properly
 
-why_vector *why_primes_get_primes(int limit);
+int why_prime_is_prime_naive(unsigned int number);
+unsigned int why_primes_get_next_prime(unsigned int n);
+
+why_vector *why_primes_get_primes(unsigned int limit);
 why_vector *why_primes_get_n_primes(int n);
+why_vector *why_primes_get_n_primes_naive(unsigned int n);
 
 #endif

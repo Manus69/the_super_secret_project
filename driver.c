@@ -295,8 +295,13 @@ void primes_test()
     // why_display_vector(primes, why_display_int);
     // why_printf("%d\n", why_vector_get_length(primes) - 1);
 
-    primes = why_primes_get_n_primes(100);
+    // primes = why_primes_get_n_primes_naive(1001);
+    primes = why_primes_get_n_primes(1001);
+    // primes = why_primes_get_primes(1000000);
 
+
+    why_display_vector(primes, why_display_int);
+    // why_printf("%d\n", *(int *)why_vector_last(primes));
     why_printf("number of primes = %d\n", why_vector_get_length(primes));
 
     why_vector_destroy(&primes);
